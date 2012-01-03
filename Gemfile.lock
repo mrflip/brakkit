@@ -60,6 +60,8 @@ GEM
       sass (~> 3.1)
     compass_twitter_bootstrap (0.1.8)
       compass
+    configliere (0.4.8)
+      json
     devise (1.5.3)
       bcrypt-ruby (~> 3.0)
       orm_adapter (~> 0.0.3)
@@ -216,6 +218,7 @@ DEPENDENCIES
   coffee-rails (~> 3.2)
   compass (~> 0.11)
   compass_twitter_bootstrap
+  configliere (~> 0.4)
   devise (~> 1.5)
   forgery (~> 0.5.0)
   friendly_id (~> 4.0)

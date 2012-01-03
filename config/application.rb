@@ -59,12 +59,12 @@ module Brak
     # Enable the asset pipeline
     config.assets.enabled = true
 
-    # Version of your assets, change this if you want to expire all your assets
-    config.assets.version = '1.0'
-
     # Compass integration
     config.sass.load_paths << Compass::Frameworks['compass'].stylesheets_directory
     config.sass.load_paths << Compass::Frameworks['twitter_bootstrap'].stylesheets_directory
+
+    # Version of your assets, change this if you want to expire all your assets
+    config.assets.version = '1.0'
 
     # Turn off timestamped migrations
     config.active_record.timestamped_migrations = false

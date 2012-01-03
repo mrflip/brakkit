@@ -1,7 +1,9 @@
 Brak::Application.routes.draw do
   root :to => "misc#homepage"
 
+  match 'admin/demo'           => 'misc#demo'
   match 'admin/bootstrap_demo' => 'misc#bootstrap_demo'
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

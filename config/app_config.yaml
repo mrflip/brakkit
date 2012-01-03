@@ -1,0 +1,10 @@
+# Application-specific global configuration settings to override defaults in
+# config/initializers/app_config.rb
+
+# :signup_shibboleth:             yo_chimpy
+
+# :google_api_key:              ADD_YOURS_HERE
+# :google_analytics_id:         ADD_YOURS_HERE
+
+# :jquery_version:                1.7.1
+# :jquery_ui_version:             1.8.17

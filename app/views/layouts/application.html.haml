@@ -1,0 +1,16 @@
+!!! 5
+%html{ :lang => 'en' }
+  = render :partial => 'layouts/htmlhead'
+
+  %body{ :class => "#{controller.controller_name}" }
+    = render :partial => 'layouts/topbar'
+    = render :partial => 'layouts/flashes'
+    
+    .container-fluid{ :class => (@show_sidebar ? '' : 'no-sidebar') }
+      = render :partial => 'layouts/sidebar' if @show_sidebar
+      
+      .content#main{ :role => 'main' }
+        = yield
+
+      = render :partial => 'layouts/footer'
+    = render :partial => 'layouts/javascripts'

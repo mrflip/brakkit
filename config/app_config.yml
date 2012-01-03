@@ -1,5 +1,0 @@
-# Application-specific global configuration settings.
-# These get loaded by config/initializers/app_config.rb and
-# can be accessed via APP_CONFIG[:param]
-
-:signup_shibboleth:             yo_chimpy

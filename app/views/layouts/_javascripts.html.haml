@@ -1,0 +1,30 @@
+- if true # cache(:action_suffix => :layout_html_head) do
+  - if Settings.google_api_key.present?
+    -# Grab Google CDN's jQuery
+    = javascript_include_tag "//www.google.com/jsapi?key=#{google_api_key}"
+    :javascript
+      google.load("jquery",    Settings.jquery_version);
+      google.load("jquery-ui", Settings.jquery_ui_version);
+  - else
+    = javascript_include_tag "http://ajax.googleapis.com/ajax/libs/jquery/#{Settings.jquery_version}/jquery.min.js"
+    = javascript_include_tag "http://ajax.googleapis.com/ajax/libs/jqueryui/#{Settings.jquery_ui_version}/jquery-ui.min.js"
+  -# fall back to local jQuery if necessary
+  :javascript
+    !window.jQuery && document.write(unescape('%3Cscript src="/assets/jquery.min.js"%3E%3C/script%3E'))
+    !window.jQuery && document.write(unescape('%3Cscript src="/assets/jquery-ui.min.js"%3E%3C/script%3E'))
+      
+  = javascript_include_tag('application')
+  = javascript_include_tag('hashgrid') if Rails.env.development?
+  = yield :javascripts
+  
+  - if Settings.google_analytics_id.present?
+    :javascript
+      var _gaq = [['_setAccount', '#{Settings.google_analytics_id}'], ['_trackPageview']];
+      (function(d, t) {
+        var g = d.createElement(t),
+            s = d.getElementsByTagName(t)[0];
+        g.async = true;
+        g.src = ('https:' == location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        s.parentNode.insertBefore(g, s);
+      })(document, 'script');
+  

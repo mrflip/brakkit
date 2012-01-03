@@ -1,31 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <title>Demo of Bootstrap Styles</title>
-    <meta name="description" content="">
-    <meta name="author" content="">
-
-    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
-    <!--[if lt IE 9]>
-      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-
-    <!-- Le styles -->
-    <link href="/assets/bootstrap.css"                     rel="stylesheet">
-    <link href="/assets/application.css"                   rel="stylesheet">
-
-    <link href="/assets/bootstrap_demo/bootstrap_demo.css" rel="stylesheet">
-    <link href="/assets/google-code-prettify/prettify.css" rel="stylesheet">
-
-    <!-- Le fav and touch icons -->
-    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
-    <link rel="apple-touch-icon"                  href="/assets/bootstrap_demo/ico/bootstrap-apple-57x57.png">
-    <link rel="apple-touch-icon" sizes="72x72"    href="/assets/bootstrap_demo/ico/bootstrap-apple-72x72.png">
-    <link rel="apple-touch-icon" sizes="114x114"  href="/assets/bootstrap_demo/ico/bootstrap-apple-114x114.png">
-  </head>
-
-  <body>
+<%- title 'Demo of Bootstrap Styles' %>
+<%- skip_sidebar %>
+<%- has_stylesheet('bootstrap/demo/bootstrap_demo.css') %>
+<%- has_stylesheet('google-code-prettify/prettify.css') %>
+<%- has_javascript('/assets/jquery.tablesorter.js') %>
+<%- has_javascript('/assets/google-code-prettify/prettify.js') %>
+<%- has_javascript('/assets/bootstrap/bootstrap-dropdown.js') %>
+<%- has_javascript('/assets/bootstrap/bootstrap-twipsy.js') %>
+<%- has_javascript('/assets/bootstrap/bootstrap-scrollspy.js') %>
+<%- has_javascript('/assets/bootstrap/demo/bootstrap_demo.js') %>
+<%- content_for(:javascripts){ '<script>$(function () { prettyPrint() })</script>' } %>
 
     <!-- Topbar
     ================================================== -->
@@ -83,8 +66,7 @@
             <h6>Use it with Less</h6>
             <p>A fan of using Less? No problem, just clone the repo and add these lines:</p>
             <form>
-              <textarea class="copy-code" rows="2">&lt;link rel="stylesheet/less" href="/path/to/bootstrap.less"&gt;
-&lt;script src="/path/to/less.js"&gt;&lt;/script&gt;</textarea>
+              <textarea class="copy-code" rows="2">&lt;link rel="stylesheet/less" href="/path/to/bootstrap.less"&gt;&lt;script src="/path/to/less.js"&gt;&lt;/script&gt;</textarea>
             </form>
           </div>
           <div class="span5">
@@ -120,7 +102,7 @@
     <div class="span-one-third">
       <h3>Browser support</h3>
       <p>Bootstrap is tested and supported in major modern browsers like Chrome, Safari, Internet Explorer, and Firefox.</p>
-      <img src="/assets/bootstrap_demo/images/browsers.png" alt="Tested and supported in Chrome, Safari, Internet Explorer, and Firefox">
+      <img src="http://twitter.github.com/bootstrap/assets/img/browsers.png" alt="Tested and supported in Chrome, Safari, Internet Explorer, and Firefox">
       <ul>
         <li>Latest Safari</li>
         <li>Latest Google Chrome</li>
@@ -148,13 +130,13 @@
       <p>Need some quick templates? Check out these basic examples we've put together:</p>
       <ul class="media-grid">
         <li>
-          <a href="http://twitter.github.com/bootstrap/examples/hero.html"><img src="/assets/bootstrap_demo/images/example-diagram-01.png" alt="Simple three-column layout with hero unit"></a>
+          <a href="http://twitter.github.com/bootstrap/examples/hero.html"><img src="http://twitter.github.com/bootstrap/assets/img/example-diagram-01.png" alt="Simple three-column layout with hero unit"></a>
         </li>
         <li>
-          <a href="http://twitter.github.com/bootstrap/examples/fluid.html"><img src="/assets/bootstrap_demo/images/example-diagram-02.png" alt="Fluid layout with static sidebar"></a>
+          <a href="http://twitter.github.com/bootstrap/examples/fluid.html"><img src="http://twitter.github.com/bootstrap/assets/img/example-diagram-02.png" alt="Fluid layout with static sidebar"></a>
         </li>
         <li>
-          <a href="http://twitter.github.com/bootstrap/examples/container-app.html"><img src="/assets/bootstrap_demo/images/example-diagram-03.png" alt="Simple hanging container for apps"></a>
+          <a href="http://twitter.github.com/bootstrap/examples/container-app.html"><img src="http://twitter.github.com/bootstrap/assets/img/example-diagram-03.png" alt="Simple hanging container for apps"></a>
         </li>
       </ul>
     </div>
@@ -1774,7 +1756,7 @@ Lorem ipsum dolar sit amet illo error <a href="bootstrap_demo#" title="below">ip
               </div>
             </div>
           </div>
-          <img class="large-bird" src="/assets/bootstrap_demo/images/bird.png" >
+          <img class="large-bird" src="http://twitter.github.com/bootstrap/assets/img/bird.png" >
         </div>
       </div>
     </div>
@@ -2024,16 +2006,3 @@ Lorem ipsum dolar sit amet illo error <a href="bootstrap_demo#" title="below">ip
       </div>
     </footer>
 
-
-    <!-- Le javascript -->
-    <script src="http://code.jquery.com/jquery-1.5.2.min.js"></script>
-    <script src="/assets/jquery.tablesorter.min.js"></script>
-    <script src="/assets/google-code-prettify/prettify.js"></script>
-    <script>$(function () { prettyPrint() })</script>
-    <script src="/assets/bootstrap-dropdown.js"></script>
-    <script src="/assets/bootstrap-twipsy.js"></script>
-    <script src="/assets/bootstrap-scrollspy.js"></script>
-    <script src="/assets/bootstrap_demo/bootstrap_demo.js"></script>
-
-  </body>
-</html>

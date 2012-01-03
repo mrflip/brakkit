@@ -5,6 +5,19 @@ module ApplicationHelper
     @title = text
   end
 
+  def skip_sidebar
+    @show_sidebar = false
+  end
+
+  def has_javascript(javascript)
+    content_for(:javascript){ javascript_include_tag(javascript) }
+  end
+
+  def has_stylesheet(stylesheet)
+    content_for(:stylesheets){ stylesheet_link_tag(stylesheet) }
+  end
+
+
   # This template will handle its own rows
   def multirow
     @multirow = true

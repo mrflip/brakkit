@@ -3,6 +3,8 @@ source 'https://rubygems.org'
 gem   'rails',               "~> 3.2.0.rc1"
 gem   'unicorn',             "~> 4.1"
 
+gem   'configliere',         "~> 0.4"
+
 # Database
 # gem 'mysql2'
 gem 'sqlite3'
@@ -52,4 +54,3 @@ group 'console' do
   gem 'awesome_print'
   gem 'pry'
 end
-
