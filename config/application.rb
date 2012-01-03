@@ -16,7 +16,8 @@ module Brak
     # -- all .rb files in that directory are automatically loaded.
 
     # Custom directories with classes and modules you want to be autoloadable.
-    # config.autoload_paths += %W(#{config.root}/extras)
+    # to debug a plugin, add it here eg "/vendor/plugins/ajaxful_rating/lib"
+    config.autoload_paths += [ "/app/sweepers" ]
 
     # Only load the plugins named here, in the order given (default is alphabetical).
     # :all can be used as a placeholder for all plugins not explicitly named.
@@ -37,7 +38,7 @@ module Brak
     config.encoding = "utf-8"
 
     # Configure sensitive parameters which will be filtered from the log file.
-    config.filter_parameters += [:password]
+    config.filter_parameters += [:password, :password_confirmation]
 
     # Use SQL instead of Active Record's schema dumper when creating the database.
     # This is necessary if your schema can't be completely dumped by the schema dumper,
@@ -48,12 +49,20 @@ module Brak
     # This will create an empty whitelist of attributes available for mass-assignment for all models
     # in your app. As such, your models will need to explicitly whitelist or blacklist accessible
     # parameters by using an attr_accessible or attr_protected declaration.
-    # config.active_record.whitelist_attributes = true
+    config.active_record.whitelist_attributes = true
 
     # Enable the asset pipeline
     config.assets.enabled = true
 
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
+
+    # Turn off timestamped migrations
+    config.active_record.timestamped_migrations = false
+
+    # Rotate log files (50 files max at 1MB each)
+    # might not work anymore on rails 3.2
+    # config.logger = Logger.new(config.paths.log.first, 50, 20 * 1048576)
+
   end
 end
