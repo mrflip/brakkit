@@ -5,9 +5,8 @@ module ApplicationHelper
     @title = text
   end
 
-  def skip_sidebar
-    @show_sidebar = false
-  end
+  def skip_sidebar()  @skip_sidebar = true ; end
+  def show_sidebar?() not @skip_sidebar    ;  end
 
   def has_javascript(javascript)
     content_for(:javascript){ javascript_include_tag(javascript) }

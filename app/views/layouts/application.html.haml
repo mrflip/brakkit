@@ -6,8 +6,8 @@
     = render :partial => 'layouts/topbar'
     = render :partial => 'layouts/flashes'
     
-    .container-fluid{ :class => (@show_sidebar ? '' : 'no-sidebar') }
-      = render :partial => 'layouts/sidebar' if @show_sidebar
+    .container-fluid{ :class => (show_sidebar? ? '' : 'no-sidebar') }
+      = render :partial => 'layouts/sidebar' if show_sidebar?
       
       .content#main{ :role => 'main' }
         = yield
