@@ -1,0 +1,27 @@
+- title "Users"
+
+.right
+  %p.clear
+    To set your user image, visit <a href="http://gravatar.com/">gravatar.com</a>
+
+  %hr/  
+
+%table.users.horizontal
+  %tr
+    %th &nbsp;
+    %th= link_to 'Name',       users_path(:order => 'name')
+    %th  Email
+  - for user in @users
+    %tr.hcard
+      %td.photo=        image_tag avatar_url(user)
+      %td.fn.n=         link_to_rsrc user
+      %td.email=        user.email
+
+.buttons
+  - if user_signed_in?
+    %p
+      To create a new user,
+      = link_to "sign out", destroy_user_session_path
+      and then go through the signup process
+  - else
+    = link_to "New user", new_user_registration_path, :class => :button

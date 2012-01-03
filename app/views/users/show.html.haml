@@ -1,0 +1,16 @@
+- title "Lunchlady user #{@user.titleize}"
+
+%table.vertical.user
+  %tr
+    %th         Name
+    %td.td_12=  @user.name
+    %td.td_5.photo{:rowspan => 4 }
+      = image_tag avatar_url(@user, :s => 200)
+      %br/
+      %span.quiet
+        Set your image at <a href="http://gravatar.com/">gravatar.com</a>
+  %tr
+    %th         Email
+    %td=        @user.email
+  %tr
+    %td.empty   &nbsp;
