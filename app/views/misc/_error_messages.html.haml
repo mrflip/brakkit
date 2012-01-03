@@ -1,0 +1,12 @@
+-# Use inside forms like this:
+-# = form_for @user do |f|
+-#   = render '/shared/error_messages', :target => @user
+
+- if target.errors.any?
+  #errorExplanation
+    %h2
+      = pluralize(target.errors.count, "error")
+      prohibited this record from being saved:
+    %ul
+      - target.errors.full_messages.each do |msg|
+        %li= msg
