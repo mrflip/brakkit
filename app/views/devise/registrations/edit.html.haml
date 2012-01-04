@@ -1,37 +1,22 @@
 - title "Your user info"
 
-= form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put }) do |f|
+= form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put, :class => 'edit_user form-stacked' }) do |f|
   %fieldset
     = devise_error_messages!
     %legend= @title
-    .form_input
-      = f.label          :name
-      = f.text_field     :name
-    .form_input
-      = f.label          :email
-      = f.text_field     :email
+    = f.text_field     :name
+    = f.text_field     :email
 
     %hr.spacer/
-    .form_input
-      = f.label          :password
-      = f.password_field :password
-      %span.description (leave blank if you don't want to change it)
-    .form_input
-      = f.label          :password_confirmation
-      = f.password_field :password_confirmation
+    = f.password_field :password, :help_inline => '(leave blank if you don\'t want to change it)'
+    = f.password_field :password_confirmation
+    
     %hr/
-    .form_input
-      = f.label          :current_password
-      = f.password_field :current_password
-      %span.description (we need your current password to confirm your changes)
+    = f.password_field :current_password, :help_inline => '(we need your current password to confirm your changes)'
 
-    .form_input
-      = f.label          :bio
-      = f.text_area      :bio
+    = f.text_area      :bio
 
-    .form_input
-      = f.label          :web
-      = f.text_area      :web
+    = f.text_area      :web
 
     .buttons= f.submit "Update"
 

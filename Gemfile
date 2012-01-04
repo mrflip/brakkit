@@ -22,6 +22,7 @@ group :assets do                           # only for assets; not required in pr
 
   gem 'compass',             "~> 0.11"
   gem 'compass_twitter_bootstrap'
+
   #see also https://github.com/mjbellantoni/formtastic-bootstrap
 end
 

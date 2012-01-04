@@ -1,10 +1,11 @@
-@import compass  
+@import compass
 
 // CSS Reset
 @import compass_twitter_bootstrap/reset
 
 // Core variables and mixins
-@import compass_twitter_bootstrap/variables
+// @import compass_twitter_bootstrap/variables
+@import variables  
 @import compass_twitter_bootstrap/mixins
 
 // Grid system and page structure
@@ -21,4 +22,7 @@
 // remainder is in user.sass  
 .new_user, .edit_user
   @extend               .form-stacked
+    
+.form_input
+  @extend               .clearfix
     

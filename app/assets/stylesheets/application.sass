@@ -11,3 +11,26 @@
 // = require_self
 // = require_tree .
 // 
+
+@import _variables
+@import compass_twitter_bootstrap/mixins
+  
+/* hashgrid.js template
+#grid
+  width:                $siteWidth
+  position:             absolute
+  top:                  0
+  left:                 50%
+  margin-left:          -480px
+  div.vert
+    +columns(1)
+    border:             solid darkturquoise
+    border-width:       0 1px
+    margin:
+      left:             $gridGutterWidth / 2 - 1
+      right:            $gridGutterWidth / 2 - 1
+  div.horiz
+    height:             15px
+    border-bottom:      1px dotted #aaa
+    margin:             0
+    padding:            0
