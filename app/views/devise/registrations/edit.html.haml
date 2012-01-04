@@ -10,9 +10,6 @@
     .form_input
       = f.label          :email
       = f.text_field     :email
-    .checkbox_group
-      = f.check_box      :is_local
-      = f.label          :is_local, "I work in the office, so assume I want to order every day"
 
     %hr.spacer/
     .form_input
@@ -27,12 +24,22 @@
       = f.label          :current_password
       = f.password_field :current_password
       %span.description (we need your current password to confirm your changes)
+
+    .form_input
+      = f.label          :bio
+      = f.text_area      :bio
+
+    .form_input
+      = f.label          :web
+      = f.text_area      :web
+
     .buttons= f.submit "Update"
 
+    
 
 %hr.spacer/
 
-%form  
+%form.form-stacked
   %fieldset
     = devise_error_messages!
     %legend= "Remove account"

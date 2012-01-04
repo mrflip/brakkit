@@ -2,6 +2,14 @@
   %h1 Hello, world!
   %p This is your app. There are many like it but this one is yours.
 
+  %ul
+    %li= link_to 'Sign up',           new_user_registration_path
+    %li= link_to 'Log in',            new_user_session_path
+    %li= link_to 'Log out',           destroy_user_session_path
+    %li= link_to 'Edit your account', edit_user_registration_path
+    %li= link_to 'Show users',        user_path
+    
+  
 .hero-unit
   %p Here are your app config settings
   %pre
