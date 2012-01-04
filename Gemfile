@@ -54,3 +54,5 @@ group 'console' do
   gem 'awesome_print'
   gem 'pry'
 end
+
+gem "mocha", :group => :test

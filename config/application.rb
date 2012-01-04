@@ -59,6 +59,9 @@ module Brak
     # Enable the asset pipeline
     config.assets.enabled = true
 
+    # don't hit the DB when compiling assets
+    config.assets.initialize_on_precompile = false
+
     # Compass integration
     config.sass.load_paths << Compass::Frameworks['compass'].stylesheets_directory
     config.sass.load_paths << Compass::Frameworks['twitter_bootstrap'].stylesheets_directory

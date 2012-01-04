@@ -4,7 +4,7 @@ class User < ActiveRecord::Base
   # Attributes and scopes
   #
   attr_accessible :email, :password, :password_confirmation, :remember_me
-  attr_accessible :name, :username, :shibboleth
+  attr_accessible :username, :name, :bio, :web, :shibboleth
 
   # Include default devise modules. Others available are: :token_authenticatable, :confirmable, :lockable and :timeoutable
   devise :database_authenticatable, :registerable, :recoverable, :rememberable, :trackable, :validatable
@@ -17,12 +17,12 @@ class User < ActiveRecord::Base
   # Validations
   #
 
-  validates :name,  :presence => true, :length => {:minimum => 1, :maximum => 100}
+  # validates :name,  :presence => true, :length => {:minimum => 1, :maximum => 100}
 
-  # require users to know a magic watchword to register. Set this value in
-  # config/app_config.yaml or use an environment variable -- on heroku, run
-  #    heroku config:add SIGNUP_SHIBBOLETH=your_shibboleth
-  validates_format_of :shibboleth, :with => /\A#{Settings.signup_shibboleth}\z/, :on => :create, :message => "is wrong - find They Who Hold the Secret and ask them. Also: No Homers"
+  # # require users to know a magic watchword to register. Set this value in
+  # # config/app_config.yaml or use an environment variable -- on heroku, run
+  # #    heroku config:add SIGNUP_SHIBBOLETH=your_shibboleth
+  # validates_format_of :shibboleth, :with => /\A#{Settings.signup_shibboleth}\z/, :on => :create, :message => "is wrong - ask the site admin for the passphrase. Also: No Homers"
 
   #
   # Plugins
