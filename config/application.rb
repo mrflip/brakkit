@@ -64,7 +64,6 @@ module Brak
 
     # Compass integration
     config.sass.load_paths << Compass::Frameworks['compass'].stylesheets_directory
-    config.sass.load_paths << Compass::Frameworks['twitter_bootstrap'].stylesheets_directory
 
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'

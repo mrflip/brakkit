@@ -28,8 +28,8 @@
             <li><a href="bootstrap_demo#navigation">Navigation</a></li>
             <li><a href="bootstrap_demo#alerts">Alerts</a></li>
             <li><a href="bootstrap_demo#popovers">Popovers</a></li>
-            <li><a href="bootstrap_demo#javascript">Javascript</a></li>
-            <li><a href="bootstrap_demo#less">Less</a></li>
+            <!-- <li><a href="bootstrap_demo#javascript">Javascript</a></li> -->
+            <!-- <li><a href="bootstrap_demo#less">Less</a></li> -->
           </ul>
         </div>
       </div>
@@ -1032,9 +1032,15 @@
         <fieldset>
           <legend>Example form legend</legend>
           <div class="clearfix">
-            <label for="xlInput">X-Large input</label>
+            <label for="normalInput">Normal input</label>
             <div class="input">
-              <input class="xlarge" id="xlInput" name="xlInput" size="30" type="text" />
+              <input class="" id="normalInput" name="normalInput" size="30" type="text" />
+            </div>
+          </div><!-- /clearfix -->
+          <div class="clearfix">
+            <label for="normalTextarea">Normal textarea</label>
+            <div class="input">
+              <textarea class="" id="normalTextarea" name="normalTextarea" rows="3"></textarea>
             </div>
           </div><!-- /clearfix -->
           <div class="clearfix">
@@ -1050,21 +1056,15 @@
             </div>
           </div><!-- /clearfix -->
           <div class="clearfix">
-            <label for="mediumSelect">Select</label>
+            <label for="xlInput">X-Large input</label>
             <div class="input">
-              <select class="medium" name="mediumSelect" id="mediumSelect">
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-                <option>5</option>
-              </select>
+              <input class="xlarge" id="xlInput" name="xlInput" size="30" type="text" />
             </div>
           </div><!-- /clearfix -->
           <div class="clearfix">
             <label for="multiSelect">Multiple select</label>
             <div class="input">
-              <select class="medium" size="5" multiple="multiple" name="multiSelect" id="multiSelect">
+              <select class="" size="5" multiple="multiple" name="multiSelect" id="multiSelect">
                 <option>1</option>
                 <option>2</option>
                 <option>3</option>
@@ -1394,7 +1394,7 @@
             </li>
           </ul>
           <form class="pull-left" action="bootstrap_demo">
-            <input type="text" placeholder="Search" />
+            <input type="text" placeholder="Search" class="span5" />
           </form>
           <ul class="nav secondary-nav">
             <li class="dropdown">

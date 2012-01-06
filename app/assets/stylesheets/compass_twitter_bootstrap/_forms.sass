@@ -4,7 +4,7 @@
 
 // FORM STYLES
 // -----------
-
+  
 form
   margin-bottom: $baseline
 
@@ -14,11 +14,11 @@ fieldset
   padding-top: $baseline
   legend
     display: block
-    padding-left: 150px
+    padding-left:       $fontLabelOffset
     font-size: $basefont * 1.5
     line-height: 1
     color: $grayDark
-    *padding: 0 0 5px 145px
+    *padding: 0 0 5px ($fontLabelOffset - 5px)
     /* IE6-7
     *line-height: 1.5
     /* IE6-7
@@ -34,7 +34,7 @@ label,
 input,
 select,
 textarea
-  +sans-serif(normal, 13px, normal)
+  +sans-serif(normal, $basefont, normal)
 
 // Float labels left
 label
@@ -42,13 +42,13 @@ label
   font-size: $basefont
   line-height: $baseline
   float: left
-  width: 130px
+  width:        $fontLabelOffset - $gridGutterWidth
   text-align: right
   color: $grayDark
 
 // Shift over the inside div to align all label's relevant content
 form .input
-  margin-left: 150px
+  margin-left: $fontLabelOffset
 
 // Checkboxs and radio buttons
 
@@ -62,19 +62,25 @@ input,
 textarea,
 select,
 .uneditable-input
-  display: inline-block
-  width: 210px
-  height: $baseline
-  padding: 4px
-  font-size: $basefont
-  line-height: $baseline
-  color: $gray
-  border: 1px solid #ccc
+  display:      inline-block
+  height:       $baseline
+  padding:      4px
+  font-size:    $basefont
+  line-height:  $baseline
+  color:        $gray
+  border:       1px solid #ccc
   +border-radius(3px)
 
+input,
+textarea,
+.uneditable-input
+  width:        (6 * $gridColumnWidth) + (5 * $gridGutterWidth) - 10px
+select
+  width:        (6 * $gridColumnWidth) + (5 * $gridGutterWidth)
+    
 // remove padding from select
 select
-  padding: initial
+  padding:      initial
 
 // mini reset for non-html5 file types
 
@@ -203,13 +209,13 @@ form .clearfix.success
 input.mini,
 textarea.mini,
 select.mini
-  width: 60px
+  +columns(1.5)
 
 .input-small,
 input.small,
 textarea.small,
 select.small
-  width: 90px
+  +columns(2)
 
 .input-medium,
 input.medium,
@@ -227,13 +233,13 @@ select.large
 input.xlarge,
 textarea.xlarge,
 select.xlarge
-  width: 270px
+  width:                9 * ($gridColumnWidth + $gridGutterWidth) - $gridGutterWidth - 10px
 
 .input-xxlarge,
 input.xxlarge,
 textarea.xxlarge,
 select.xxlarge
-  width: 530px
+  width:                9 * ($gridColumnWidth + $gridGutterWidth) - $gridGutterWidth - 10px
 
 textarea.xxlarge
   overflow-y: auto
@@ -241,10 +247,10 @@ textarea.xxlarge
 // Grid style input sizes
 // This is a duplication of the main grid @include columns(); mixin, but subtracts 10px to account for input padding and border
 =formColumns($columnSpan: 1)
-  display: inline-block
-  float: none
-  width: $gridColumnWidth * $columnSpan + $gridGutterWidth * ($columnSpan - 1) - 10
-  margin-left: 0
+  display:      inline-block
+  float:        none
+  width:        $gridColumnWidth * $columnSpan + $gridGutterWidth * ($columnSpan - 1) - 10
+  margin-left:  0
 
 input,
 textarea
@@ -299,7 +305,7 @@ textarea[readonly]
   background: #f5f5f5
   margin-top: $baseline
   margin-bottom: $baseline
-  padding: $baseline - 1 20px $baseline 150px
+  padding: $baseline - 1 $gridGutterWidth $baseline $fontLabelOffset
   border-top: 1px solid #ddd
   +border-radius(0 0 3px 3px)
   .secondary-action
@@ -351,11 +357,11 @@ textarea[readonly]
     display: block
     width: auto
     min-width: 16px
-    height: 18px
+    height: $baseline
     padding: 4px 4px 4px 5px
     margin-right: -1px
     font-weight: normal
-    line-height: 18px
+    line-height: $baseline
     color: $grayLight
     text-align: center
     text-shadow: 0 1px 0 $white
@@ -391,7 +397,7 @@ textarea[readonly]
     float: none
     width: auto
     padding: 0
-    margin-left: 20px
+    margin-left: $gridGutterWidth
     line-height: $baseline
     text-align: left
     white-space: normal
@@ -416,7 +422,7 @@ textarea[readonly]
 
 // Stacked forms
 .form-stacked
-  padding-left: 20px
+  padding-left: $stackedFormOffset
   fieldset
     padding-top: $baseline / 2
   legend
@@ -427,7 +433,7 @@ textarea[readonly]
     width: auto
     font-weight: bold
     text-align: left
-    line-height: 20px
+    line-height: $baseline + 2
     padding-top: 0
   .clearfix
     margin-bottom: $baseline / 2
@@ -447,5 +453,5 @@ textarea[readonly]
     margin-top: 0
     margin-left: -10px
   .actions
-    margin-left: -20px
-    padding-left: 20px
+    margin-left:  -$stackedFormOffset
+    padding-left:  $stackedFormOffset

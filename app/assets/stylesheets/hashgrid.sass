@@ -1,29 +1,33 @@
 /**
  * Grid
 
-@import 'variables'   
-$gridAlignment: centered                !default
-$gridExtent:    $siteWidth              !default
-$lineHeight:    $baseline * $basefont   !default
+@import         compass_twitter_bootstrap/variables
 
+$gridColumns:           12              !default
+$gridColumnWidth:       60px            !default
+$gridGutterWidth:       20px            !default
+  
+$gridAlignment:         centered        !default
+$gridExtent:            $siteWidth      !default
+$lineHeight:            $baseline       !default
   
 #grid
   
   /* Dimensions - same width as your grid with gutters
-  width:                $gridExtent
+  width:                $gridExtent + ( 2 * $gridGutterWidth)
 
   @if $gridAlignment == centered  
     /* Grid (centered)
     position:           absolute
     top:                0
     left:               50%
-    margin-left:        -( $siteWidth / 2 )
+    margin-left:        -( $siteWidth / 2 + $gridGutterWidth )
     
   @else   
     /* Grid (left-aligned)
     position:           absolute
     top:                0
-    left:               0
+    left:               -$gridGutterWidth
     
   div
     /**
@@ -38,8 +42,11 @@ $lineHeight:    $baseline * $basefont   !default
       border-width:     0 1px
       margin-right:     $gridGutterWidth - 1
       &.first-line
-        margin-left:    $gridGutterWidth - 1
-          
+        @if $gridAlignment == centered
+          margin-left:    $gridGutterWidth - 1
+        @else
+          margin-left:    0
+        
     /**
      * Horizontal grid lines, defined by your base line height
      *
