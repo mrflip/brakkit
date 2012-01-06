@@ -1,19 +1,41 @@
 /**
  * hashgrid (jQuery version)
  * http://github.com/dotjay/hashgrid
- * Version 5, 3 Nov 2010
- * Written by Jon Gibbins, dotjay.co.uk, accessibility.co.uk
- * Contibutors:
- * Sean Coates, seancoates.com
- * Phil Dokas, jetless.org
+ * Version 6, 10 Jun 2011
+ * Written by Jon Gibbins at Analog, http://analog.coop/
  *
- * // Using a basic #grid setup
+ * Contibutors:
+ * Sean Coates, http://seancoates.com/
+ * Phil Dokas, http://jetless.org/
+ * Andrew Jaswa, http://andrewjaswa.com/
+ */
+
+/**
+ * @license Copyright 2011 Analog Coop Limited
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+/**
+ * Usage
+ *
+ * // The basic #grid setup looks like this
  * var grid = new hashgrid();
  *
- * // Using #grid with a custom id (e.g. #mygrid)
+ * // Or you can set a custom id for your grid, e.g. #mygrid
  * var grid = new hashgrid("mygrid");
  *
- * // Using #grid with additional options
+ * // But there are a whole bunch of additional options you can set
  * var grid = new hashgrid({
  *     id: 'mygrid',            // id for the grid container
  *     modifierKey: 'alt',      // optional 'ctrl', 'alt' or 'shift'
@@ -26,6 +48,12 @@
  *     cookiePrefix: 'mygrid'   // prefix for the cookie name
  * });
  */
+
+
+/**
+ * Make sure we have the library
+ * TODO: Use an adapter
+ */
   if (typeof jQuery == "undefined") {
     alert("Hashgrid: jQuery not loaded. Make sure it's linked to your pages.");
   }
@@ -33,6 +61,7 @@
 
 /**
  * hashgrid overlay
+ * @constructor
  */
 var hashgrid = function(set) {
 
@@ -46,18 +75,33 @@ var hashgrid = function(set) {
     numberOfGrids: 1,       // number of grid classes used
     classPrefix: 'grid-',   // prefix for the grid classes
     cookiePrefix: 'hashgrid'// prefix for the cookie name
-  };
-  var overlayOn = false,
-  sticky = false,
+  },
+  classNumber = 1,
+  gridLines,
+  gridWidth,
+  i,
+  line,
+  lineHeight,
+  numGridLines,
+  overlay,
+  overlayCookie,
+  overlayEl,
+  overlayOn = false,
+  overlayVert,
   overlayZState = 'B',
   overlayZBackground = -1,
   overlayZForeground = 9999,
-  classNumber = 1;
+  pageHeight,
+  setKey,
+  state,
+  sticky = false,
+  top;
 
   // Apply options
   if (typeof set == 'object') {
-    var k;
-    for (k in set) options[k] = set[k];
+    for (setKey in set) {
+      options[setKey] = set[setKey];
+    }
   }
   else if (typeof set == 'string') {
     options.id = set;
@@ -69,7 +113,7 @@ var hashgrid = function(set) {
   }
 
   // Create overlay, hidden before adding to DOM
-  var overlayEl = $('<div></div>');
+  overlayEl = $('<div></div>');
   overlayEl
     .attr('id', options.id)
     .css({
@@ -77,27 +121,27 @@ var hashgrid = function(set) {
       'pointer-events': 'none'
     });
   $("body").prepend(overlayEl);
-  var overlay = $('#' + options.id);
+  overlay = $('#' + options.id);
 
   // Unless a custom z-index is set, ensure the overlay will be behind everything
   if (overlay.css('z-index') == 'auto') overlay.css('z-index', overlayZBackground);
 
   // Override the default overlay height with the actual page height
-  var pageHeight = parseFloat($(document).height());
+  pageHeight = parseFloat($(document).height());
   overlay.height(pageHeight);
 
   // Add the first grid line so that we can measure it
   overlay.append('<div id="' + options.id + '-horiz" class="horiz first-line">');
 
   // Position off-screen and display to calculate height
-  var top = overlay.css("top");
+  top = overlay.css("top");
   overlay.css({
     top: "-999px",
     display: "block"
   });
 
   // Calculate the number of grid lines needed
-  var line = $('#' + options.id + '-horiz'),
+  line = $('#' + options.id + '-horiz');
   lineHeight = line.outerHeight();
 
   // Hide and reset top
@@ -107,35 +151,41 @@ var hashgrid = function(set) {
   });
 
   // Break on zero line height
-  if (lineHeight <= 0) return true;
+  if (lineHeight <= 0) {
+    return false;
+  }
 
   // Add the remaining grid lines
-  var i, numGridLines = Math.floor(pageHeight / lineHeight);
+  numGridLines = Math.floor(pageHeight / lineHeight);
+  gridLines = '';
+
   for (i = numGridLines - 1; i >= 1; i--) {
-    overlay.append('<div class="horiz"></div>');
+    gridLines += '<div class="horiz"></div>';
   }
+  overlay.append(gridLines);
 
   // vertical grid
   overlay.append($('<div class="vert-container"></div>'));
-  var overlayVert = overlay.children('.vert-container');
-  var gridWidth = overlay.width();
+  overlayVert = overlay.children('.vert-container');
+  gridWidth = overlay.width();
   overlayVert.css({width: gridWidth, position: 'absolute', top: 0});
   overlayVert.append('<div class="vert first-line">&nbsp;</div>');
 
   // 30 is an arbitrarily large number...
   // can't calculate the margin width properly
+  gridLines = '';
   for (i = 0; i < 30; i++) {
-    overlayVert.append('<div class="vert">&nbsp;</div>');
+    gridLines += '<div class="vert">&nbsp;</div>';
   }
-
+  overlayVert.append(gridLines);
   overlayVert.children()
     .height(pageHeight)
-    .css({display: 'inline-block'});
+    .css({ display: 'inline-block' });
 
   // Check for saved state
-  var overlayCookie = readCookie(options.cookiePrefix + options.id);
+  overlayCookie = readCookie(options.cookiePrefix + options.id);
   if (typeof overlayCookie == 'string') {
-    var state = overlayCookie.split(',');
+    state = overlayCookie.split(',');
     state[2] = Number(state[2]);
     if ((typeof state[2] == 'number') && !isNaN(state[2])) {
       classNumber = state[2].toFixed(0);
@@ -157,7 +207,7 @@ var hashgrid = function(set) {
 
   // Keyboard controls
   $(document).bind('keydown', keydownHandler);
-  $(document).bind('keyup',   keyupHandler);
+  $(document).bind('keyup', keyupHandler);
 
   /**
    * Helpers
@@ -212,12 +262,24 @@ var hashgrid = function(set) {
    */
 
   function keydownHandler(e) {
-    var source = e.target.tagName.toLowerCase();
-    if ((source == 'input') || (source == 'textarea') || (source == 'select')) return true;
-    var m = getModifier(e);
-    if (!m) return true;
-    var k = getKey(e);
-    if (!k) return true;
+    var k,
+    m,
+    source = e.target.tagName.toLowerCase();
+
+    if ((source == 'input') || (source == 'textarea') || (source == 'select')) {
+      return true;
+    }
+
+    m = getModifier(e);
+    if (!m) {
+      return true;
+    }
+
+    k = getKey(e);
+    if (!k) {
+      return true;
+    }
+
     switch(k) {
     case options.showGridKey:
       if (!overlayOn) {
@@ -267,17 +329,26 @@ var hashgrid = function(set) {
       }
       break;
     }
+
+    return true;
   }
 
   function keyupHandler(e) {
-    var m = getModifier(e);
-    if (!m) return true;
-    var k = getKey(e);
-    if (!k) return true;
-    if ((k == options.showGridKey) && !sticky) {
+    var k,
+    m = getModifier(e);
+
+    if (!m) {
+      return true;
+    }
+
+    k = getKey(e);
+
+    if (k && (k == options.showGridKey) && !sticky) {
       overlay.hide();
       overlayOn = false;
     }
+
+    return true;
   }
 
   /**
@@ -286,29 +357,42 @@ var hashgrid = function(set) {
    * By Peter-Paul Koch:
    * http://www.quirksmode.org/js/cookies.html
    */
-  function createCookie(name,value,days) {
+  function createCookie(name, value, days) {
+    var date,
+    expires = "";
+
     if (days) {
-      var date = new Date();
-      date.setTime(date.getTime()+(days*24*60*60*1000));
-      var expires = "; expires="+date.toGMTString();
+      date = new Date();
+      date.setTime( date.getTime() + (days*24*60*60*1000) );
+      expires = "; expires=" + date.toGMTString();
     }
-    else var expires = "";
-    document.cookie = name+"="+value+expires+"; path=/";
+
+    document.cookie = name + "=" + value + expires + "; path=/";
   }
 
   function readCookie(name) {
-    var nameEQ = name + "=";
-    var ca = document.cookie.split(';');
-    for(var i=0;i < ca.length;i++) {
-      var c = ca[i];
-      while (c.charAt(0)==' ') c = c.substring(1,c.length);
-      if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+    var c,
+    ca = document.cookie.split(';'),
+    i = 0,
+    len = ca.length,
+    nameEQ = name + "=";
+
+    for (; i < len; i++) {
+      c = ca[i];
+
+      while (c.charAt(0) == ' ') {
+	c = c.substring(1, c.length);
+      }
+
+      if (c.indexOf(nameEQ) == 0) {
+	return c.substring(nameEQ.length, c.length);
+      }
     }
     return null;
   }
 
   function eraseCookie(name) {
-    createCookie(name,"",-1);
+    createCookie(name, "", -1);
   }
 
   /**
@@ -321,10 +405,11 @@ var hashgrid = function(set) {
     try {
       ss.addRule('.xxxxxx', 'position: relative');
       ss.removeRule(ss.rules.length - 1);
-    } catch(e){}
+    } catch(e) {}
   }
 
-}
+  return {};
+};
 
 
 /**

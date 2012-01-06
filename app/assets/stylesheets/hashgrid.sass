@@ -1,0 +1,69 @@
+/**
+ * Grid
+
+@import 'variables'   
+$gridAlignment: centered                !default
+$gridExtent:    $siteWidth              !default
+$lineHeight:    $baseline * $basefont   !default
+
+  
+#grid
+  
+  /* Dimensions - same width as your grid with gutters
+  width:                $gridExtent
+
+  @if $gridAlignment == centered  
+    /* Grid (centered)
+    position:           absolute
+    top:                0
+    left:               50%
+    margin-left:        -( $siteWidth / 2 )
+    
+  @else   
+    /* Grid (left-aligned)
+    position:           absolute
+    top:                0
+    left:               0
+    
+  div
+    /**
+     * Vertical grid lines
+     *
+     * Set the column width taking the borders into consideration,
+     * and use margins to set column gutters.
+     */
+    &.vert
+      width:            $gridColumnWidth - 1
+      border:           solid darkturquoise
+      border-width:     0 1px
+      margin-right:     $gridGutterWidth - 1
+      &.first-line
+        margin-left:    $gridGutterWidth - 1
+          
+    /**
+     * Horizontal grid lines, defined by your base line height
+     *
+     * Remember, the CSS properties that define the box model:
+     * visible height = height + borders + margins + padding
+    &.horiz
+      height:           $lineHeight - 1
+      border-bottom:    1px dotted darkgray
+      margin:           0
+      padding:          0
+
+  /**
+   * Classes for multiple grids
+   *
+   * When using more than one grid, remember to set the numberOfGrids 
+   * option in the hashgrid.js file.
+  &.grid-1 div.vert
+    /* Vertical grid line colour for grid 1
+    border-color:       darkturquoise
+
+  &.grid-2
+    /* Adjustments
+    padding:            0 160px
+    width:              660px
+    div.vert
+      /* Vertical grid line colour for grid 2
+      border-color:     crimson
