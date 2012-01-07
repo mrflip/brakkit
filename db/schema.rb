@@ -26,9 +26,9 @@ ActiveRecord::Schema.define(:version => 3) do
 
   create_table "users", :force => true do |t|
     t.string   "username",               :limit => 20
-    t.string   "name",                   :limit => 160
-    t.text     "bio",                    :limit => 160, :default => "", :null => false
-    t.string   "web",                    :limit => 160, :default => "", :null => false
+    t.string   "fullname",               :limit => 160
+    t.text     "description",            :limit => 160, :default => "", :null => false
+    t.string   "url",                    :limit => 160, :default => "", :null => false
     t.string   "shibboleth"
     t.datetime "created_at",                                            :null => false
     t.datetime "updated_at",                                            :null => false

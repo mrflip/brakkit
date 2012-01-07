@@ -1,36 +1,38 @@
 - title "Your user info"
 
-= form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put, :class => 'edit_user form-stacked' }) do |f|
+= form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put, :class => 'edit_user' }) do |f|
   %fieldset
     = devise_error_messages!
     %legend= @title
-    = f.text_field     :name
-    = f.text_field     :email
+    = f.text_field     :username,    :label => 'username'
+    = f.text_field     :email,       :label => 'email',    :help_inline => 'We won\'t spam you, promise'
 
-    %hr.spacer/
-    = f.password_field :password, :help_inline => '(leave blank if you don\'t want to change it)'
-    = f.password_field :password_confirmation
-    
+    = f.text_field     :fullname,    :label => 'name',     :help_inline => 'Hi, bob'
+    = f.text_field     :url,         :label => 'web',      :maxlength => 160, :help_inline => 'Your homepage, facebook or blog'
+    = f.text_area      :description, :maxlength => 160,    :maxlength => 160, :rows => 3, :cols => 40
+
+
     %hr/
-    = f.password_field :current_password, :help_inline => '(we need your current password to confirm your changes)'
+    = f.password_field :current_password, :help_inline => '(so we can confirm your changes)'
 
-    = f.text_area      :bio
-
-    = f.text_area      :web
-
-    .buttons= f.submit "Update"
+    .actions
+      = f.submit "Update"
+      %span.secondary-action
+        = link_to "Back", :back
 
     
 
 %hr.spacer/
 
-%form.form-stacked
+%form
   %fieldset
     = devise_error_messages!
     %legend= "Remove account"
-    %p
-      This is permanent:
-      .buttons
-        =link_to "Remove my account", registration_path(resource_name), :confirm => "Are you sure?", :method => :delete, :class => 'button white'
+    .alert-message.block-message.error.offset-3
+      %span.form-spacer
+        This is permanent!
+      .alert-actions
+        =link_to "Remove my account", registration_path(resource_name), :confirm => "Are you sure?", :method => :delete, :class => 'btn danger'
       
-= link_to "Back", :back
+        
+      

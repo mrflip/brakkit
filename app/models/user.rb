@@ -4,7 +4,7 @@ class User < ActiveRecord::Base
   # Attributes and scopes
   #
   attr_accessible :email, :password, :password_confirmation, :remember_me
-  attr_accessible :username, :name, :bio, :web, :shibboleth
+  attr_accessible :username, :fullname, :description, :url, :shibboleth
 
   # Include default devise modules. Others available are: :token_authenticatable, :confirmable, :lockable and :timeoutable
   devise :database_authenticatable, :registerable, :recoverable, :rememberable, :trackable, :validatable

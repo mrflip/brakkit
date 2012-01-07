@@ -2,9 +2,9 @@ class CreateUsers < ActiveRecord::Migration
   def self.up
     create_table :users do |t|
       t.string :username,     :limit => 20
-      t.string :name,         :limit => 160
-      t.text   :bio,          :limit => 160, :default => "", :null => false
-      t.string :web,          :limit => 160, :default => "", :null => false
+      t.string :fullname,     :limit => 160
+      t.text   :description,  :limit => 160, :default => "", :null => false
+      t.string :url,          :limit => 160, :default => "", :null => false
       t.string :shibboleth
 
       t.timestamps
