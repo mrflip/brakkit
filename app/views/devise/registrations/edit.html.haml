@@ -1,12 +1,12 @@
 - title "Your user info"
 
-= form_for(resource, :as => resource_name, :url => update_user_registration_path, :html => { :method => :put, :class => 'edit_user' }) do |f|
+= form_for(resource, :as => resource_name, :url => update_user_registration_path, :html => { :method => :put, :class => 'edit_user' }, :autocomplete => 'on') do |f|
   %fieldset
     %legend= @title
+    = f.text_field     :fullname,    :label => 'name',     :help_inline => 'Hi, bob'
     = f.display_field  :username,    :label => 'username'
     = f.text_field     :email,       :label => 'email',    :help_inline => 'We won\'t spam you, promise'
 
-    = f.text_field     :fullname,    :label => 'name',     :help_inline => 'Hi, bob'
     = f.text_field     :url,         :label => 'web',      :maxlength => 160, :help_inline => 'Your homepage, facebook or blog'
     = f.text_area      :description, :maxlength => 160,    :maxlength => 160, :rows => 3, :cols => 40
 
