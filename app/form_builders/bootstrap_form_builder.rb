@@ -18,14 +18,14 @@ class BootstrapFormBuilder < ActionView::Helpers::FormBuilder
   end
 
   %w(collection_select select check_box email_field file_field number_field password_field phone_field radio_button range_field search_field telephone_field text_area text_field url_field).each do |method_name|
-    define_method(method_name) do |name, *args|
+    define_method(method_name) do |name, *args, &block|
       @name = name
       @options = args.extract_options!
       @args = args
 
       form_input_div do
         label_field + input_div do
-          extras{ super(name, *args) }
+          extras{ super(name, *args, @options) }
         end
       end
     end
@@ -39,7 +39,7 @@ class BootstrapFormBuilder < ActionView::Helpers::FormBuilder
     form_input_div do
       label_field + input_div do
         extras do
-          content_tag(:ul, :class => 'inputs-list') do
+          content_tag(:ul, :class => html_class('inputs-list')) do
             records.collect do |record|
               element_id = "#{object_name}_#{attribute}_#{record.send(record_id)}"
               checkbox = check_box_tag("#{object_name}[#{attribute}][]", record.send(record_id), object.send(attribute).include?(record.send(record_id)), :id => element_id)
@@ -64,7 +64,7 @@ class BootstrapFormBuilder < ActionView::Helpers::FormBuilder
     form_input_div do
       label_field + input_div do
         extras do
-          content_tag(:ul, :class => 'inputs-list') do
+          content_tag(:ul, :class => html_class('inputs-list')) do
             records.collect do |record|
               element_id = "#{object_name}_#{attribute}_#{record.send(record_id)}"
               radiobutton = radio_button_tag("#{object_name}[#{attribute}][]", record.send(record_id), object.send(attribute) == record.send(record_id), :id => element_id)
@@ -89,7 +89,7 @@ class BootstrapFormBuilder < ActionView::Helpers::FormBuilder
     form_input_div do
       label_field + input_div do
         extras do
-          content_tag(:span, :class => 'uneditable-input') do
+          content_tag(:span, :class => html_class('uneditable-input')) do
             @options[:value] || object.send(@name.to_sym)
           end
         end
@@ -104,30 +104,33 @@ class BootstrapFormBuilder < ActionView::Helpers::FormBuilder
 
     @options[:class] = 'btn primary'
 
-    content_tag(:div, :class => 'actions') do
-      super(name, *args << @options) + ' ' + link_to('Cancel', :back, :class => 'btn')
-    end
+    super(name, *args << @options) + ' ' + link_to('Cancel', :back, :class => 'btn')
   end
 
-  private
+private
+
+  def html_class(classes, options={})
+    [classes, options[:class]].flatten.compact.join(" ")
+  end
+
   def form_input_div(&block)
     @options[:error] = object.errors[@name].collect{|e| "#{@options[:label] || @name} #{e}".humanize}.join(', ') unless object.errors[@name].empty?
 
-    klasses = ['form_input']
-    klasses << 'error' if @options[:error]
-    klasses << 'success' if @options[:success]
-    klasses << 'warning' if @options[:warning]
-    klass = klasses.join(' ')
+    hclasses = ['form_input']
+    hclasses << 'error' if @options[:error]
+    hclasses << 'success' if @options[:success]
+    hclasses << 'warning' if @options[:warning]
+    hclass = html_class(hclasses)
 
-    content_tag(:div, :class => klass, &block)
+    content_tag(:div, :class => hclass, &block)
   end
 
   def input_div(&block)
-    content_tag(:div, :class => 'input') do
+    content_tag(:div, :class => html_class('input')) do
       if @options[:append] || @options[:prepend]
-        klass = 'input-prepend' if @options[:prepend]
-        klass = 'input-append' if @options[:append]
-        content_tag(:div, :class => klass, &block)
+        hclass = 'input-prepend' if @options[:prepend]
+        hclass = 'input-append' if @options[:append]
+        content_tag(:div, :class => hclass, &block)
       else
         yield if block_given?
       end
@@ -139,21 +142,22 @@ class BootstrapFormBuilder < ActionView::Helpers::FormBuilder
     label(@name, block_given? ? block : @options[:label], :class => ('required' if required))
   end
 
-  %w(help_inline error success warning help_block append prepend).each do |method_name|
+  %w(help_inline help_right error success warning help_block append prepend).each do |method_name|
     define_method(method_name) do |*args|
       return '' unless value = @options[method_name.to_sym]
-      klass = 'help-inline'
-      klass = 'help-block' if method_name == 'help_block'
-      klass = 'add-on' if method_name == 'append' || method_name == 'prepend'
-      content_tag(:span, value, :class => klass)
+      hclass = 'help-inline'
+      hclass = 'help-block' if method_name == 'help_block'
+      hclass = 'help-block align-right' if method_name == 'help_right'
+      hclass = 'add-on' if method_name == 'append' || method_name == 'prepend'
+      content_tag(:span, value, :class => hclass)
     end
   end
 
   def extras(&block)
-    [prepend, (yield if block_given?), append, help_inline, error, success, warning, help_block].join('').html_safe
+    [prepend, (yield if block_given?), append, help_inline, error, success, warning, help_block, help_right].join('').html_safe
   end
 
   def objectify_options(options)
-    super.except(:label, :help_inline, :error, :success, :warning, :help_block, :prepend, :append)
+    super.except(:label, :help_inline, :error, :success, :warning, :help_block, :help_right, :prepend, :append)
   end
 end

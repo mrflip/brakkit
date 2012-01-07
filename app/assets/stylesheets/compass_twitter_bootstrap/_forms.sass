@@ -4,6 +4,14 @@
 
 // FORM STYLES
 // -----------
+
+// Grid style input sizes
+// This is a duplication of the main grid @include columns(); mixin, but subtracts 10px to account for input padding and border
+=formColumns($columnSpan: 1)
+  display:      inline-block
+  float:        none
+  width:        $gridColumnWidth * $columnSpan + $gridGutterWidth * ($columnSpan - 1) - 10
+  margin-left:  0
   
 form
   margin-bottom: $baseline
@@ -14,11 +22,11 @@ fieldset
   padding-top: $baseline
   legend
     display: block
-    padding-left:       $fontLabelOffset
+    padding-left:       $formLabelOffset
     font-size: $basefont * 1.5
     line-height: 1
     color: $grayDark
-    *padding: 0 0 5px ($fontLabelOffset - 5px)
+    *padding: 0 0 5px ($formLabelOffset - 5px)
     /* IE6-7
     *line-height: 1.5
     /* IE6-7
@@ -30,6 +38,7 @@ form .clearfix
 
 // Set font for forms
 
+.form-spacer,  
 label,
 input,
 select,
@@ -37,18 +46,19 @@ textarea
   +sans-serif(normal, $basefont, normal)
 
 // Float labels left
+.form-spacer,  
 label
   padding-top: 6px
   font-size: $basefont
   line-height: $baseline
   float: left
-  width:        $fontLabelOffset - $gridGutterWidth
+  width:        $formLabelOffset - $gridGutterWidth
   text-align: right
   color: $grayDark
 
 // Shift over the inside div to align all label's relevant content
 form .input
-  margin-left: $fontLabelOffset
+  margin-left: $formLabelOffset
 
 // Checkboxs and radio buttons
 
@@ -72,11 +82,12 @@ select,
   +border-radius(3px)
 
 input,
-textarea,
 .uneditable-input
-  width:        (6 * $gridColumnWidth) + (5 * $gridGutterWidth) - 10px
+  +formColumns(5)
+textarea
+  +formColumns(9)
 select
-  width:        (6 * $gridColumnWidth) + (5 * $gridGutterWidth)
+  width:        (5 * $gridColumnWidth) + (4 * $gridGutterWidth)
     
 // remove padding from select
 select
@@ -244,14 +255,6 @@ select.xxlarge
 textarea.xxlarge
   overflow-y: auto
 
-// Grid style input sizes
-// This is a duplication of the main grid @include columns(); mixin, but subtracts 10px to account for input padding and border
-=formColumns($columnSpan: 1)
-  display:      inline-block
-  float:        none
-  width:        $gridColumnWidth * $columnSpan + $gridGutterWidth * ($columnSpan - 1) - 10
-  margin-left:  0
-
 input,
 textarea
   // Default columns
@@ -302,16 +305,16 @@ textarea[readonly]
 
 // Actions (the buttons)
 .actions
-  background: #f5f5f5
-  margin-top: $baseline
-  margin-bottom: $baseline
-  padding: $baseline - 1 $gridGutterWidth $baseline $fontLabelOffset
-  border-top: 1px solid #ddd
+  background:           #f5f5f5
+  margin-top:           $baseline
+  margin-bottom:        $baseline
+  padding:              $baseline - 1 $gridGutterWidth $baseline $formLabelOffset
+  border-top:           1px solid #ddd
   +border-radius(0 0 3px 3px)
   .secondary-action
     float: right
     a
-      line-height: 30px
+      line-height:      30px
       &:hover
         text-decoration: underline
 
@@ -334,7 +337,7 @@ textarea[readonly]
 // Big blocks of help text
 .help-block
   display: block
-  max-width: 600px
+  max-width: 8 * ($gridColumnWidth + $gridGutterWidth) + $gridColumnWidth
 
 // Inline Fields (input fields that appear as inline objects
 .inline-inputs
@@ -392,6 +395,7 @@ textarea[readonly]
     display: block
     padding: 0
     width: 100%
+  .form-spacer,  
   label
     display: block
     float: none
@@ -427,6 +431,7 @@ textarea[readonly]
     padding-top: $baseline / 2
   legend
     padding-left: 0
+  .form-spacer,  
   label
     display: block
     float: none
@@ -443,6 +448,7 @@ textarea[readonly]
     margin-bottom: 0
     li
       padding-top: 0
+      .form-spacer,  
       label
         font-weight: normal
         padding-top: 0
@@ -453,5 +459,11 @@ textarea[readonly]
     margin-top: 0
     margin-left: -10px
   .actions
-    margin-left:  -$stackedFormOffset
-    padding-left:  $stackedFormOffset
+    margin-left:      - $gridGutterWidth
+    padding-left:       $gridGutterWidth
+
+.block-message
+  .form-spacer
+    width:              $formLabelOffset - 2*$gridGutterWidth - 1px
+    margin-right:       $gridGutterWidth    
+    padding-top:        12px  

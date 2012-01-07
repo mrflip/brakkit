@@ -5,8 +5,16 @@ module ApplicationHelper
     @title = text
   end
 
-  def skip_sidebar()  @skip_sidebar = true ; end
-  def show_sidebar?() not @skip_sidebar    ;  end
+  def skip_sidebar()        @skip_sidebar = true ; end
+  def show_sidebar?()   not @skip_sidebar    ;  end
+
+  def centered_layout()     @centered_layout = true ; end
+  def centered_layout?() !! @centered_layout ; end
+
+  def html_class_for_body
+    [ (show_sidebar?    ? ''                : 'skip-sidebar'),
+      (centered_layout? ? 'container-fluid' : 'container' )     ].join(" ")
+  end
 
   def has_javascript(javascript)
     content_for(:javascript){ javascript_include_tag(javascript) }
