@@ -30,6 +30,7 @@ ActiveRecord::Schema.define(:version => 3) do
     t.text     "description",            :limit => 160, :default => "", :null => false
     t.string   "url",                    :limit => 160, :default => "", :null => false
     t.string   "shibboleth"
+    t.datetime "deleted_at"
     t.datetime "created_at",                                            :null => false
     t.datetime "updated_at",                                            :null => false
     t.string   "email",                                 :default => "", :null => false

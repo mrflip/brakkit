@@ -4,9 +4,9 @@
 
   %body{ :class => "#{controller.controller_name}" }
     = render :partial => 'layouts/topbar'
-    = render :partial => 'layouts/flashes'
     
-    %div{ :class => html_class_for_body }
+    %div{ :class => container_html_class }
+      = render :partial => 'layouts/flashes'
       =# render :partial => 'layouts/sidebar' if show_sidebar?
       
       .content#main{ :role => 'main' }

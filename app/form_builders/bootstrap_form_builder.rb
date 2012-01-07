@@ -17,7 +17,7 @@ class BootstrapFormBuilder < ActionView::Helpers::FormBuilder
     end
   end
 
-  %w(collection_select select check_box email_field file_field number_field password_field phone_field radio_button range_field search_field telephone_field text_area text_field url_field).each do |method_name|
+  %w(collection_select select email_field file_field number_field password_field phone_field radio_button range_field search_field telephone_field text_area text_field url_field).each do |method_name|
     define_method(method_name) do |name, *args, &block|
       @name = name
       @options = args.extract_options!
@@ -26,6 +26,26 @@ class BootstrapFormBuilder < ActionView::Helpers::FormBuilder
       form_input_div do
         label_field + input_div do
           extras{ super(name, *args, @options) }
+        end
+      end
+    end
+  end
+
+  %w(check_box).each do |method_name|
+    define_method(method_name) do |name, *args, &block|
+      @name = name
+      @options = args.extract_options!
+      @args = args
+
+      form_input_div do
+        input_div do
+          content_tag(:ul, :class => html_class('inputs-list')) do
+            content_tag(:li) do
+              label_field do
+                extras{ super(name, *args, @options) } + content_tag(:span, (options[:label] || @name.to_s.humanize))
+              end
+            end
+          end
         end
       end
     end
@@ -139,7 +159,8 @@ private
 
   def label_field(&block)
     required = object.class.validators_on(@name).any? { |v| v.kind_of? ActiveModel::Validations::PresenceValidator }
-    label(@name, block_given? ? block : @options[:label], :class => ('required' if required))
+    required = true
+    label(* [@name, @options[:label], :class => ('required' if required)].compact, &block)
   end
 
   %w(help_inline help_right error success warning help_block append prepend).each do |method_name|

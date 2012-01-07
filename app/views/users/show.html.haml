@@ -1,16 +1,28 @@
-- title "Lunchlady user #{@user.titleize}"
+- title "#{app_name} user #{@user.titleize}"
 
-%table.vertical.user
+%table.vertical.user.hcard
   %tr
-    %th         Name
-    %td.td_12=  @user.name
-    %td.td_5.photo{:rowspan => 4 }
-      = image_tag avatar_url(@user, :s => 200)
+    %td.span12{:colspan => 2 }
+      %h2==  #{@user.fullname}
+    %td.span4.photo{:rowspan => 6 }
+      = avatar_tag(@user, :s => 200)
       %br/
-      %span.quiet
-        Set your image at <a href="http://gravatar.com/">gravatar.com</a>
+      %span.muted
+        Set your image: <a href="http://gravatar.com/">gravatar.com</a>
   %tr
-    %th         Email
+    %th.span3         username
+    %td.span9=        @user.username
+  %tr
+    %th         user since
+    %td==       #{distance_of_time_in_words_to_now(@user.created_at)} ago
+  %tr
+    %th         email
     %td=        @user.email
   %tr
-    %td.empty   &nbsp;
+    %th         website
+    %td=        @user.url
+  %tr
+    %th         bio
+    %td
+      =        @user.description
+      &nbsp;

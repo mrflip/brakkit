@@ -1,6 +1,8 @@
 # Load application-specific configuration from config/app_config.yaml.
 # Access the config params via Settings.whatever
 
+Settings.define :app_name, :default => "My App",
+  :description => "Name for this app"
 
 Settings.define :signup_shibboleth, :env_var => 'SIGNUP_SHIBBOLETH', :default => 'yo_chimpy',
   :description => "The global secret-but-not-too-terribly-so key that lets you sign up for the app"

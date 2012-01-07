@@ -1,0 +1,9 @@
+%form
+  %fieldset
+    = devise_error_messages!
+    %legend= "Remove account"
+    .alert-message.block-message.error.offset-3
+      %span.form-spacer
+        This is permanent!
+      .alert-actions
+        =link_to "Remove my account", destroy_user_registration_path, :confirm => "Are you sure?", :method => :delete, :class => 'btn danger'

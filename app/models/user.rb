@@ -10,8 +10,13 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable, :recoverable, :rememberable, :trackable, :validatable
 
   # scopes for arel
-  scope :alphabetically, order("users.name ASC")
-  scope :by_id,          order("users.id ASC")
+  scope :alphabetically, order("users.username ASC")
+  scope :by_id,          order("users.id       ASC")
+
+  default_scope :conditions => {:deleted_at => nil}
+  scope :hidden,        :conditions => {:deleted_at => 'NOT NULL'}
+  scope :visible,       :conditions => {:deleted_at => nil}
+  scope :hidden_or_not, :conditions => {:deleted_at => nil}
 
   #
   # Validations
@@ -33,13 +38,18 @@ class User < ActiveRecord::Base
   # Methods
   #
 
-
   def titleize
-    name
+    username
   end
 
-  def short_name
-    name.gsub(/^(\w+\W+\w).*/, '\1')
+  # deletes a user without removing from the database
+  def soft_delete
+    update_attribute(:deleted_at, Time.current)
+  end
+
+  # soft-deleted users cannot log in
+  def active_for_authentication?
+    super && !deleted_at
   end
 
 end

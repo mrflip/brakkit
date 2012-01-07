@@ -1,12 +1,13 @@
 class CreateUsers < ActiveRecord::Migration
   def self.up
     create_table :users do |t|
-      t.string :username,     :limit => 20
-      t.string :fullname,     :limit => 160
-      t.text   :description,  :limit => 160, :default => "", :null => false
-      t.string :url,          :limit => 160, :default => "", :null => false
-      t.string :shibboleth
+      t.string          :username,     :limit => 20
+      t.string          :fullname,     :limit => 160
+      t.text            :description,  :limit => 160, :default => "", :null => false
+      t.string          :url,          :limit => 160, :default => "", :null => false
+      t.string          :shibboleth
 
+      t.timestamp       :deleted_at, :default => nil
       t.timestamps
     end
 

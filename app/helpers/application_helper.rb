@@ -11,7 +11,9 @@ module ApplicationHelper
   def centered_layout()     @centered_layout = true ; end
   def centered_layout?() !! @centered_layout ; end
 
-  def html_class_for_body
+  def app_name()            Settings.app_name ; end
+
+  def container_html_class
     [ (show_sidebar?    ? ''                : 'skip-sidebar'),
       (centered_layout? ? 'container-fluid' : 'container' )     ].join(" ")
   end
@@ -53,19 +55,20 @@ module ApplicationHelper
     when Class              then dest = url_for(rsrc.to_s.tableize) ; text = rsrc.to_s.titleize.pluralize
     when Symbol             then dest = rsrc                        ; text = rsrc.to_s.titleize.pluralize
     when Array              then dest = rsrc                        ; text = rsrc.last.titleize
-    else                         dest = rsrc
+    else                         dest = rsrc                        ; text = rsrc.titleize
     end
     link_to(text, dest, options)
   end
 
 
-  def avatar_url(user, options={})
-    size          = options[:s] || 36
-    default_img   = "#{root_url}images/avatar-32.png"
+  def avatar_tag(user, options={})
+    size          = options[:s] || 32
+    default_img   = "#{root_url}images/avatar#{options[:s].to_i == 32 ? '-32' : ''}.png"
     gravatar_id = Digest::MD5::hexdigest(user.email).downcase
     query_params = []
     query_params << "s=#{size}"
     query_params << "d=#{CGI.escape(default_img)}"
-    "http://www.gravatar.com/avatar/#{gravatar_id}?#{query_params.join('&')}"
+    image_tag "http://www.gravatar.com/avatar/#{gravatar_id}?#{query_params.join('&')}", :height => size
   end
+
 end

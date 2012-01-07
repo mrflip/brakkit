@@ -122,11 +122,12 @@ $searchBoxHeight:       $baseline + 2 * $topbarBump + 2px
   > li
     display:            block
     float:              left
-  a
+  > li > a, > li > span
     display:            block
     float:              none
     padding:            (2 * $topbarBump) 10px (2 * $topbarBump + 1px)
     line-height:        $baseline + 1px
+  a    
     text-decoration:    none
     &:hover
       color: $white
@@ -426,9 +427,9 @@ a.menu:after,
     line-height: $baseline * 1.5
 
 footer
-  margin-top: $baseline - 1
-  padding-top: $baseline - 1
-  border-top: 1px solid #eee
+  margin-top:           $baseline - 1
+  padding-top:          $baseline - 1
+  border-top:           1px solid #eee
 
 // PAGE HEADERS
 // ------------

@@ -1,27 +1,24 @@
-- title "Users"
+- title "#{app_name} Users"
 
-.right
-  %p.clear
-    To set your user image, visit <a href="http://gravatar.com/">gravatar.com</a>
+%h2== #{app_name} users
+%br/
 
-  %hr/  
-
-%table.users.horizontal
+%table.users.zebra-striped.sortable
   %tr
     %th &nbsp;
-    %th= link_to 'Name',       users_path(:order => 'name')
+    %th= link_to 'username',       users_path(:order => 'fullname')
+    %th  Name
     %th  Email
+    %th  Web
   - for user in @users
     %tr.hcard
-      %td.photo=        image_tag avatar_url(user)
-      %td.fn.n=         link_to_rsrc user
+      %td.photo=        avatar_tag(user)
+      %td.nickname=     link_to_rsrc(user)
+      %td.fn.n=         user.fullname
       %td.email=        user.email
+      %td.url.uid=      user.url
 
-.buttons
-  - if user_signed_in?
-    %p
-      To create a new user,
-      = link_to "sign out", destroy_user_session_path
-      and then go through the signup process
-  - else
-    = link_to "New user", new_user_registration_path, :class => :button
+.actions
+  &nbsp;
+  %span.secondary-action
+    To set your user image, visit <a href="http://gravatar.com/">gravatar.com</a>

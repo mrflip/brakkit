@@ -29,6 +29,18 @@ table
     border-top: 1px solid #ddd
     vertical-align: top
 
+
+  &.vertical
+    th
+      padding-right:    9px
+      border-right:     1px solid #ddd
+    td, thead th    
+      border:           0px none  #fff
+    th, td, tbody th    
+      border-top:       0px none  #fff
+      padding-top:      10px
+        
+        
 // CONDENSED VERSION
 // -----------------
 .condensed-table
@@ -66,7 +78,9 @@ table
 
 // This is a duplication of the main grid @include columns(); mixin, but subtracts 20px to account for input padding and border
 =tableColumns($columnSpan: 1)
-  width: ($gridColumnWidth - 20) * $columnSpan + ($gridColumnWidth - 20) * ($columnSpan - 1)
+  width: ($gridColumnWidth + $gridGutterWidth) * $columnSpan - $gridGutterWidth
+=tableColumnsLast($columnSpan: 1)
+  width: ($gridColumnWidth + $gridGutterWidth) * $columnSpan - $gridGutterWidth - 20px
 
 table
   // Default columns
@@ -102,6 +116,39 @@ table
     +tableColumns(15)
   .span16
     +tableColumns(16)
+      
+  .span1:last-child
+    +tableColumnsLast(1)
+  .span2:last-child
+    +tableColumnsLast(2)
+  .span3:last-child
+    +tableColumnsLast(3)
+  .span4:last-child
+    +tableColumnsLast(4)
+  .span5:last-child
+    +tableColumnsLast(5)
+  .span6:last-child
+    +tableColumnsLast(6)
+  .span7:last-child
+    +tableColumnsLast(7)
+  .span8:last-child
+    +tableColumnsLast(8)
+  .span9:last-child
+    +tableColumnsLast(9)
+  .span10:last-child
+    +tableColumnsLast(10)
+  .span11:last-child
+    +tableColumnsLast(11)
+  .span12:last-child
+    +tableColumnsLast(12)
+  .span13:last-child
+    +tableColumnsLast(13)
+  .span14:last-child
+    +tableColumnsLast(14)
+  .span15:last-child
+    +tableColumnsLast(15)
+  .span16:last-child
+    +tableColumnsLast(16)
 
 // ZEBRA-STRIPING
 // --------------

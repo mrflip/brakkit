@@ -18,21 +18,7 @@
     .actions
       = f.submit "Update"
       %span.secondary-action
-        = link_to "Back", :back
-
-    
-
-%hr.spacer/
-
-%form
-  %fieldset
-    = devise_error_messages!
-    %legend= "Remove account"
-    .alert-message.block-message.error.offset-3
-      %span.form-spacer
-        This is permanent!
-      .alert-actions
-        =link_to "Remove my account", registration_path(resource_name), :confirm => "Are you sure?", :method => :delete, :class => 'btn danger'
-      
+        to delete your account:
+        = link_to "yikes", delete_user_registration_path, :style => 'color: red'
         
       

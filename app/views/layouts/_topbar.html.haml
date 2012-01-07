@@ -1,10 +1,18 @@
 %header#topbar.topbar
   .topbar-inner
     .container-fluid
-      <a class='brand' href='#'>Project name</a>
+      = link_to app_name, root_path, :class => 'brand'
       %ul.nav
-        %li.active  <a href='#'>Home</a>
-        %li         <a href='#about'>About</a>
-        %li         <a href='#contact'>Contact</a>
-      %p.pull-right Logged in as <a href='#'>username</a>
-
+        %li.active      <a href='#'>Home</a>
+        %li             <a href='#about'>About</a>
+        %li             <a href='#contact'>Contact</a>
+      %ul.pull-right{ :style => 'float: right' }
+        - if user_signed_in?
+          %li
+            %span
+              Hello,
+              =  link_to current_user.titleize, edit_user_registration_path
+          %li=  link_to '[logout]',  destroy_user_session_path
+        - else
+          %li= link_to 'signup', new_user_registration_path
+          %li= link_to 'login',  new_user_session_path
