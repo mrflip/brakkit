@@ -5,7 +5,7 @@ class BootstrapFormBuilder < ActionView::Helpers::FormBuilder
     if object.errors.full_messages.any?
       content_tag(:div, :class => 'alert-message block-message error') do
         link_to('&times;'.html_safe, '#', :class => 'close') +
-        content_tag(:p, "<strong>Oh snap! You got an error!</strong> Fix the errors below and try again.".html_safe) +
+        content_tag(:p, "<strong>Oh no! The robots are angry!</strong> Fix the errors below and try again.".html_safe) +
         content_tag(:ul) do
           object.errors.full_messages.map do |message|
             content_tag(:li, message)
@@ -167,7 +167,7 @@ private
     define_method(method_name) do |*args|
       return '' unless value = @options[method_name.to_sym]
       hclass = 'help-inline'
-      hclass = 'help-block' if method_name == 'help_block'
+      hclass = 'help-block'             if method_name == 'help_block'
       hclass = 'help-block align-right' if method_name == 'help_right'
       hclass = 'add-on' if method_name == 'append' || method_name == 'prepend'
       content_tag(:span, value, :class => hclass)
@@ -175,7 +175,7 @@ private
   end
 
   def extras(&block)
-    [prepend, (yield if block_given?), append, help_inline, error, success, warning, help_block, help_right].join('').html_safe
+    [prepend, (yield if block_given?), append, error, success, warning, help_inline, help_block, help_right].join('').html_safe
   end
 
   def objectify_options(options)

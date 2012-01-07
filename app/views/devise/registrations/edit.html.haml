@@ -1,8 +1,7 @@
 - title "Your user info"
 
-= form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put, :class => 'edit_user' }) do |f|
+= form_for(resource, :as => resource_name, :url => update_user_registration_path, :html => { :method => :put, :class => 'edit_user' }) do |f|
   %fieldset
-    = devise_error_messages!
     %legend= @title
     = f.text_field     :username,    :label => 'username'
     = f.text_field     :email,       :label => 'email',    :help_inline => 'We won\'t spam you, promise'
@@ -18,5 +17,7 @@
     .actions
       = f.submit "Update"
       %span.secondary-action
+        = link_to "change password", change_user_password_path
+        &middot;
         delete your account:
         = link_to "yikes", delete_user_registration_path, :style => 'color: red'

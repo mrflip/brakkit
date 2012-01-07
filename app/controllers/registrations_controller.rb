@@ -1,5 +1,8 @@
 class RegistrationsController < Devise::RegistrationsController
-  prepend_before_filter :authenticate_scope!, :only => [:edit, :update, :destroy, :delete]
+  prepend_before_filter :authenticate_scope!, :only => [:edit, :update, :destroy, :delete, :change_password]
+
+  def change_password
+  end
 
   def delete
   end

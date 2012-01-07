@@ -12,6 +12,8 @@ Brak::Application.routes.draw do
     get    "signup"        => "devise/registrations#new",           :as => :new_user_registration
     get    "signup/cancel" => "devise/registrations#cancel",        :as => :cancel_user_registration
     get    "me"            => "devise/registrations#edit",          :as => :edit_user_registration
+    put    "me"            => "devise/registrations#update",        :as => :update_user_registration
+    get    "me/password/change" => "registrations#change_password", :as => :change_user_password
     delete "me"            => "registrations#destroy",       :as => :destroy_user_registration
     get    "me/delete"     => "registrations#delete",        :as => :delete_user_registration
   end
