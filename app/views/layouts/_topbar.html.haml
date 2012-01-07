@@ -3,9 +3,9 @@
     .container-fluid
       = link_to app_name, root_path, :class => 'brand'
       %ul.nav
-        %li.active      <a href='#'>Home</a>
-        %li             <a href='#about'>About</a>
-        %li             <a href='#contact'>Contact</a>
+        %li.active= link_to 'home', root_path
+        %li             <a href='/about'>about</a>
+        %li             <a href='/contact'>contact</a>
       %ul.pull-right{ :style => 'float: right' }
         - if user_signed_in?
           %li

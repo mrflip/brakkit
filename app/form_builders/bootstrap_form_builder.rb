@@ -31,6 +31,19 @@ class BootstrapFormBuilder < ActionView::Helpers::FormBuilder
     end
   end
 
+  def display_field(name, *args, &block)
+    @name = name
+    @options = args.extract_options!
+    @args = args
+
+    form_input_div do
+      content_tag(:div, (@options[:label] || @name.to_s.humanize), :class => 'form-spacer') +
+        input_div do
+        extras{ content_tag(:span, object.send(@name), :class => html_class('display-field')) }
+      end
+    end
+  end
+
   %w(check_box).each do |method_name|
     define_method(method_name) do |name, *args, &block|
       @name = name
