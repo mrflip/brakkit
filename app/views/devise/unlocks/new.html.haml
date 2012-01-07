@@ -4,9 +4,10 @@
   %fieldset
     = devise_error_messages!
     %legend= @title
-    .form_input
-      = f.label :email
-      = f.text_field :email
-    .buttons= f.submit "Resend unlock instructions"
 
-= render :partial => "devise/shared/links"
+    = f.text_field :email
+
+    .actions
+      = f.submit "Resend unlock instructions"
+      %span.secondary-action
+        = render :partial => "devise/shared/links"

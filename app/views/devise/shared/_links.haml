@@ -1,17 +1,20 @@
+- def join_dot() dot = (@has_prev ? '&nbsp;&middot;&nbsp;'.html_safe : '') ; @has_prev = true ; dot ; end
 - if controller_name != 'sessions'
-  = link_to "Sign in", new_session_path(resource_name)
+  - @has_prev = true
+  = link_to "Log in", new_session_path(resource_name)
 - if devise_mapping.registerable? && controller_name != 'registrations'
+  = join_dot
   = link_to "Sign up", new_registration_path(resource_name)
 - if devise_mapping.recoverable? && controller_name != 'passwords'
-  &nbsp;&middot;&nbsp;
+  = join_dot
   = link_to "Forgot your password?", new_password_path(resource_name)
 - if devise_mapping.confirmable? && controller_name != 'confirmations'
-  &nbsp;&middot;&nbsp;
-  = link_to "Didn't receive confirmation instructions?", new_confirmation_path(resource_name)
+  = join_dot
+  = link_to "Didn't receive confirmation instructions\?", new_confirmation_path(resource_name)
 - if devise_mapping.lockable? && resource_class.unlock_strategy_enabled?(:email) && controller_name != 'unlocks'
-  &nbsp;&middot;&nbsp;
-  = link_to "Didn't receive unlock instructions?", new_unlock_path(resource_name)
+  = join_dot
+  = link_to "Didn't receive unlock instructions\?", new_unlock_path(resource_name)
 - if devise_mapping.omniauthable?
   - resource_class.omniauth_providers.each do |provider|
-    &nbsp;&middot;&nbsp;
+    = join_dot
     = link_to "Sign in with #{provider.to_s.titleize}", omniauth_authorize_path(resource_name, provider)
