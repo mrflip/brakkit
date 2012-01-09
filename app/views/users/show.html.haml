@@ -24,7 +24,7 @@
     %td=        @user.url
   %tr
     %th         facebook
-    %td=        @user.facebook_name
+    %td=        @user.facebook_url
   %tr
     %th         twitter
     %td=        @user.twitter_name
@@ -32,5 +32,10 @@
   %tr
     %th         bio
     %td
-      =        @user.description
+      =         @user.description
       &nbsp;
+
+- if @user == current_user
+  .well
+    =           link_to('Edit profile', edit_user_registration_path, :class => 'btn primary large')
+    

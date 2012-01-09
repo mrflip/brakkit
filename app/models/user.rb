@@ -18,11 +18,6 @@ class User < ActiveRecord::Base
   scope :alphabetically, order("users.username ASC")
   scope :by_id,          order("users.id       ASC")
 
-  default_scope :conditions => {:deleted_at => nil}
-  scope :hidden,        :conditions => {:deleted_at => 'NOT NULL'}
-  scope :visible,       :conditions => {:deleted_at => nil}
-  scope :hidden_or_not, :conditions => {:deleted_at => nil}
-
   #
   # Validations
   #
@@ -116,10 +111,9 @@ class User < ActiveRecord::Base
 
   def self.find_for_facebook_oauth(access_token, signed_in_resource=nil)
     data = access_token.extra.raw_info
-    Rails.dump(data, access_token, access_token.extra, access_token.info['urls'])
-    user = User.where(:email => data.email).first
+    user = where(['facebook_id = :facebook_id OR email = :email', { :facebook_id => data.id, :email => data.email }]).first
     if not user
-      user = User.new(:email => data.email, :password => Devise.friendly_token[0,20])
+      user = new(:email => data.email, :password => Devise.friendly_token[0,20])
       user.dummy_password = true
     end
     harvest_facebook_data!(user, data)
@@ -140,7 +134,7 @@ class User < ActiveRecord::Base
 
   def self.find_for_twitter_oauth(access_token, signed_in_resource=nil)
     data = access_token.extra.raw_info
-    user = User.where(:email => data.email).first
+    user = where(['twitter_name = :twitter_name', { :twitter_name => data['screen_name']}]).first
     if not user
       user = User.new(:email => data.email, :password => Devise.friendly_token[0,20])
       user.dummy_password = true
@@ -151,7 +145,7 @@ class User < ActiveRecord::Base
   end
   def self.harvest_twitter_data!(user, oauth_info)
     user.username      ||= oauth_info['screen_name']
-    user.email         ||= oauth_info['email']    || "#{user.username}@twitter.com"
+    user.email         ||= oauth_info['email'] || "#{user.username}@twitter.com"
     user.fullname      ||= oauth_info['name']
     user.url           ||= oauth_info['url']
     user.twitter_name  ||= oauth_info['screen_name']
@@ -159,14 +153,18 @@ class User < ActiveRecord::Base
     Rails.dump(user, oauth_info)
   end
 
-  # deletes a user without removing from the database
-  def soft_delete
-    update_attribute(:deleted_at, Time.current)
-  end
 
-  # soft-deleted users cannot log in
-  def active_for_authentication?
-    super && !deleted_at
+  # Update record attributes when no password has ever been set. It also
+  # automatically rejects :password and :password_confirmation if blank.
+  def update_with_dummy_password(params, *options)
+    if params[:password].blank?
+      params.delete(:password)
+      params.delete(:password_confirmation) if params[:password_confirmation].blank?
+    end
+
+    result = update_attributes(params, *options)
+    clean_up_passwords
+    result
   end
 
 protected
@@ -181,4 +179,33 @@ protected
   def password_required?
     super && twitter_name.blank?
   end
+
 end
+# == Schema Information
+#
+# Table name: users
+#
+#  id                     :integer         not null, primary key
+#  username               :string(20)
+#  twitter_name           :string(20)
+#  facebook_url           :string(160)
+#  facebook_id            :integer
+#  fullname               :string(160)
+#  description            :text(160)
+#  url                    :string(160)
+#  dummy_password         :boolean
+#  shibboleth             :string(255)
+#  deleted_at             :datetime
+#  created_at             :datetime        not null
+#  updated_at             :datetime        not null
+#  email                  :string(255)     default(""), not null
+#  encrypted_password     :string(128)     default(""), not null
+#  reset_password_token   :string(255)
+#  reset_password_sent_at :datetime
+#  remember_created_at    :datetime
+#  sign_in_count          :integer         default(0)
+#  current_sign_in_at     :datetime
+#  last_sign_in_at        :datetime
+#  current_sign_in_ip     :string(255)
+#  last_sign_in_ip        :string(255)
+#

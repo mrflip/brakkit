@@ -10,6 +10,8 @@
     %th  Name
     %th  Email
     %th  Web
+    %th  Twitter
+    %th  Facebook
   - for user in @users
     %tr.hcard
       %td.photo=        avatar_tag(user)
@@ -18,7 +20,7 @@
       %td.email=        user.email
       %td.url.uid=      user.url
       %td.twitter=      user.twitter_name
-      %td.facebook=     user.facebook_name
+      %td.facebook=     user.facebook_url
 
 .actions
   &nbsp;

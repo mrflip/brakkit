@@ -59,7 +59,7 @@ end
 group 'development' do
   gem 'nifty-generators'                   # Much better scaffolding
   gem 'taps',                "~> 0.3.23"   # Teleportation of databases
-  gem 'annotate'
+  gem 'annotate', :git => 'git://github.com/ctran/annotate_models.git'
 end
 
 group 'console' do

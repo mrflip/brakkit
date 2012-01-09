@@ -37,9 +37,13 @@ class BootstrapFormBuilder < ActionView::Helpers::FormBuilder
     @args = args
 
     form_input_div do
-      content_tag(:div, (@options[:label] || @name.to_s.humanize), :class => 'form-spacer') +
-        input_div do
-        extras{ content_tag(:span, object.send(@name), :class => html_class('display-field')) }
+      content_tag(:div, (@options[:label] || @name.to_s.humanize), :class => 'form-spacer') + input_div do
+        val = object.send(@name)
+        if @options[:show_absent] && val.blank?
+          extras{ content_tag(:span, 'unset', :class => html_class("display-field absent")) }
+        else
+          extras{ content_tag(:span, val, :class => html_class("display-field")) }
+        end
       end
     end
   end
@@ -136,8 +140,9 @@ class BootstrapFormBuilder < ActionView::Helpers::FormBuilder
     @args = args
 
     @options[:class] = 'btn primary'
+    cancel_path = @options[:cancel] || :back
 
-    super(name, *args << @options) + ' ' + link_to('Cancel', :back, :class => 'btn')
+    super(name, *args << @options) + ' ' + link_to('Cancel', cancel_path, :class => 'btn')
   end
 
 private

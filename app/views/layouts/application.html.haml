@@ -4,6 +4,7 @@
 
   %body{ :class => "#{controller.controller_name}" }
     = render :partial => 'layouts/topbar'
+    %br{ :style => 'clear: both;' }/
     
     %div{ :class => container_html_class }
       = render :partial => 'layouts/flashes'

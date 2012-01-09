@@ -25,8 +25,12 @@ class RegistrationsController < Devise::RegistrationsController
     respond_with resource
   end
 
-  # PUT /resource/password
+  # GET /resource/edit_password
   def edit_password
+  end
+
+  # PUT /resource/update_password
+  def update_password
     self.resource = resource_class.to_adapter.get!(send("current_#{resource_name}").to_key)
     # retain only password fields
     params[resource_name].slice!(:password, :password_confirmation, :current_password)
@@ -35,23 +39,16 @@ class RegistrationsController < Devise::RegistrationsController
       # no password was ever set
       params[resource_name].delete(:current_password)
       resource.dummy_password = false
-      result = resource.update_without_password(params[resource_name])
+      result = resource.update_with_dummy_password(params[resource_name])
+      resource.dummy_password = true if not result
     else
       # they have a password, check it before updating
       result = resource.update_with_password(params[resource_name])
     end
-
-    respond_to_user_update(result)
+    respond_to_user_update(result, :action => 'edit_password', :err_location => user_registration_password_path)
   end
 
   def destroy_step_1
-  end
-
-  # Soft-delete the user
-  def destroy
-    resource.soft_delete
-    set_flash_message :warning, :destroyed
-    sign_out_and_redirect(self.resource)
   end
 
 protected
@@ -69,12 +66,10 @@ protected
     end
     params[resource_name].delete(:login)
     request.env["devise.allow_params_authentication"] = false
-
-    Rails.dump(resource)
   end
 
 
-  def respond_to_user_update(result)
+  def respond_to_user_update(result, options={})
     if result
       if is_navigational_format?
         if resource.respond_to?(:pending_reconfirmation?) && resource.pending_reconfirmation?
@@ -83,11 +78,15 @@ protected
         set_flash_message :notice, flash_key || :updated
       end
       sign_in resource_name, resource, :bypass => true
-      respond_with resource, :location => after_update_path_for(resource)
+      respond_with resource, options.merge(:location => after_update_path_for(resource))
     else
       clean_up_passwords resource
-      respond_with resource
+      respond_with resource, options.merge(:location => options[:err_location])
     end
+  end
+
+  def after_update_path_for(resource)
+    resource
   end
 
 end

@@ -1,6 +1,6 @@
 - title "Your user info"
 
-= form_for(resource, :as => resource_name, :url => update_user_registration_path, :html => { :method => :put, :class => 'edit_user' }, :autocomplete => 'on') do |f|
+= form_for(resource, :as => resource_name, :url => update_user_registration_path, :html => { :method => :put, :class => 'edit user' }, :autocomplete => 'on') do |f|
   %fieldset
     %legend= @title
     = f.display_field  :username    
@@ -20,7 +20,7 @@
     .actions
       = f.submit "Update"
       %span.secondary-action
-        = link_to "change password", edit_user_password_path
+        = link_to "change password", user_registration_password_path
         &middot;
         delete your account:
         = link_to "yikes", destroy_user_registration_step_1_path, :style => 'color: red'
