@@ -9,6 +9,7 @@
       %br/
       %span.muted
         Set your image: <a href="http://gravatar.com/">gravatar.com</a>
+        
   %tr
     %th.span3         username
     %td.span9=        @user.username
@@ -21,6 +22,13 @@
   %tr
     %th         website
     %td=        @user.url
+  %tr
+    %th         facebook
+    %td=        @user.facebook_name
+  %tr
+    %th         twitter
+    %td=        @user.twitter_name
+    
   %tr
     %th         bio
     %td

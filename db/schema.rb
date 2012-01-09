@@ -27,14 +27,17 @@ ActiveRecord::Schema.define(:version => 3) do
   create_table "users", :force => true do |t|
     t.string   "username",               :limit => 20
     t.string   "fullname",               :limit => 160
-    t.text     "description",            :limit => 160, :default => "", :null => false
-    t.string   "url",                    :limit => 160, :default => "", :null => false
+    t.text     "description",            :limit => 160, :default => "",    :null => false
+    t.string   "url",                    :limit => 160, :default => "",    :null => false
+    t.string   "twitter_name",           :limit => 20
+    t.string   "facebook_name",          :limit => 20
+    t.boolean  "password_set",                          :default => false
     t.string   "shibboleth"
     t.datetime "deleted_at"
-    t.datetime "created_at",                                            :null => false
-    t.datetime "updated_at",                                            :null => false
-    t.string   "email",                                 :default => "", :null => false
-    t.string   "encrypted_password",     :limit => 128, :default => "", :null => false
+    t.datetime "created_at",                                               :null => false
+    t.datetime "updated_at",                                               :null => false
+    t.string   "email",                                 :default => "",    :null => false
+    t.string   "encrypted_password",     :limit => 128, :default => "",    :null => false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"

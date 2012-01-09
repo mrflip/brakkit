@@ -3,21 +3,20 @@
 = form_for(resource, :as => resource_name, :url => update_user_registration_path, :html => { :method => :put, :class => 'edit_user' }, :autocomplete => 'on') do |f|
   %fieldset
     %legend= @title
-    = f.text_field     :fullname,    :label => 'name',     :help_inline => 'Hi, bob'
-    = f.display_field  :username,    :label => 'username'
-    = f.text_field     :email,       :label => 'email',    :help_inline => 'We won\'t spam you, promise'
+    = f.display_field  :username    
+    = f.text_field     :email,       :help_inline => 'We won\'t spam you, promise'
 
-    = f.text_field     :url,         :label => 'web',      :maxlength => 160, :help_inline => 'Your homepage, facebook or blog'
-    = f.text_area      :description, :maxlength => 160,    :maxlength => 160, :rows => 3, :cols => 40
+    = f.text_field     :fullname,    :help_inline => 'Hi, bob'
+    = f.text_field     :url,         :help_inline => 'Your homepage, facebook or blog', :maxlength => 160
+    = f.text_area      :description,   :help_right  => 'all about you', :maxlength => 160, :rows => 3, :cols => 40 
 
-
-    %hr/
-    = f.password_field :current_password, :help_inline => '(so we can confirm your changes)'
-
+    = f.display_field  :twitter_name
+    = f.display_field  :facebook_name
+    
     .actions
       = f.submit "Update"
       %span.secondary-action
-        = link_to "change password", change_user_password_path
+        = link_to "change password", edit_user_password_path
         &middot;
         delete your account:
-        = link_to "yikes", delete_user_registration_path, :style => 'color: red'
+        = link_to "yikes", destroy_user_registration_step_1_path, :style => 'color: red'

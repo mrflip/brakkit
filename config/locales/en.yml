@@ -5,4 +5,9 @@ en:
   activerecord:
     attributes:
       user:  
-        login: "username or email"
+        login:                  "username or email"
+        description:            bio
+        url:                    web
+        twitter_name:           twitter
+        facebook_name:          facebook
+        

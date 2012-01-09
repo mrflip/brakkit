@@ -171,15 +171,15 @@ private
   end
 
   def label_field(&block)
-    required = object.class.validators_on(@name).any? { |v| v.kind_of? ActiveModel::Validations::PresenceValidator }
-    required = true
+    required = object.class.validators_on(@name).any?{|v| v.kind_of? ActiveModel::Validations::PresenceValidator }
     label(* [@name, @options[:label], :class => ('required' if required)].compact, &block)
   end
 
-  %w(help_inline help_right error success warning help_block append prepend).each do |method_name|
+  %w(help_inline advice help_right error success warning help_block append prepend).each do |method_name|
     define_method(method_name) do |*args|
       return '' unless value = @options[method_name.to_sym]
       hclass = 'help-inline'
+      hclass = 'help-advice'            if method_name == 'advice'
       hclass = 'help-block'             if method_name == 'help_block'
       hclass = 'help-block align-right' if method_name == 'help_right'
       hclass = 'add-on' if method_name == 'append' || method_name == 'prepend'
@@ -188,10 +188,10 @@ private
   end
 
   def extras(&block)
-    [prepend, (yield if block_given?), append, error, success, warning, help_inline, help_block, help_right].join('').html_safe
+    [prepend, (yield if block_given?), append, error, success, warning, help_inline, advice, help_block, help_right].join('').html_safe
   end
 
   def objectify_options(options)
-    super.except(:label, :help_inline, :error, :success, :warning, :help_block, :help_right, :prepend, :append)
+    super.except(:label, :error, :success, :warning, :help_inline, :advice, :help_block, :help_right, :prepend, :append)
   end
 end

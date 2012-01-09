@@ -2,19 +2,21 @@
 
 = form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f|
   %fieldset
-    = devise_error_messages!
     %legend= @title
-    = f.text_field     :username,    :label => 'username'
-    = f.text_field     :email,       :label => 'email',    :help_inline => 'We won\'t spam you, promise'
-
-    = f.text_field     :fullname,    :label => 'name',     :help_inline => 'Hi, bob'
-    = f.text_field     :url,         :label => 'web',      :help_inline => 'Your homepage, facebook or blog', :maxlength => 160
-    = f.text_area      :description, :label => 'bio',      :help_right  => 'all about you', :maxlength => 160, :rows => 3, :cols => 40 
+    = f.text_field     :username    
+    = f.text_field     :email,       :advice => 'We won\'t spam you, promise'
     
     %hr/
     = f.password_field :password
     = f.password_field :password_confirmation
 
+    %hr/
+    = f.text_field     :fullname,    :advice => 'Hi, bob'
+    = f.text_field     :url,         :advice => 'Your homepage, facebook or blog', :maxlength => 160
+    = f.text_area      :description, :help_right  => 'all about you', :maxlength => 160, :rows => 3, :cols => 40 
+
+
+  
     .actions
       = f.submit "Sign up"
       %span.secondary-action

@@ -329,14 +329,15 @@ textarea[readonly]
 // Help Text
 // TODO: Do we need to set basefont and baseline here?
 
-//  form .error > .input > .help-inline,  
+// form .error > .input > .help-inline:last-child,  
 .help-inline,
+.help-advice,  
 .help-block
   font-size: $basefont
   line-height: $baseline
   color: $grayLight
 
-.help-inline
+.help-inline, .help-advice
   padding-left: 5px
   *position: relative
   /* IE6-7

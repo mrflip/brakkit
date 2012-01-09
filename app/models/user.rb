@@ -7,7 +7,7 @@ class User < ActiveRecord::Base
   attr_accessible :fullname, :description, :url, :shibboleth
 
   # virtual accessor for username-or-email login
-  attr_accessor :login
+  attr_accessor   :login
   attr_accessible :login
 
   # Include default devise modules. Others available are: :token_authenticatable, :confirmable, :lockable and :timeoutable
@@ -27,7 +27,7 @@ class User < ActiveRecord::Base
   # Validations
   #
 
-  # validates :username,  :presence => true, :length => {:minimum => 3, :maximum => 20}
+  validates :username,  :uniqueness => true # , :presence => true, :length => {:minimum => 3, :maximum => 20}
   # validates :fullname,  :presence => true, :length => {:minimum => 1, :maximum => 100}
   # validates :url,                          :length => {               :maximum => 160}
   # validates :description,                  :length => {               :maximum => 160}
@@ -50,26 +50,9 @@ class User < ActiveRecord::Base
     username
   end
 
-  # Copy the user information if available in the oauth response
-  def self.new_with_session(params, session)
-    super.tap do |user|
-      Rails.log.info( [session['devise.facebook_data'], session['devise.twitter_data'] ].inspect)
-      if oauth_info = session['devise.facebook_data'] && session['devise.facebook_data']['extra']['raw_info']
-        user.username    = oauth_info['username']
-        user.email       = oauth_info['email']
-        user.fullname    = oauth_info['name']
-        user.url         = oauth_info['website'] || oauth_info['link']
-        user.description = oauth_info['bio']
-      end
-      if oauth_info = session['devise.twitter_data'] && session['devise.twitter_data']['extra']['raw_info']
-        user.username    = oauth_info['username']
-        user.email       = oauth_info['email']
-        user.fullname    = oauth_info['name']
-        user.url         = oauth_info['website'] || oauth_info['link']
-        user.description = oauth_info['bio']
-      end
-    end
-  end
+  # def twitter_name=(nm)
+  #   super(nm.to_s.gsub(%r{^(\@|http:/.*/)}))
+  # end
 
   def self.find_for_database_authentication(warden_conditions)
     conditions = warden_conditions.dup
@@ -117,23 +100,57 @@ class User < ActiveRecord::Base
     where(["username = :value OR email = :value", { :value => login }]).first
   end
 
+  # Copy the user information if available in the oauth response
+  def self.new_with_session(params, session)
+    Rails.dump(params, session)
+    ret = super.tap do |user|
+      if    session['devise.facebook_data']
+        harvest_facebook_data!(user, session['devise.facebook_data']['extra']['raw_info'])
+      elsif session['devise.twitter_data']
+        harvest_twitter_data!(user, session['devise.twitter_data']['extra']['raw_info'])
+      end
+    end
+    Rails.dump(self)
+    ret
+  end
+
   def self.find_for_facebook_oauth(access_token, signed_in_resource=nil)
     data = access_token.extra.raw_info
-    if user = User.where(:email => data.email).first
-      user
-    else # Create a user with a stub password.
-      User.create!(:email => data.email, :password => Devise.friendly_token[0,20])
+    user = User.where(:email => data.email).first
+    if not user
+      user = User.new(:email => data.email, :password => Devise.friendly_token[0,20], :dummy_password => true)
     end
+    harvest_facebook_data!(user, data)
+    user.save if user.new_record?
+    user
+  end
+  def self.harvest_facebook_data!(user, oauth_info)
+    return unless oauth_info
+    user.username      ||= oauth_info['username']
+    user.email         ||= oauth_info['email']
+    user.fullname      ||= oauth_info['name']
+    user.url           ||= oauth_info['website'] || oauth_info['link']
+    user.facebook_name ||= oauth_info['id']
+    user.description   ||= oauth_info['bio']
   end
 
   def self.find_for_twitter_oauth(access_token, signed_in_resource=nil)
     data = access_token.extra.raw_info
-    Rails.log.info( [ data ].inspect)
-    if user = User.where(:email => data.email).first
-      user
-    else # Create a user with a stub password.
-      User.create!(:email => data.email, :password => Devise.friendly_token[0,20])
+    user = User.where(:email => data.email).first
+    if not user
+      user = User.new(:email => data.email, :password => Devise.friendly_token[0,20], :dummy_password => true)
     end
+    harvest_twitter_data!(user, data)
+    user.save if user.new_record?
+    user
+  end
+  def self.harvest_twitter_data!(user, oauth_info)
+    user.username      ||= oauth_info['screen_name']
+    user.email         ||= oauth_info['email']    || "#{user.username}@twitter.com"
+    user.fullname      ||= oauth_info['name']
+    user.url           ||= oauth_info['url']
+    user.twitter_name  ||= oauth_info['screen_name']
+    user.description   ||= oauth_info['bio']
   end
 
   # deletes a user without removing from the database
@@ -146,8 +163,12 @@ class User < ActiveRecord::Base
     super && !deleted_at
   end
 
-private
+protected
   def mass_assignment_authorizer(role = :default)
     super() + (new_record? ? [:username] : [])
+  end
+
+  def email_required?
+    twitter_name.blank?
   end
 end
