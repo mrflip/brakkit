@@ -22,6 +22,7 @@ class BootstrapFormBuilder < ActionView::Helpers::FormBuilder
       @name = name
       @options = args.extract_options!
       @args = args
+      set_required
 
       form_input_div do
         label_field + input_div do
@@ -175,9 +176,13 @@ private
     end
   end
 
+  def set_required
+    @options[:required] = object.class.validators_on(@name).any?{|v| v.kind_of? ActiveModel::Validations::PresenceValidator } if @options[:required].nil?
+  end
+
   def label_field(&block)
-    required = object.class.validators_on(@name).any?{|v| v.kind_of? ActiveModel::Validations::PresenceValidator }
-    label(* [@name, @options[:label], :class => ('required' if required)].compact, &block)
+    set_required
+    label(* [@name, @options[:label], :class => ('required' if options[:required])].compact, &block)
   end
 
   %w(help_inline advice help_right error success warning help_block append prepend).each do |method_name|
