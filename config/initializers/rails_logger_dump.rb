@@ -36,7 +36,9 @@ Rails.instance_eval do
   if env == 'development' || env == 'test'
     def dump(*args)
       logger.info( LoggerWithSilence.color("DUMP\t", :cyan, true) + LoggerWithSilence.color(caller.first, :blue) )
-      logger.info( LoggerWithSilence.color("DUMP\t", :cyan, true) + args.inspect )
+      args.each do |arg|
+        logger.info( LoggerWithSilence.color("DUMP\t", :cyan, true) + LoggerWithSilence.color(arg.inspect, :white) )
+      end
     end
 
     Brak::Application.configure do

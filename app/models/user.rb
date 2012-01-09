@@ -116,12 +116,14 @@ class User < ActiveRecord::Base
 
   def self.find_for_facebook_oauth(access_token, signed_in_resource=nil)
     data = access_token.extra.raw_info
+    Rails.dump(data, access_token, access_token.extra, access_token.info['urls'])
     user = User.where(:email => data.email).first
     if not user
-      user = User.new(:email => data.email, :password => Devise.friendly_token[0,20], :dummy_password => true)
+      user = User.new(:email => data.email, :password => Devise.friendly_token[0,20])
+      user.dummy_password = true
     end
     harvest_facebook_data!(user, data)
-    user.save if user.new_record?
+    user.save
     user
   end
   def self.harvest_facebook_data!(user, oauth_info)
@@ -130,18 +132,21 @@ class User < ActiveRecord::Base
     user.email         ||= oauth_info['email']
     user.fullname      ||= oauth_info['name']
     user.url           ||= oauth_info['website'] || oauth_info['link']
-    user.facebook_name ||= oauth_info['id']
+    user.facebook_id   ||= oauth_info['id']
+    user.facebook_url  ||= oauth_info['link']
     user.description   ||= oauth_info['bio']
+    Rails.dump(user, oauth_info)
   end
 
   def self.find_for_twitter_oauth(access_token, signed_in_resource=nil)
     data = access_token.extra.raw_info
     user = User.where(:email => data.email).first
     if not user
-      user = User.new(:email => data.email, :password => Devise.friendly_token[0,20], :dummy_password => true)
+      user = User.new(:email => data.email, :password => Devise.friendly_token[0,20])
+      user.dummy_password = true
     end
     harvest_twitter_data!(user, data)
-    user.save if user.new_record?
+    user.save
     user
   end
   def self.harvest_twitter_data!(user, oauth_info)
@@ -150,7 +155,8 @@ class User < ActiveRecord::Base
     user.fullname      ||= oauth_info['name']
     user.url           ||= oauth_info['url']
     user.twitter_name  ||= oauth_info['screen_name']
-    user.description   ||= oauth_info['bio']
+    user.description   ||= oauth_info['description']
+    Rails.dump(user, oauth_info)
   end
 
   # deletes a user without removing from the database
@@ -169,6 +175,10 @@ protected
   end
 
   def email_required?
-    twitter_name.blank?
+    super && twitter_name.blank?
+  end
+
+  def password_required?
+    super && twitter_name.blank?
   end
 end

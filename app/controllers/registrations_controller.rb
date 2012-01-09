@@ -18,6 +18,13 @@ class RegistrationsController < Devise::RegistrationsController
     respond_to_user_update(result)
   end
 
+  # GET /resource/sign_up
+  def new
+    resource = build_resource({})
+    resource.valid? if resource.email.present? || resource.twitter_name.present? || resource.facebook_id.present?
+    respond_with resource
+  end
+
   # PUT /resource/password
   def edit_password
     self.resource = resource_class.to_adapter.get!(send("current_#{resource_name}").to_key)

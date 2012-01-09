@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 3) do
+ActiveRecord::Schema.define(:version => 4) do
 
   create_table "friendly_id_slugs", :force => true do |t|
     t.string   "slug",                         :null => false
@@ -24,20 +24,31 @@ ActiveRecord::Schema.define(:version => 3) do
   add_index "friendly_id_slugs", ["sluggable_id"], :name => "index_friendly_id_slugs_on_sluggable_id"
   add_index "friendly_id_slugs", ["sluggable_type"], :name => "index_friendly_id_slugs_on_sluggable_type"
 
+  create_table "sessions", :force => true do |t|
+    t.string   "session_id", :null => false
+    t.text     "data"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "sessions", ["session_id"], :name => "index_sessions_on_session_id"
+  add_index "sessions", ["updated_at"], :name => "index_sessions_on_updated_at"
+
   create_table "users", :force => true do |t|
     t.string   "username",               :limit => 20
-    t.string   "fullname",               :limit => 160
-    t.text     "description",            :limit => 160, :default => "",    :null => false
-    t.string   "url",                    :limit => 160, :default => "",    :null => false
     t.string   "twitter_name",           :limit => 20
-    t.string   "facebook_name",          :limit => 20
-    t.boolean  "password_set",                          :default => false
+    t.string   "facebook_url",           :limit => 160
+    t.integer  "facebook_id"
+    t.string   "fullname",               :limit => 160
+    t.text     "description",            :limit => 160
+    t.string   "url",                    :limit => 160
+    t.boolean  "dummy_password"
     t.string   "shibboleth"
     t.datetime "deleted_at"
-    t.datetime "created_at",                                               :null => false
-    t.datetime "updated_at",                                               :null => false
-    t.string   "email",                                 :default => "",    :null => false
-    t.string   "encrypted_password",     :limit => 128, :default => "",    :null => false
+    t.datetime "created_at",                                            :null => false
+    t.datetime "updated_at",                                            :null => false
+    t.string   "email",                                 :default => "", :null => false
+    t.string   "encrypted_password",     :limit => 128, :default => "", :null => false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
@@ -49,7 +60,9 @@ ActiveRecord::Schema.define(:version => 3) do
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true
+  add_index "users", ["facebook_id"], :name => "index_users_on_facebook", :unique => true
   add_index "users", ["reset_password_token"], :name => "index_users_on_reset_password_token", :unique => true
+  add_index "users", ["twitter_name"], :name => "index_users_on_twitter", :unique => true
   add_index "users", ["username"], :name => "index_users_on_username", :unique => true
 
 end
