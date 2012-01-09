@@ -84,13 +84,13 @@ Devise.setup do |config|
 
   # ==> Configuration for :rememberable
   # The time the user will be remembered without asking for credentials again.
-  # config.remember_for = 2.weeks
+  config.remember_for = 2.weeks
 
   # If true, a valid remember token can be re-used between multiple browsers.
-  # config.remember_across_browsers = true
+  config.remember_across_browsers = true
 
   # If true, extends the user's remember period when remembered via cookie.
-  # config.extend_remember_period = false
+  config.extend_remember_period = false
 
   # If true, uses the password salt as remember token. This should be turned
   # to false if you are not using database authenticatable.
@@ -196,7 +196,12 @@ Devise.setup do |config|
   # ==> OmniAuth
   # Add a new OmniAuth provider. Check the wiki for more information on setting
   # up on your models and hooks.
-  # config.omniauth :github, 'APP_ID', 'APP_SECRET', :scope => 'user,public_repo'
+
+  # see config/initializers/app_config.rb
+
+  # # load certificates
+  # require "openid/fetchers"
+  # OpenID.fetcher.ca_file = "#{Rails.root}/config/ca-bundle.crt"
 
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or

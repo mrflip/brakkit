@@ -4,7 +4,7 @@ Brak::Application.routes.draw do
   resources :users,  :only   => [:index, :show]
   devise_for(:users, :path => 'me',
     :path_names => { :sign_in => 'login', :sign_out => 'logout', :sign_up => 'signup' },
-    :controllers => { :registrations => 'registrations' }
+    :controllers => { :registrations => 'registrations',  :omniauth_callbacks => "omniauth_callbacks" }
     )  do
     post   "login"         => "devise/sessions#create"     , :as => :user_session
     get    "logout"        => "devise/sessions#destroy"
@@ -16,13 +16,15 @@ Brak::Application.routes.draw do
     get    "me/password/change" => "registrations#change_password", :as => :change_user_password
     delete "me"            => "registrations#destroy",       :as => :destroy_user_registration
     get    "me/delete"     => "registrations#delete",        :as => :delete_user_registration
+
   end
   as :user do
     get    "login"         => "devise/sessions#new",         :as => :new_user_session
     delete "logout"        => "devise/sessions#destroy",     :as => :destroy_user_session
   end
 
-  match 'admin/demo'           => 'misc#demo'
-  match 'admin/bootstrap_demo' => 'misc#bootstrap_demo'
+  match 'about'               => 'misc#about'
+  match 'misc/demo'           => 'misc#demo'
+  match 'misc/bootstrap_demo' => 'misc#bootstrap_demo'
 
 end

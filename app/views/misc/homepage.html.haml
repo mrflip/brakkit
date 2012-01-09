@@ -6,6 +6,9 @@
     %li= link_to 'Sign up',           new_user_registration_path
     %li= link_to 'Log in',            new_user_session_path
     %li= link_to 'Log out',           destroy_user_session_path
+    %li= link_to "Sign in with Facebook", user_omniauth_authorize_path(:facebook)
+    %li= link_to "Sign in with Twitter",  user_omniauth_authorize_path(:twitter)
+    %li  &nbsp;
     %li= link_to 'Edit your account', edit_user_registration_path
     %li= link_to 'Show users',        user_path
     

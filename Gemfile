@@ -27,6 +27,10 @@ group :assets do                           # only for assets; not required in pr
 end
 
 gem   'devise',              "~> 1.5"      # User management
+gem   'omniauth'
+gem   'omniauth-facebook'
+gem   'omniauth-twitter'
+
 gem   'bcrypt-ruby',         "~> 3.0"
 
 gem   'friendly_id',         "~> 4.0"      # Human readable URLs
@@ -36,8 +40,16 @@ gem   'will_paginate',       "~> 3.0"      # Pagination of long lists
 group 'test' do
   gem 'rspec',               "~> 2.7.0"
   gem 'rspec-rails',         "~> 2.7.0"
-  gem 'spork',               "~> 0.8.5"
-  gem 'watchr',              "~> 0.7"
+  gem 'capybara'
+  #
+  gem 'spork',               "> 0.9.0.rc"
+  gem 'rb-fsevent'
+  gem 'guard-spork'
+  gem 'guard-rspec'
+  gem 'guard-livereload'
+  # gem 'guard-jasmine'
+  # gem "jasminerice"
+  #
   gem 'rcov',                "~> 0.9.11"
   gem 'steak',               "~> 2.0.0"
   gem 'forgery',             "~> 0.5.0"

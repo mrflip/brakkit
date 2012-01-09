@@ -5,14 +5,13 @@
       %ul.nav
         %li.active= link_to 'home', root_path
         %li             <a href='/about'>about</a>
-        %li             <a href='/contact'>contact</a>
       %ul.pull-right{ :style => 'float: right' }
         - if user_signed_in?
           %li
             %span
               Hello,
               =  link_to current_user.titleize, edit_user_registration_path
-          %li=  link_to '[logout]',  destroy_user_session_path
+          %li=   link_to '[logout]',            destroy_user_session_path
         - else
-          %li= link_to 'signup', new_user_registration_path
-          %li= link_to 'login',  new_user_session_path
+          %li=   link_to 'signup',              new_user_registration_path
+          %li=   link_to 'login',               new_user_session_path
