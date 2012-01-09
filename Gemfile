@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 gem   'rails',               "~> 3.2.0.rc1"
-gem   'unicorn',             "~> 4.1"
+gem   'thin'
 
 gem   'configliere',         "~> 0.4"
 
