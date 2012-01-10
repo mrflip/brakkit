@@ -38,8 +38,6 @@
 - Rails.dump(@user, @user.identities)      
 = render :partial => '/identities/index', :locals => { :identities => @user.identities }
 
-
 - if @user == current_user
   .well
     =           link_to('Edit profile', edit_user_registration_path, :class => 'btn primary large')
-    

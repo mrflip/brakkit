@@ -30,6 +30,8 @@ gem   'devise',              "~> 1.5"      # User management
 gem   'omniauth'
 gem   'omniauth-facebook'
 gem   'omniauth-twitter'
+gem   'omniauth-oauth',      :git => "https://github.com/intridea/omniauth-oauth.git"
+gem   'omniauth-oauth2',     :git => "https://github.com/intridea/omniauth-oauth2.git"
 
 gem   'bcrypt-ruby',         "~> 3.0"
 

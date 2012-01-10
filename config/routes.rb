@@ -24,11 +24,10 @@ Brak::Application.routes.draw do
   as :user do
     get    "login"            => "devise/sessions#new",           :as => :new_user_session
     delete "logout"           => "devise/sessions#destroy",       :as => :destroy_user_session
+    resources :identities, :only => [ :index, :destroy ]
+    # match "auth/:provider/callback" => 'identities#update_or_create'
   end
 
-  # match "#{mount_at}auth/:provider/callback" => 'billfold/identities#update_or_create'
-
-  resources :identities, :only => [ :index, :destroy ]
 
   match 'about'               => 'misc#about'
   match 'misc/demo'           => 'misc#demo'

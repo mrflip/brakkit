@@ -4,6 +4,22 @@ GIT
   specs:
     annotate (2.4.1.beta1)
 
+GIT
+  remote: https://github.com/intridea/omniauth-oauth.git
+  revision: 6e82c91a4f86886d80d2cc256156eca13f2a6309
+  specs:
+    omniauth-oauth (1.0.0)
+      oauth
+      omniauth (~> 1.0)
+
+GIT
+  remote: https://github.com/intridea/omniauth-oauth2.git
+  revision: 21fd9b0dde4b7afe052bc6a74ce32ca132078188
+  specs:
+    omniauth-oauth2 (1.0.0)
+      oauth2 (~> 0.5.0)
+      omniauth (~> 1.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -139,12 +155,6 @@ GEM
       rack
     omniauth-facebook (1.2.0)
       omniauth-oauth2 (~> 1.0.0)
-    omniauth-oauth (1.0.0)
-      oauth
-      omniauth (~> 1.0)
-    omniauth-oauth2 (1.0.0)
-      oauth2 (~> 0.5.0)
-      omniauth (~> 1.0)
     omniauth-twitter (0.0.7)
       omniauth-oauth (~> 1.0)
     orm_adapter (0.0.5)
@@ -285,6 +295,8 @@ DEPENDENCIES
   nifty-generators
   omniauth
   omniauth-facebook
+  omniauth-oauth!
+  omniauth-oauth2!
   omniauth-twitter
   pry
   pry-rails

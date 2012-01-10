@@ -13,4 +13,4 @@
   - identities.each do |identity|
     %li.identity{ :class => identity.provider }
       %span.handle= identity.handle
-      =  button_to t('identity.delete'), identity_path(identity), :method => :delete, :remote => true, :confirm => true
+      =  button_to t('identity.delete'), identity_path(identity), :method => :delete, :confirm => true

@@ -11,12 +11,34 @@ class Identity < ActiveRecord::Base
   belongs_to :user
   serialize  :data
   validates_presence_of :user, :provider, :handle
+  attr_accessible :provider, :handle, :data, :user
 
   # There can only be one identity with a given provider and handle
   validates_uniqueness_of :handle, :scope => [ :provider ]
 
   scope :with_provider_and_handle, lambda{|provider, handle| where(:provider => provider, :handle => handle) }
-  
+
+  def self.find_for_twitter_oauth(access_token, signed_in_resource=nil)
+    data = access_token.extra.raw_info
+    user = where(['twitter_name = :twitter_name', { :twitter_name => data['screen_name']}]).first
+    if not user
+      user = User.new(:email => data.email, :password => Devise.friendly_token[0,20])
+      user.dummy_password = true
+    end
+    harvest_twitter_data!(user, data)
+    user.save
+    user
+  end
+  def self.harvest_twitter_data!(user, oauth_info)
+    user.username      ||= oauth_info['screen_name']
+    user.email         ||= oauth_info['email'] || "#{user.username}@twitter.com"
+    user.fullname      ||= oauth_info['name']
+    user.url           ||= oauth_info['url']
+    user.twitter_name  ||= oauth_info['screen_name']
+    user.description   ||= oauth_info['description']
+    Rails.dump(user, oauth_info)
+  end
+
   # ### Parameters: a single `Hash` with the following keys:
   #  * `:provider` -- the name of an OmniAuth provider (e.g. "twitter")
   #  * `:user`     -- if nil, creates a new `User` for the `Identity`
@@ -39,6 +61,7 @@ class Identity < ActiveRecord::Base
   # merges that User into `:user` and updates the `Identity`.
   #
   def self.update_or_create!(attributes = {})
+    Rails.dump(attributes)
     raise ArgumentError.new("provider must not be blank") if attributes[:provider].blank?
     raise ArgumentError.new("handle must not be blank") if attributes[:handle].blank?
     identity = with_provider_and_handle(attributes[:provider], attributes[:handle]).first
@@ -67,7 +90,7 @@ class Identity < ActiveRecord::Base
     (data && data['name']) || "#{handle}_#{provider}"
   end
 
-  # inherited models should still be 'Identity' in form helpers and such 
+  # inherited models should still be 'Identity' in form helpers and such
   def self.inherited(child)
     child.instance_eval{ def model_name() Identity.model_name ; end }
     super
@@ -86,4 +109,3 @@ end
 #  created_at :datetime        not null
 #  updated_at :datetime        not null
 #
-
