@@ -10,9 +10,7 @@ class User < ActiveRecord::Base
   attr_accessor   :login
   attr_accessible :login
 
-  # Include default devise modules. Others available are: :token_authenticatable, :confirmable, :lockable and :timeoutable
-  devise :database_authenticatable, :registerable, :recoverable, :rememberable, :trackable, :validatable
-  devise :omniauthable
+  has_many        :identities
 
   # scopes for arel
   scope :alphabetically, order("users.username ASC")
@@ -36,6 +34,13 @@ class User < ActiveRecord::Base
   # Plugins
   #
 
+  # Include default devise modules. Others available are: :token_authenticatable, :confirmable, :lockable and :timeoutable
+  devise :database_authenticatable, :registerable, :recoverable, :rememberable, :trackable, :validatable
+  devise :omniauthable
+
+  extend FriendlyId
+  friendly_id :username
+
 
   #
   # Methods
@@ -45,9 +50,17 @@ class User < ActiveRecord::Base
     username
   end
 
-  # def twitter_name=(nm)
-  #   super(nm.to_s.gsub(%r{^(\@|http:/.*/)}))
-  # end
+  # Merge this user into another user, deleting this user and moving its
+  # identities to the other.
+  def merge_into!(other)
+    raise ArgumentError.new("#{other} is not a user") unless other.kind_of?(User)
+    raise ArgumentError.new("#{other} is not saved")  if other.new_record?
+    transaction do
+      identities.update_all({ :user_id => other.id })
+      perform_additional_merge_operations!(other)
+      self.destroy
+    end
+  end
 
   def self.find_for_database_authentication(warden_conditions)
     conditions = warden_conditions.dup
@@ -178,6 +191,12 @@ protected
 
   def password_required?
     super && twitter_name.blank?
+  end
+
+  # This method is called after all identities have been moved from `other` to
+  # `self`, but before `other` has been destroyed and before the end of the
+  # transaction. By default, it does nothing.
+  def perform_additional_merge_operations!(other)
   end
 
 end

@@ -11,3 +11,9 @@ en:
         twitter_name:           twitter
         facebook_name:          facebook
         
+  identity:
+    delete: delete
+    please_sign_in: Please log in
+    identities:
+      index:
+        title: Your Identities

@@ -2,6 +2,7 @@ class RegistrationsController < Devise::RegistrationsController
   prepend_before_filter :require_no_authentication,        :only => [ :new, :create, :cancel ]
   prepend_before_filter :authenticate_scope!,              :only => [:edit, :update, :edit_password, :destroy, :destroy_step_1]
   prepend_before_filter :user_exists_and_password_correct, :only => [:create]
+  append_view_path 'app/views/devise'
 
   # PUT /resource
   # We need to use a copy of the resource because we don't want to change

@@ -22,10 +22,9 @@ class CreateUsers < ActiveRecord::Migration
       t.timestamps
     end
 
-    add_index "users", ["username"],      :name => "index_users_on_username", :unique => true
-    add_index "users", ["twitter_name"],  :name => "index_users_on_twitter",  :unique => true
-    add_index "users", ["facebook_id"],   :name => "index_users_on_facebook", :unique => true
-
+    add_index :users, [:username],      :name => "index_users_on_username", :unique => true
+    add_index :users, [:twitter_name],  :name => "index_users_on_twitter",  :unique => true
+    add_index :users, [:facebook_id],   :name => "index_users_on_facebook", :unique => true
   end
 
   def self.down

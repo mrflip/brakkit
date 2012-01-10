@@ -2,8 +2,9 @@ Brak::Application.routes.draw do
   root :to => "misc#homepage", :as => :root
 
   resources :users,  :only   => [:index, :show]
-  devise_for(:users, :path => 'me',
-    :path_names => { :sign_in => 'login', :sign_out => 'logout', :sign_up => 'signup', :password => 'recovery' },
+  devise_for(:users,
+    :path        => 'me',
+    :path_names  => { :sign_in => 'login', :sign_out => 'logout', :sign_up => 'signup', :password => 'recovery' },
     :controllers => { :registrations => 'registrations',  :omniauth_callbacks => "omniauth_callbacks" }
     )  do
     post   "login"            => "devise/sessions#create",        :as => :user_session
@@ -13,9 +14,9 @@ Brak::Application.routes.draw do
     post   "signup"           => "registrations#create",          :as => :user_registration
     get    "signup/cancel"    => "registrations#cancel",          :as => :cancel_user_registration
     #
-    get    "me"               => "devise/registrations#edit",     :as => :edit_user_registration
-    put    "me"               => "registrations#update",   :as => :update_user_registration
-    delete "me"               => "registrations#destroy",  :as => :destroy_user_registration
+    get    "me"               => "registrations#edit",            :as => :edit_user_registration
+    put    "me"               => "registrations#update",          :as => :update_user_registration
+    delete "me"               => "registrations#destroy",         :as => :destroy_user_registration
     get    "me/delete"        => "registrations#destroy_step_1",  :as => :destroy_user_registration_step_1
     get    "me/password"      => "registrations#edit_password",   :as => :user_registration_password
     put    "me/password"      => "registrations#update_password", :as => :user_registration_password
@@ -24,6 +25,10 @@ Brak::Application.routes.draw do
     get    "login"            => "devise/sessions#new",           :as => :new_user_session
     delete "logout"           => "devise/sessions#destroy",       :as => :destroy_user_session
   end
+
+  # match "#{mount_at}auth/:provider/callback" => 'billfold/identities#update_or_create'
+
+  resources :identities, :only => [ :index, :destroy ]
 
   match 'about'               => 'misc#about'
   match 'misc/demo'           => 'misc#demo'
