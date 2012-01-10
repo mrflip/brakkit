@@ -5,7 +5,7 @@ Brak::Application.routes.draw do
   devise_for(:users,
     :path        => 'me',
     :path_names  => { :sign_in => 'login', :sign_out => 'logout', :sign_up => 'signup', :password => 'recovery' },
-    :controllers => { :registrations => 'registrations',  :omniauth_callbacks => "omniauth_callbacks" }
+    :controllers => { :registrations => 'registrations',  :omniauth_callbacks => "identities" }
     )  do
     post   "login"            => "devise/sessions#create",        :as => :user_session
     get    "logout"           => "devise/sessions#destroy"

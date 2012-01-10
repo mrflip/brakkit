@@ -19,7 +19,7 @@ module ApplicationHelper
   end
 
   def has_javascript(javascript)
-    content_for(:javascript){ javascript_include_tag(javascript) }
+    content_for(:javascripts){ javascript_include_tag(javascript) }
   end
 
   def has_stylesheet(stylesheet)

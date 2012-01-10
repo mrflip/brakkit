@@ -17,12 +17,10 @@ class Identity < ActiveRecord::Base
 
   scope :with_provider_and_handle, lambda{|provider, handle| where(:provider => provider, :handle => handle) }
   
-  # Updates or creates a `Billfold::Identity`.
-  #
   # ### Parameters: a single `Hash` with the following keys:
   #  * `:provider` -- the name of an OmniAuth provider (e.g. "twitter")
   #  * `:user`     -- if nil, creates a new `User` for the `Identity`
-  #  * `:handle`    -- the unique identifier
+  #  * `:handle`   -- the unique identifier
   #  * `:data`     -- extra data for the Identity
   #
   # ### Behavior
@@ -53,7 +51,7 @@ class Identity < ActiveRecord::Base
       end
     else
       identity = new(attributes)
-      identity.user = attributes[:user] || User.new(:name => identity.titleize)
+      identity.user = attributes[:user] || User.new(:username => identity.titleize)
       identity.save!
     end
     identity
@@ -62,11 +60,30 @@ class Identity < ActiveRecord::Base
   #
   # When creating a new user from an identity, this method is used to generate a
   # display name. By default, it tries to get the user's name from the OmniAuth
-  # data and falls back on using the identity's provider and value, but
+  # data and falls back on using the identity's provider and handle, but
   # subclasses may have something better to do.
   #
   def titleize
-    (data && data['name']) || "#{provider} #{value}"
+    (data && data['name']) || "#{handle}_#{provider}"
+  end
+
+  # inherited models should still be 'Identity' in form helpers and such 
+  def self.inherited(child)
+    child.instance_eval{ def model_name() Identity.model_name ; end }
+    super
   end
 
 end
+# == Schema Information
+#
+# Table name: identities
+#
+#  id         :integer         not null, primary key
+#  user_id    :integer
+#  provider   :string(255)
+#  handle     :string(255)
+#  data       :text
+#  created_at :datetime        not null
+#  updated_at :datetime        not null
+#
+

@@ -53,7 +53,6 @@ ActiveRecord::Schema.define(:version => 5) do
     t.string   "url",                    :limit => 160
     t.boolean  "dummy_password"
     t.string   "shibboleth"
-    t.datetime "deleted_at"
     t.datetime "created_at",                                            :null => false
     t.datetime "updated_at",                                            :null => false
     t.string   "email",                                 :default => "", :null => false

@@ -16,9 +16,6 @@ class CreateUsers < ActiveRecord::Migration
       # must supply this string in order to sign up
       t.string          :shibboleth
 
-      # paranoia -- don't delete just deregister
-      t.timestamp       :deleted_at, :default => nil
-
       t.timestamps
     end
 

@@ -24,12 +24,13 @@ end
 USER_FIELDS = [:username, :email, :fullname, :url, :description]
 File.open(File.join(Rails.root,"/db/seeds/users.tsv")) do |seed_file|
   seed_file.each do |line|
-    values = line.strip.split("\t")
+    values = line.strip.split("\t").map(&:strip)
     uid    = values.shift
     fields = Hash.zip(USER_FIELDS, values)
-    fields.each_key{|key| fields[key] = fields[key].to_s.strip }
+    fields.reject!{|field, val| val.blank? }
     fields.merge! :password => 'foobar', :password_confirmation => 'foobar'
     u = User.find_or_create_by_id(uid)
+    p fields
     u.update_attributes fields
   end
 end

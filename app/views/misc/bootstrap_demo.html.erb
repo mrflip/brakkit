@@ -2,13 +2,19 @@
 <%- skip_sidebar %>
 <%- has_stylesheet('bootstrap/demo/bootstrap_demo.css') %>
 <%- has_stylesheet('google-code-prettify/prettify.css') %>
-<%- has_javascript('/assets/jquery.tablesorter.js') %>
-<%- has_javascript('/assets/google-code-prettify/prettify.js') %>
-<%- has_javascript('/assets/bootstrap/bootstrap-dropdown.js') %>
-<%- has_javascript('/assets/bootstrap/bootstrap-twipsy.js') %>
-<%- has_javascript('/assets/bootstrap/bootstrap-scrollspy.js') %>
-<%- has_javascript('/assets/bootstrap/demo/bootstrap_demo.js') %>
-<%- content_for(:javascripts){ '<script>$(function () { prettyPrint() })</script>' } %>
+
+<%- has_javascript('jquery.tablesorter.js') %>
+<%- has_javascript('google-code-prettify/prettify.js') %>
+<%- has_javascript('bootstrap/bootstrap-alerts.js') %>
+<%- has_javascript('bootstrap/bootstrap-buttons.js') %>
+<%- has_javascript('bootstrap/bootstrap-dropdown.js') %>
+<%- has_javascript('bootstrap/bootstrap-modal.js') %>
+<%- has_javascript('bootstrap/bootstrap-popover.js') %>
+<%- has_javascript('bootstrap/bootstrap-scrollspy.js') %>
+<%- has_javascript('bootstrap/bootstrap-tabs.js') %>
+<%- has_javascript('bootstrap/bootstrap-twipsy.js') %>
+<%- has_javascript('bootstrap/demo/bootstrap_demo.js') %>
+<%- content_for(:javascripts){ '<script>$(function () { prettyPrint() })</script>'.html_safe } %>
 
     <!-- Topbar
     ================================================== -->

@@ -21,7 +21,7 @@ group :assets do                           # only for assets; not required in pr
   gem 'uglifier',            ">= 1.0"
 
   gem 'compass',             "~> 0.11"
-  gem 'compass_twitter_bootstrap'
+  # gem 'compass_twitter_bootstrap'
 
   #see also https://github.com/mjbellantoni/formtastic-bootstrap
 end
@@ -38,8 +38,8 @@ gem   'validates_existence', "~> 0.7"      # Validation of associations
 gem   'will_paginate',       "~> 3.0"      # Pagination of long lists
 
 group 'test' do
-  gem 'rspec',               "~> 2.7.0"
-  gem 'rspec-rails',         "~> 2.7.0"
+  gem 'rspec',               "~> 2.8.0"
+  gem 'rspec-rails',         "~> 2.8.0"
   gem 'capybara'
   #
   gem 'spork',               "> 0.9.0.rc"
@@ -66,6 +66,7 @@ group 'console' do
   gem 'hirb'
   gem 'awesome_print'
   gem 'pry'
+  gem 'pry-rails'
 end
 
 gem "mocha", :group => :test
