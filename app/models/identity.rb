@@ -18,25 +18,18 @@ class Identity < ActiveRecord::Base
 
   scope :with_provider_and_handle, lambda{|provider, handle| where(:provider => provider, :handle => handle) }
 
-  def self.find_for_twitter_oauth(access_token, signed_in_resource=nil)
-    data = access_token.extra.raw_info
-    user = where(['twitter_name = :twitter_name', { :twitter_name => data['screen_name']}]).first
-    if not user
-      user = User.new(:email => data.email, :password => Devise.friendly_token[0,20])
-      user.dummy_password = true
+  PROVIDERS = %w[facebook twitter]
+
+  def self.harvest_session(params, session, user)
+    Rails.dump(params, session, user, *user.identities)
+    PROVIDERS.each do |provider|
+      provider_info = session["devise.#{provider}_data"] or next
+      data   = provider_info['extra']['raw_info']
+      handle = provider_info['uid']
+      identity = with_provider_and_handle(provider, handle).first
+      identity.user = user
+      user.identities << identity
     end
-    harvest_twitter_data!(user, data)
-    user.save
-    user
-  end
-  def self.harvest_twitter_data!(user, oauth_info)
-    user.username      ||= oauth_info['screen_name']
-    user.email         ||= oauth_info['email'] || "#{user.username}@twitter.com"
-    user.fullname      ||= oauth_info['name']
-    user.url           ||= oauth_info['url']
-    user.twitter_name  ||= oauth_info['screen_name']
-    user.description   ||= oauth_info['description']
-    Rails.dump(user, oauth_info)
   end
 
   # ### Parameters: a single `Hash` with the following keys:
@@ -60,21 +53,23 @@ class Identity < ActiveRecord::Base
   # `:handle` and that `Identity` is owned by a *different* `User`, this method
   # merges that User into `:user` and updates the `Identity`.
   #
-  def self.update_or_create!(attributes = {})
-    Rails.dump(attributes)
-    raise ArgumentError.new("provider must not be blank") if attributes[:provider].blank?
-    raise ArgumentError.new("handle must not be blank") if attributes[:handle].blank?
-    identity = with_provider_and_handle(attributes[:provider], attributes[:handle]).first
+  def self.update_or_create!(attributes)
+    provider, user, handle, data = attributes.values_at(:provider, :user, :handle, :data)
+    Rails.dump(provider, user, handle, data, attributes)
+    raise ArgumentError.new("provider must not be blank") if provider.blank?
+    raise ArgumentError.new("handle must not be blank")   if handle.blank?
+    identity = with_provider_and_handle(provider, handle).first
     if identity
-      old_owner, new_owner = identity.user, attributes[:user]
-      attributes.delete(:user) if attributes[:user].nil?
+      old_owner, new_owner = identity.user, user
+      attributes.delete(:user) if user.nil?
       transaction do
         identity.update_attributes!(attributes)
         old_owner.merge_into!(new_owner) if new_owner && (old_owner != new_owner)
       end
     else
       identity = new(attributes)
-      identity.user = attributes[:user] || User.new(:username => identity.titleize)
+      identity.user = user || new_dummy_user(:username => identity.titleize)
+      Rails.dump(identity, identity.user)
       identity.save!
     end
     identity
@@ -95,6 +90,58 @@ class Identity < ActiveRecord::Base
     child.instance_eval{ def model_name() Identity.model_name ; end }
     super
   end
+
+protected
+
+  def self.new_dummy_user(attrs)
+    user = User.new(attrs.reverse_merge(:password => Devise.friendly_token[0,20]))
+    user.dummy_password = true
+    user
+  end
+
+  # def self.find_for_twitter_oauth(access_token, signed_in_resource=nil)
+  #   data = access_token.extra.raw_info
+  #   user = where(['twitter_name = :twitter_name', { :twitter_name => data['screen_name']}]).first
+  #   if not user
+  #     user = User.new(:email => data.email, :password => Devise.friendly_token[0,20])
+  #     user.dummy_password = true
+  #   end
+  #   harvest_twitter_data!(user, data)
+  #   user.save
+  #   user
+  # end
+  # def self.harvest_twitter_data!(user, oauth_info)
+  #   user.username      ||= oauth_info['screen_name']
+  #   user.email         ||= oauth_info['email'] || "#{user.username}@twitter.com"
+  #   user.fullname      ||= oauth_info['name']
+  #   user.url           ||= oauth_info['url']
+  #   user.twitter_name  ||= oauth_info['screen_name']
+  #   user.description   ||= oauth_info['description']
+  #   Rails.dump(user, oauth_info)
+  # end
+  #
+  # def self.find_for_facebook_oauth(access_token, signed_in_resource=nil)
+  #   data = access_token.extra.raw_info
+  #   user = where(['facebook_id = :facebook_id OR email = :email', { :facebook_id => data.id, :email => data.email }]).first
+  #   if not user
+  #     user = new(:email => data.email, :password => Devise.friendly_token[0,20])
+  #     user.dummy_password = true
+  #   end
+  #   harvest_facebook_data!(user, data)
+  #   user.save
+  #   user
+  # end
+  # def self.harvest_facebook_data!(user, oauth_info)
+  #   return unless oauth_info
+  #   user.username      ||= oauth_info['username']
+  #   user.fullname      ||= oauth_info['name']
+  #   user.email         ||= oauth_info['email']
+  #   user.url           ||= oauth_info['website'] || oauth_info['link']
+  #   user.facebook_id   ||= oauth_info['id']
+  #   user.facebook_url  ||= oauth_info['link']
+  #   user.description   ||= oauth_info['bio']
+  #   Rails.dump(user, oauth_info)
+  # end
 
 end
 # == Schema Information

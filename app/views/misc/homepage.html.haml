@@ -11,13 +11,33 @@
     %li  &nbsp;
     %li= link_to 'Edit your account', edit_user_registration_path
     %li= link_to 'Show users',        user_path
+
+.hero-unit
+  = form_tag(auth_redirector_form_path(:provider => 'twitter'), :method => :get) do |f|
+    %fieldset
+      %legend= @title
+      = text_field_tag              :login,    'mrflip',  :required => 'true', :autofocus => "autofocus"
+      .actions
+        = submit_tag "twitter", :class => 'login-button'
+        = submit_tag "facebook", :class => 'login-button'
+
+  %br/
+
+  %p
+    Sign up easily with Twitter, Facebook or your GMail account.
+    We won't ever post anything unless you tell us to.
+
+  %p.reveal
     
-  
+    Using a FaceSterGle account creates your profile instantly &mdash; you can
+    share your brackets and see the ones by your friends.  It's for your fun and
+    convenience: we'll never bug you to post anything.
+
 .hero-unit
   %p Here are your app config settings
   %pre
     = Settings
-    
+
 .row
   .span8
     %h2 Simple Demo

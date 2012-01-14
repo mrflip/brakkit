@@ -9,43 +9,46 @@ class IdentitiesController < Devise::OmniauthCallbacksController
   end
 
   def twitter
-    # @user = User.find_for_twitter_oauth(request.env["omniauth.auth"], current_user)
-
-    params[:provider] = 'twitter'
-    @identity = update_or_create
-
-    if @identity.user.persisted?
-      flash[:notice] = I18n.t "devise.omniauth_callbacks.success", :kind => "Twitter"
-      sign_in_and_redirect @identity.user, :event => :authentication
-    else
-      session["devise.twitter_data"] = request.env["omniauth.auth"]
-      redirect_to new_user_registration_url
-    end
+    handle_oauth_callback('twitter')
   end
 
-  def update_or_create
-    omniauth_hash = request.env['omniauth.auth'] || {}
-    Rails.dump( omniauth_hash, omniauth_hash.keys, omniauth_hash.extra.raw_info, omniauth_hash.extra.access_token )
-    @identity = Identity.update_or_create!({
-        :provider => params[:provider],
-        :handle   => omniauth_hash['uid'],
-        :user     => current_user,
-        :data     => omniauth_hash['user_info'],
-      })
+  def facebook
+    handle_oauth_callback('facebook')
   end
 
   def destroy
     Rails.dump(@identity)
     @identity.destroy
-    # respond_to do |format|
-    #   format.html { redirect_to :index }
-    #   format.json { head 200 }
-    #   format.xml  { head 200 }
-    # end
-    redirect_to root_url
+    redirect_to(root_url)
   end
 
 private
+
+  def update_or_create
+    omniauth_hash = request.env['omniauth.auth'] || {}
+    Rails.dump( omniauth_hash, omniauth_hash.keys, omniauth_hash.extra.raw_info, omniauth_hash.extra.access_token )
+    @identity = Identity.update_or_create!({
+        :provider  => params[:provider],
+        :user      => current_user,
+        :handle    => request.env['omniauth.auth']['uid'],
+        :data      => request.env['omniauth.auth']['user_info'],
+      })
+  end
+
+  def handle_oauth_callback(provider)
+    params[:provider] = provider
+    @identity = update_or_create
+    #
+    if @identity.user.persisted?
+      # signed in to existing user account
+      flash[:notice] = I18n.t "devise.omniauth_callbacks.success", :kind => provider.titleize
+      sign_in_and_redirect @identity.user, :event => :authentication
+    else
+      # new user: pickle into session and redirect to signup form
+      session["devise.#{provider}_data"] = request.env["omniauth.auth"]
+      redirect_to(new_user_registration_url)
+    end
+  end
 
   def find_all_from_params
     @identities = current_user.identities
@@ -56,3 +59,122 @@ private
   end
 
 end
+
+# def facebook
+#   @user = User.find_for_facebook_oauth(request.env["omniauth.auth"], current_user)
+#
+#   if @user.persisted?
+#     flash[:notice] = I18n.t "devise.omniauth_callbacks.success", :kind => "Facebook"
+#     sign_in_and_redirect @user, :event => :authentication
+#   else
+#     session["devise.facebook_data"] = request.env["omniauth.auth"]
+#     redirect_to new_user_registration_url
+#   end
+# end
+
+# before_filter :authenticate_user!, :except => [:create, :signin, :signup, :newaccount, :failure]
+
+# # callback: success
+# # This handles signing in and adding an authentication service to existing accounts itself
+# # It renders a separate view if there is a new user to create
+# def create
+#   # get the service parameter from the Rails router
+#   params[:service] ? service_route = params[:service] : service_route = 'No service recognized (invalid callback)'
+#
+#   # get the full hash from omniauth
+#   omniauth = request.env['omniauth.auth']
+#
+#   # continue only if hash and parameter exist
+#   if omniauth and params[:service]
+#
+#     # map the returned hashes to our variables first - the hashes differs for every service
+#
+#     # create a new hash
+#     @authhash = Hash.new
+#
+#     if service_route == 'facebook'
+#       omniauth['extra']['user_hash']['email'] ? @authhash[:email] =  omniauth['extra']['user_hash']['email'] : @authhash[:email] = ''
+#       omniauth['extra']['user_hash']['name'] ? @authhash[:name] =  omniauth['extra']['user_hash']['name'] : @authhash[:name] = ''
+#       omniauth['extra']['user_hash']['id'] ?  @authhash[:uid] =  omniauth['extra']['user_hash']['id'].to_s : @authhash[:uid] = ''
+#       omniauth['provider'] ? @authhash[:provider] = omniauth['provider'] : @authhash[:provider] = ''
+#     elsif service_route == 'github'
+#       omniauth['user_info']['email'] ? @authhash[:email] =  omniauth['user_info']['email'] : @authhash[:email] = ''
+#       omniauth['user_info']['name'] ? @authhash[:name] =  omniauth['user_info']['name'] : @authhash[:name] = ''
+#       omniauth['extra']['user_hash']['id'] ? @authhash[:uid] =  omniauth['extra']['user_hash']['id'].to_s : @authhash[:uid] = ''
+#       omniauth['provider'] ? @authhash[:provider] =  omniauth['provider'] : @authhash[:provider] = ''
+#     elsif ['google', 'yahoo', 'twitter', 'myopenid', 'open_id'].index(service_route) != nil
+#       omniauth['user_info']['email'] ? @authhash[:email] =  omniauth['user_info']['email'] : @authhash[:email] = ''
+#       omniauth['user_info']['name'] ? @authhash[:name] =  omniauth['user_info']['name'] : @authhash[:name] = ''
+#       omniauth['uid'] ? @authhash[:uid] = omniauth['uid'].to_s : @authhash[:uid] = ''
+#       omniauth['provider'] ? @authhash[:provider] = omniauth['provider'] : @authhash[:provider] = ''
+#     else
+#       # debug to output the hash that has been returned when adding new services
+#       render :text => omniauth.to_yaml
+#       return
+#     end
+#
+#     if @authhash[:uid] != '' and @authhash[:provider] != ''
+#
+#       auth = Service.find_by_provider_and_uid(@authhash[:provider], @authhash[:uid])
+#
+#       # if the user is currently signed in, he/she might want to add another account to signin
+#       if user_signed_in?
+#         if auth
+#           flash[:notice] = 'Your account at ' + @authhash[:provider].capitalize + ' is already connected with this site.'
+#           redirect_to services_path
+#         else
+#           current_user.services.create!(:provider => @authhash[:provider], :uid => @authhash[:uid], :uname => @authhash[:name], :uemail => @authhash[:email])
+#           flash[:notice] = 'Your ' + @authhash[:provider].capitalize + ' account has been added for signing in at this site.'
+#           redirect_to services_path
+#         end
+#       else
+#         if auth
+#           # signin existing user
+#           # in the session his user id and the service id used for signing in is stored
+#           session[:user_id] = auth.user.id
+#           session[:service_id] = auth.id
+#
+#           flash[:notice] = 'Signed in successfully via ' + @authhash[:provider].capitalize + '.'
+#           redirect_to root_url
+#         else
+#           # this is a new user; show signup; @authhash is available to the view and stored in the sesssion for creation of a new user
+#           session[:authhash] = @authhash
+#           render signup_services_path
+#         end
+#       end
+#     else
+#       flash[:error] =  'Error while authenticating via ' + service_route + '/' + @authhash[:provider].capitalize + '. The service returned invalid data for the user id.'
+#       redirect_to signin_path
+#     end
+#   else
+#     flash[:error] = 'Error while authenticating via ' + service_route.capitalize + '. The service did not return valid data.'
+#     redirect_to signin_path
+#   end
+# end
+#
+#
+# def newaccount
+#   if params[:commit] == "Cancel"
+#     session[:authhash] = nil
+#     session.delete :authhash
+#     redirect_to root_url
+#   else  # create account
+#     @newuser = User.new
+#     @newuser.name = session[:authhash][:name]
+#     @newuser.email = session[:authhash][:email]
+#     @newuser.services.build(:provider => session[:authhash][:provider], :uid => session[:authhash][:uid], :uname => session[:authhash][:name], :uemail => session[:authhash][:email])
+#
+#     if @newuser.save!
+#       # signin existing user
+#       # in the session his user id and the service id used for signing in is stored
+#       session[:user_id] = @newuser.id
+#       session[:service_id] = @newuser.services.first.id
+#
+#       flash[:notice] = 'Your account has been created and you have been signed in!'
+#       redirect_to root_url
+#     else
+#       flash[:error] = 'This is embarrassing! There was an error while creating your account from which we were not able to recover.'
+#       redirect_to root_url
+#     end
+#   end
+# end

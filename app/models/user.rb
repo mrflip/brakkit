@@ -38,6 +38,11 @@ class User < ActiveRecord::Base
   extend FriendlyId
   friendly_id :username
 
+  def initialize(*args, &block)
+    super
+    @remember_me = true if @remember_me.nil?
+  end
+
   #
   # Methods
   #
@@ -67,39 +72,9 @@ class User < ActiveRecord::Base
 
   # Copy the user information if available in the oauth response
   def self.new_with_session(params, session)
-    Rails.dump(params, session)
-    ret = super.tap do |user|
-      if    session['devise.facebook_data']
-        harvest_facebook_data!(user, session['devise.facebook_data']['extra']['raw_info'])
-      elsif session['devise.twitter_data']
-        harvest_twitter_data!(user, session['devise.twitter_data']['extra']['raw_info'])
-      end
+    super.tap do |user|
+      Identity.harvest_session(params, session, user)
     end
-    Rails.dump(self)
-    ret
-  end
-
-  def self.find_for_facebook_oauth(access_token, signed_in_resource=nil)
-    data = access_token.extra.raw_info
-    user = where(['facebook_id = :facebook_id OR email = :email', { :facebook_id => data.id, :email => data.email }]).first
-    if not user
-      user = new(:email => data.email, :password => Devise.friendly_token[0,20])
-      user.dummy_password = true
-    end
-    harvest_facebook_data!(user, data)
-    user.save
-    user
-  end
-  def self.harvest_facebook_data!(user, oauth_info)
-    return unless oauth_info
-    user.username      ||= oauth_info['username']
-    user.email         ||= oauth_info['email']
-    user.fullname      ||= oauth_info['name']
-    user.url           ||= oauth_info['website'] || oauth_info['link']
-    user.facebook_id   ||= oauth_info['id']
-    user.facebook_url  ||= oauth_info['link']
-    user.description   ||= oauth_info['bio']
-    Rails.dump(user, oauth_info)
   end
 
   # Update record attributes when no password has ever been set. It also

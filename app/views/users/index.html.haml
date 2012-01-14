@@ -3,6 +3,35 @@
 %h2== #{app_name} users
 %br/
 
+
+%table.users.zebra-striped.sortable
+  %tr
+    %th  ID
+    %th  user_id
+    %th  username
+    %th  provider
+    %th  handle
+    %th  data
+  - for identity in Identity.all
+    %tr.hcard
+      %td.identity_id=     identity.id
+      %td.user_id=         identity.user && identity.user.id
+      %td.username=        link_to_rsrc(identity.user)
+      %td.provider=        identity.provider
+      %td.handle=          identity.handle
+      
+      -# %td.fn.n=         user.fullname
+      -# %td.email=        user.email
+      -# %td.url.uid=      user.url
+      %td.data
+        %pre
+          =                identity.data
+
+.actions
+  &nbsp;
+  %span.secondary-action
+    To set your user image, visit <a href="http://gravatar.com/">gravatar.com</a>
+
 %table.users.zebra-striped.sortable
   %tr
     %th &nbsp;
@@ -26,3 +55,4 @@
   &nbsp;
   %span.secondary-action
     To set your user image, visit <a href="http://gravatar.com/">gravatar.com</a>
+
