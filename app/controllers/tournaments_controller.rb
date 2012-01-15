@@ -13,6 +13,7 @@ class TournamentsController < ApplicationController
 
   def create
     @tournament = Tournament.new(params[:tournament])
+    @tournament.user = current_user
     if @tournament.save
       redirect_to @tournament, :notice => "Successfully created tournament."
     else

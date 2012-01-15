@@ -1,9 +1,9 @@
 require File.dirname(__FILE__) + '/../spec_helper'
-p ['specs', __FILE__, __LINE__]
 
 describe UsersController do
   fixtures :all
   render_views
+  login_user
 
   it "index action should render index template" do
     get :index

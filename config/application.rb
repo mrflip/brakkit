@@ -75,5 +75,11 @@ module Brak
     # might not work anymore on rails 3.2
     # config.logger = Logger.new(config.paths.log.first, 50, 20 * 1048576)
 
+    config.generators do |g|
+      g.test_framework      :rspec, :fixture => true
+      g.fixture_replacement :fabrication
+      g.old_style_hash      true
+    end
+
   end
 end

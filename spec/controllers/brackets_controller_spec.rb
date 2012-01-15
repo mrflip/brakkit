@@ -21,13 +21,13 @@ describe BracketsController do
   end
 
   it "create action should render new template when model is invalid" do
-    Bracket.any_instance.stubs(:valid?).returns(false)
+    Bracket.any_instance.stub(:valid?).and_return(false)
     post :create
     response.should render_template(:new)
   end
 
   it "create action should redirect when model is valid" do
-    Bracket.any_instance.stubs(:valid?).returns(true)
+    Bracket.any_instance.stub(:valid?).and_return(true)
     post :create
     response.should redirect_to(bracket_url(assigns[:bracket]))
   end
@@ -38,13 +38,13 @@ describe BracketsController do
   end
 
   it "update action should render edit template when model is invalid" do
-    Bracket.any_instance.stubs(:valid?).returns(false)
+    Bracket.any_instance.stub(:valid?).and_return(false)
     put :update, :id => Bracket.first
     response.should render_template(:edit)
   end
 
   it "update action should redirect when model is valid" do
-    Bracket.any_instance.stubs(:valid?).returns(true)
+    Bracket.any_instance.stub(:valid?).and_return(true)
     put :update, :id => Bracket.first
     response.should redirect_to(bracket_url(assigns[:bracket]))
   end

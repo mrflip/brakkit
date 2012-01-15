@@ -3,6 +3,7 @@ require File.dirname(__FILE__) + '/../spec_helper'
 describe TournamentsController do
   fixtures :all
   render_views
+  login_user
 
   it "index action should render index template" do
     get :index
@@ -20,14 +21,14 @@ describe TournamentsController do
   end
 
   it "create action should render new template when model is invalid" do
-    Tournament.any_instance.stubs(:valid?).returns(false)
-    post :create
+    Tournament.any_instance.stub(:valid?).and_return(false)
+    post :create, :tournament => Fabricate.attributes_for(:tournament)
     response.should render_template(:new)
   end
 
   it "create action should redirect when model is valid" do
-    Tournament.any_instance.stubs(:valid?).returns(true)
-    post :create
+    Tournament.any_instance.stub(:valid?).and_return(true)
+    post :create, :tournament => Fabricate.attributes_for(:tournament)
     response.should redirect_to(tournament_url(assigns[:tournament]))
   end
 
@@ -37,13 +38,13 @@ describe TournamentsController do
   end
 
   it "update action should render edit template when model is invalid" do
-    Tournament.any_instance.stubs(:valid?).returns(false)
+    Tournament.any_instance.stub(:valid?).and_return(false)
     put :update, :id => Tournament.first
     response.should render_template(:edit)
   end
 
   it "update action should redirect when model is valid" do
-    Tournament.any_instance.stubs(:valid?).returns(true)
+    Tournament.any_instance.stub(:valid?).and_return(true)
     put :update, :id => Tournament.first
     response.should redirect_to(tournament_url(assigns[:tournament]))
   end

@@ -1,16 +1,17 @@
 one:
-  ordering: MyText
-  closed: false
+  ordering:             MyText
+  closed:               false
   tournament: 
-  slug: MyString
-  settings: MyText
+  handle:               bracket_1
+  settings:             "--- \n{}\n"
 
 two:
-  ordering: MyText
-  closed: false
+  ordering:             MyText
+  closed:               false
   tournament: 
-  slug: MyString
-  settings: MyText
+  handle:               MyString
+  settings:             "--- \n{}\n"
+  
 # == Schema Information
 #
 # Table name: brackets

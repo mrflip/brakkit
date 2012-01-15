@@ -55,7 +55,8 @@ group 'test' do
   # gem 'rcov',                "~> 0.9.11"
   # gem 'steak',               "~> 2.0.0"
   # gem 'forgery',             "~> 0.5.0"
-  # gem 'machinist',           :git => "https://github.com/notahat/machinist.git"
+
+  gem 'fabrication'
 end
 
 group 'development' do
@@ -70,5 +71,3 @@ group 'console' do
   gem 'pry'
   gem 'pry-rails'
 end
-
-gem "mocha", :group => :test

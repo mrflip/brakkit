@@ -1,10 +1,11 @@
 require 'rubygems' unless defined?(Gem)
 
-# require 'spork'
-# Spork.prefork do
+require 'spork'
+Spork.prefork do
 
   ENV["RAILS_ENV"] ||= 'test'
   require File.expand_path("../../config/environment", __FILE__)
+  require 'fabrication'
   require 'rspec/rails'
   require 'capybara/rspec'
   # require 'rspec/autorun'
@@ -28,7 +29,7 @@ require 'rubygems' unless defined?(Gem)
     config.mock_with :rspec
 
     # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
-    # config.fixture_path = "#{::Rails.root}/spec/fixtures"
+    config.fixture_path = "#{::Rails.root}/spec/fixtures"
 
     # If you're not using ActiveRecord, or you'd prefer not to run each of your
     # examples within a transaction, remove the following line or assign false
@@ -40,6 +41,9 @@ require 'rubygems' unless defined?(Gem)
     # rspec-rails.
     config.infer_base_class_for_anonymous_controllers = false
 
+    config.include Devise::TestHelpers, :type => :controller
+    config.extend  DeviseControllerMacros, :type => :controller
+
     config.treat_symbols_as_metadata_keys_with_true_values = true
     # config.filter_run :focus => true
     # config.run_all_when_everything_filtered = true
@@ -47,8 +51,7 @@ require 'rubygems' unless defined?(Gem)
 
   p 'spork one-time configuration complete'
 
-# end
-# Spork.each_run do
-#   # This code will be run each time you run your specs.
-#
-# end
+end
+Spork.each_run do
+  # This code will be run each time you run your specs.
+end
