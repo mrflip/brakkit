@@ -35,3 +35,11 @@ end
 Pool.blueprint do
   # Attributes here
 end
+
+Tround.blueprint do
+  # Attributes here
+end
+
+Tmatch.blueprint do
+  # Attributes here
+end
