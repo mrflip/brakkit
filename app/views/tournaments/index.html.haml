@@ -1,0 +1,19 @@
+- title "Tournaments"
+
+%table
+  %tr
+    %th Name
+    %th Description
+    %th User
+    %th State
+  - for tournament in @tournaments
+    %tr
+      %td= tournament.name
+      %td= tournament.description
+      %td= tournament.user_id
+      %td= tournament.state
+      %td= link_to 'Show', tournament
+      %td= link_to 'Edit', edit_tournament_path(tournament)
+      %td= link_to 'Destroy', tournament, :confirm => 'Are you sure?', :method => :delete
+
+%p= link_to "New Tournament", new_tournament_path

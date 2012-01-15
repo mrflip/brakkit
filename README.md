@@ -1,5 +1,64 @@
+Tournament
 
+    attr        :name
+    attr        :description
+    
+    belongs_to  :user
+    has_one     :bracket
+    has_many    :ballots
 
+Bracket
+
+    attr        :ordering
+    attr        :closed
+
+    has_many    :t_rounds
+    belongs_to  :tournament
+    belongs_to  :user, :through => :tournament
+    has_many    :contestants
+    has_many    :tags
+    
+Contestant
+
+    attr        :name
+    attr        :description
+    attr        :seed
+    
+    belongs_to  :bracket
+    def bubble?() ; end
+    def closed?() bracket.closed? ; end
+
+Pool
+
+    def         contestants
+
+TRound
+
+    def         t_matches
+    def         wing
+    def         contestants
+    
+TMatch
+
+    attr        :contestant_a
+    attr        :contestant_b
+    
+    def         contestants
+    def         t_round
+    def         bracket
+    def         winner
+    def         final_match?
+
+Ballot
+
+    attr        :outcomes
+
+    belongs_to  :tournament
+    belongs_to  :user
+
+Simulation
+
+    belongs_to  :tournament
 
 ### Authentication flow
 

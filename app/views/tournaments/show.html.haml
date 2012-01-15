@@ -1,0 +1,21 @@
+- title "Tournament"
+
+%p
+  %strong Name:
+  = @tournament.name
+%p
+  %strong Description:
+  = @tournament.description
+%p
+  %strong User:
+  = @tournament.user_id
+%p
+  %strong State:
+  = @tournament.state
+
+%p
+  = link_to "Edit", edit_tournament_path(@tournament)
+  |
+  = link_to "Destroy", @tournament, :confirm => 'Are you sure?', :method => :delete
+  |
+  = link_to "View All", tournaments_path
