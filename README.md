@@ -1,4 +1,11 @@
-Tournament
+### Tournament
+
+This is the main organizing object for a `bracket` (the ordered contestants folks will vote on) and its `ballot`s (the secondary orderings that people submit).
+
+* A Tournament is in `development` until its owner marks it as her primary tournament. Other people can see it (subject to visibility), but nobody can vote on it.
+* Once the owner makes it go `live` for balloting, it is open for voting. The contestants, ordering and most other elements of a tournament are frozen. You can only have one `live` tournament at a time.
+* After `duration` days, the tournament is `finished`
+* At that point, we run a `Simulation` and announce the `FinalTruth`. Humankind just got a little bit smarter and a little more awesome.
 
     attr        :name
     attr        :description
@@ -6,19 +13,12 @@ Tournament
     belongs_to  :user
     has_one     :bracket
     has_many    :ballots
-
-Bracket
-
-    attr        :ordering
-    attr        :closed
-
-    has_many    :t_rounds
-    belongs_to  :tournament
-    belongs_to  :user, :through => :tournament
-    has_many    :contestants
-    has_many    :tags
     
-Contestant
+### Contestant
+
+The elements a tournament intends to rank. 
+
+Contestants are unique to each bracket, so if 'James Brown' were in a tournament for 'Greatest Band or Artist' and another one for 'Crazy People' he'd have two different entries.
 
     attr        :name
     attr        :description
@@ -29,17 +29,41 @@ Contestant
     def         closed?() bracket.closed? ; end
     def         seed
 
-Pool
+### Bracket
+
+A bracket organizes contestants into a set of matchups.
+
+* `contestants` -- up to twice as many as the tournament size.
+* `seeding`     -- the order of those contestants. 
+* `bubble`      -- contestants with higher seeds than the tournament size. The ordering of contestants on the bubble is arbitrary, but useful for bracket development.
+
+A bracket is the direct owner for its contestants. However it also provides several proxy containers:
+
+* `wing`s       -- groups rounds into east, west, roundup, etc.
+* `tround`s     -- holds the matches at each stage
+
+    attr        :ordering
+    attr        :closed
+
+    has_many    :t_rounds
+    belongs_to  :tournament
+    belongs_to  :user, :through => :tournament
+    has_many    :contestants
+    has_many    :tags
+
+### Pool
+
+A proxy container for contestants -- holds contestants in seed order 
 
     def         contestants
 
-TRound
+### TRound
 
     def         t_matches
     def         wing
     def         contestants
     
-TMatch
+### TMatch
 
     attr        :contestant_a
     attr        :contestant_b
@@ -50,14 +74,14 @@ TMatch
     def         winner
     def         final_match?
 
-Ballot
+### Ballot
 
     attr        :outcomes
 
     belongs_to  :tournament
     belongs_to  :user
 
-Simulation
+### Simulation
 
     belongs_to  :tournament
 

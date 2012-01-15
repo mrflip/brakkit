@@ -44,7 +44,7 @@ class SimpleModel
     assign_attributes(new_attributes)
   end
 
-  def assign_attributes(new_attributes)
+  def assign_attributes(new_attributes, options={})
     new_attributes.each do |attr, val|
       write_attribute(attr, val)
     end
@@ -73,7 +73,7 @@ class SimpleModel
 
   # Returns true if the given attribute is in the attributes hash
   def has_attribute?(attr_name)
-    attribute_names.has_key?(attr_name.to_s)
+    attribute_names.include?(attr_name.to_s)
   end
 
   # Returns an <tt>#inspect</tt>-like string for the value of the

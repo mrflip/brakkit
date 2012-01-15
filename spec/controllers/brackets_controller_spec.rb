@@ -1,4 +1,5 @@
 require File.dirname(__FILE__) + '/../spec_helper'
+p ['specs', __FILE__, __LINE__]
 
 describe BracketsController do
   fixtures :all

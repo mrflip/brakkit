@@ -68,6 +68,22 @@ ActiveRecord::Schema.define(:version => 8) do
   add_index "sessions", ["session_id"], :name => "index_sessions_on_session_id"
   add_index "sessions", ["updated_at"], :name => "index_sessions_on_updated_at"
 
+  create_table "tournaments", :force => true do |t|
+    t.integer  "user_id",                                :null => false
+    t.string   "name",                                   :null => false
+    t.text     "description", :default => "",            :null => false
+    t.integer  "size",        :default => 64,            :null => false
+    t.integer  "duration",    :default => 7,             :null => false
+    t.integer  "visibility",  :default => 0,             :null => false
+    t.string   "state",       :default => "development", :null => false
+    t.string   "handle",                                 :null => false
+    t.text     "settings"
+    t.datetime "created_at",                             :null => false
+    t.datetime "updated_at",                             :null => false
+  end
+
+  add_index "tournaments", ["user_id"], :name => "index_tournaments_on_user_id"
+
   create_table "users", :force => true do |t|
     t.string   "username",               :limit => 20
     t.string   "twitter_name",           :limit => 20

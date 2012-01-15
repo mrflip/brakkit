@@ -6,8 +6,8 @@ class BracketsController < ApplicationController
   end
 
   def show
-    @tournament = Tournament.find(1)
-    @bracket    = Bracket.new({ :tournament => @tournament })
+    # @tournament = Tournament.find(1)
+    # @bracket    = Bracket.new({ :tournament => @tournament })
   end
 
   def new

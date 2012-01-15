@@ -54,24 +54,25 @@ class Bracket < ActiveRecord::Base
   end
 
   def seed_idxs
-    (1 .. tournament.size+1).to_a
+    (1 .. tournament.size).to_a
   end
 
   # array of contestants in seed order; fills in dummy contestants where blank.
   def seeding()
     return @seeding if @seeding
-    seed_arr = []
+    seed_arr = [DUMMY_ZEROTH]
     contestants.each{|contestant| seed_arr[contestant.seed] = contestant }
     seed_idxs.each do |seed_idx|
-      seed_arr[seed_idx] ||= Contestant.new( :name => "cont_#{seed_idx}", :seed => seed_idx, :bracket => self )
+      cont = contestants.build( :name => "cont_#{seed_idx}", :seed => seed_idx )
+      seed_arr[seed_idx] ||= cont
     end
     @seeding = seed_arr
   end
 
   def reasonable_ordering
-    unless ordering.is_a?(Array)                  then errors.add(:ordering, 'must be an array') ; return ; end
-    unless ordering[0] == DUMMY_ZEROTH            then errors.add(:ordering, 'must have a dummy zeroth element') ; end
-    unless ordering.length <= 2 * tournament.size then errors.add(:ordering, 'cannot have more than twice as many teams as tournament slots') ; end
+    unless seeding.is_a?(Array)                  then errors.add(:ordering, 'must be an array') ; return ; end
+    unless seeding[0] == DUMMY_ZEROTH            then errors.add(:ordering, 'must have a dummy zeroth element') ; end
+    unless seeding.length <= 2 * tournament.size then errors.add(:ordering, 'cannot have more than twice as many teams as tournament slots') ; end
   end
 
 end
