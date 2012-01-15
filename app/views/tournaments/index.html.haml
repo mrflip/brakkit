@@ -6,12 +6,16 @@
     %th Description
     %th User
     %th State
+    %th Handle
+    %th Settings
   - for tournament in @tournaments
     %tr
       %td= tournament.name
       %td= tournament.description
       %td= tournament.user
       %td= tournament.state
+      %td= tournament.handle
+      %td= tournament.settings
       %td= link_to 'Show', tournament
       %td= link_to 'Edit', edit_tournament_path(tournament)
       %td= link_to 'Destroy', tournament, :confirm => 'Are you sure?', :method => :delete

@@ -5,11 +5,17 @@
     %th Name
     %th Description
     %th Bracket
+    %th Seed
+    %th Handle
+    %th Settings
   - for contestant in @contestants
     %tr
       %td= contestant.name
       %td= contestant.description
       %td= contestant.bracket
+      %td= contestant.seed
+      %td= contestant.handle
+      %td= contestant.settings
       %td= link_to 'Show', contestant
       %td= link_to 'Edit', edit_contestant_path(contestant)
       %td= link_to 'Destroy', contestant, :confirm => 'Are you sure?', :method => :delete

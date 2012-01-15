@@ -4,6 +4,9 @@ class CreateContestants < ActiveRecord::Migration
       t.string :name
       t.text :description
       t.belongs_to :bracket
+      t.integer :seed
+      t.string :handle
+      t.text :settings
 
       t.timestamps
     end

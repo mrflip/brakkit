@@ -11,6 +11,8 @@
     %li  &nbsp;
     %li= link_to 'Edit your account', edit_user_registration_path
     %li= link_to 'Show users',        user_path
+    %li  &nbsp;
+    %li= link_to 'Show brackets',     brackets_path
 
 .hero-unit
   - foo_url = auth_redirector_form_path(:provider => 'twitter')

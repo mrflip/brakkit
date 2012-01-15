@@ -42,8 +42,29 @@ Brak::Application.routes.draw do
 
 end
 #== Route Map
-# Generated on 13 Jan 2012 23:39
+# Generated on 15 Jan 2012 01:47
 #
+#                                  POST   /contestants(.:format)              contestants#create
+#                   new_contestant GET    /contestants/new(.:format)          contestants#new
+#                  edit_contestant GET    /contestants/:id/edit(.:format)     contestants#edit
+#                       contestant GET    /contestants/:id(.:format)          contestants#show
+#                                  PUT    /contestants/:id(.:format)          contestants#update
+#                                  DELETE /contestants/:id(.:format)          contestants#destroy
+#                         brackets GET    /brackets(.:format)                 brackets#index
+#                                  POST   /brackets(.:format)                 brackets#create
+#                      new_bracket GET    /brackets/new(.:format)             brackets#new
+#                     edit_bracket GET    /brackets/:id/edit(.:format)        brackets#edit
+#                          bracket GET    /brackets/:id(.:format)             brackets#show
+#                                  PUT    /brackets/:id(.:format)             brackets#update
+#                                  DELETE /brackets/:id(.:format)             brackets#destroy
+#                      tournaments GET    /tournaments(.:format)              tournaments#index
+#                                  POST   /tournaments(.:format)              tournaments#create
+#                   new_tournament GET    /tournaments/new(.:format)          tournaments#new
+#                  edit_tournament GET    /tournaments/:id/edit(.:format)     tournaments#edit
+#                       tournament GET    /tournaments/:id(.:format)          tournaments#show
+#                                  PUT    /tournaments/:id(.:format)          tournaments#update
+#                                  DELETE /tournaments/:id(.:format)          tournaments#destroy
+#                             root        /                                   misc#homepage
 #                            users GET    /users(.:format)                    users#index
 #                             user GET    /users/:id(.:format)                users#show
 #                     user_session POST   /login(.:format)                    devise/sessions#create
@@ -75,6 +96,7 @@ end
 #             destroy_user_session DELETE /logout(.:format)                   devise/sessions#destroy
 #                       identities GET    /identities(.:format)               identities#index
 #                         identity DELETE /identities/:id(.:format)           identities#destroy
+#             auth_redirector_form        /me/auth/form(.:format)             registrations#failed
 #                            about        /about(.:format)                    misc#about
 #                        misc_demo        /misc/demo(.:format)                misc#demo
 #              misc_bootstrap_demo        /misc/bootstrap_demo(.:format)      misc#bootstrap_demo

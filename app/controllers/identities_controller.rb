@@ -2,7 +2,7 @@ class IdentitiesController < Devise::OmniauthCallbacksController
   protect_from_forgery :except => :create     # see https://github.com/intridea/omniauth/issues/203
 
   before_filter :authenticate_user!,   :except => [:twitter, :facebook]
-  before_filter :find_all_from_params, :only => [:index]
+  before_filter :find_many_from_params, :only => [:index]
   before_filter :find_from_params,     :only => [:destroy]
 
   def index
@@ -50,7 +50,7 @@ private
     end
   end
 
-  def find_all_from_params
+  def find_many_from_params
     @identities = current_user.identities
   end
 

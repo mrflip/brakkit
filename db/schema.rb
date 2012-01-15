@@ -11,7 +11,32 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 5) do
+ActiveRecord::Schema.define(:version => 8) do
+
+  create_table "brackets", :force => true do |t|
+    t.text     "ordering"
+    t.boolean  "closed"
+    t.integer  "tournament_id"
+    t.string   "handle"
+    t.text     "settings"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
+  end
+
+  add_index "brackets", ["tournament_id"], :name => "index_brackets_on_tournament_id"
+
+  create_table "contestants", :force => true do |t|
+    t.string   "name"
+    t.text     "description"
+    t.integer  "bracket_id"
+    t.integer  "seed"
+    t.string   "handle"
+    t.text     "settings"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
+  add_index "contestants", ["bracket_id"], :name => "index_contestants_on_bracket_id"
 
   create_table "friendly_id_slugs", :force => true do |t|
     t.string   "slug",                         :null => false

@@ -1,16 +1,20 @@
-
-
+- title "Bracket"
 
 %p
   %strong Ordering:
-  %pre
-    = @bracket.ordering
+  = @bracket.ordering
 %p
   %strong Closed:
   = @bracket.closed
 %p
   %strong Tournament:
   = @bracket.tournament
+%p
+  %strong Handle:
+  = @bracket.handle
+%p
+  %strong Settings:
+  = @bracket.settings
 
 %p
   = link_to "Edit", edit_bracket_path(@bracket)

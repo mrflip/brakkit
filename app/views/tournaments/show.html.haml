@@ -12,6 +12,12 @@
 %p
   %strong State:
   = @tournament.state
+%p
+  %strong Handle:
+  = @tournament.handle
+%p
+  %strong Settings:
+  = @tournament.settings
 
 %p
   = link_to "Edit", edit_tournament_path(@tournament)

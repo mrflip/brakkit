@@ -9,6 +9,15 @@
 %p
   %strong Bracket:
   = @contestant.bracket
+%p
+  %strong Seed:
+  = @contestant.seed
+%p
+  %strong Handle:
+  = @contestant.handle
+%p
+  %strong Settings:
+  = @contestant.settings
 
 %p
   = link_to "Edit", edit_contestant_path(@contestant)

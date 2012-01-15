@@ -35,6 +35,9 @@ File.open(File.join(Rails.root,"/db/seeds/users.tsv")) do |seed_file|
   end
 end
 
+Tournament.where(:id => 1).first_or_create({ :size => 16, :name => 'my tournament', :user => User.find(1), :handle => 'tournament_1', :state => 'prep' }, :without_protection => true)
+Tournament.where(:id => 2).first_or_create({ :size => 16, :name => 'my tournament', :user => User.find(1), :handle => 'tournament_1', :state => 'prep' }, :without_protection => true)
+
 # RESTAURANT_FIELDS = [:tags, :name, :url, :menu_url, :review_url, :phone, :note]
 # File.open(File.join(Rails.root,"/db/seeds/restaurants.tsv")) do |seed_file|
 #   seed_file.each do |line|
