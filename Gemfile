@@ -55,7 +55,7 @@ group 'test' do
   gem 'rcov',                "~> 0.9.11"
   gem 'steak',               "~> 2.0.0"
   gem 'forgery',             "~> 0.5.0"
-  gem 'machinist',           "~> 1.0.6"
+  gem 'machinist',           :git => "https://github.com/notahat/machinist.git"
 end
 
 group 'development' do

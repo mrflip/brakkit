@@ -1,4 +1,8 @@
 Brak::Application.routes.draw do
+  resources :contestants
+
+  resources :brackets
+
   resources :tournaments
 
   root :to => "misc#homepage", :as => :root

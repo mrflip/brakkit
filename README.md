@@ -22,11 +22,12 @@ Contestant
 
     attr        :name
     attr        :description
-    attr        :seed
     
     belongs_to  :bracket
-    def bubble?() ; end
-    def closed?() bracket.closed? ; end
+    
+    def         bubble?() ; end
+    def         closed?() bracket.closed? ; end
+    def         seed
 
 Pool
 
@@ -59,6 +60,7 @@ Ballot
 Simulation
 
     belongs_to  :tournament
+
 
 ### Authentication flow
 

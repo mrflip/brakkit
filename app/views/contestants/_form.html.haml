@@ -1,4 +1,4 @@
-= form_for @tournament do |f|
+= form_for @contestant do |f|
   = f.error_messages
   %p
     = f.label :name
@@ -9,12 +9,8 @@
     %br
     = f.text_area :description
   %p
-    = f.label :user
+    = f.label :bracket
     %br
-    = f.text_field :user
-  %p
-    = f.label :state
-    %br
-    = f.text_field :state
+    = f.text_field :bracket
   %p
     = f.submit

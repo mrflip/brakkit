@@ -1,0 +1,9 @@
+one:
+  ordering: MyText
+  closed: false
+  tournament: 
+
+two:
+  ordering: MyText
+  closed: false
+  tournament: 

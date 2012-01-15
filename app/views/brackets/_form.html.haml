@@ -1,0 +1,16 @@
+= form_for @bracket do |f|
+  = f.error_messages
+  %p
+    = f.label :ordering
+    %br
+    = f.text_area :ordering
+  %p
+    = f.label :closed
+    %br
+    = f.check_box :closed
+  %p
+    = f.label :tournament
+    %br
+    = f.text_field :tournament
+  %p
+    = f.submit

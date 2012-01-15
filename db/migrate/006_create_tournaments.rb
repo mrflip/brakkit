@@ -1,15 +1,13 @@
 class CreateTournaments < ActiveRecord::Migration
-  def self.up
+  def change
     create_table :tournaments do |t|
       t.string :name
       t.text :description
-      t.integer :user_id
+      t.belongs_to :user
       t.string :state
+
       t.timestamps
     end
-  end
-
-  def self.down
-    drop_table :tournaments
+    add_index :tournaments, :user_id
   end
 end

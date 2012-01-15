@@ -1,0 +1,17 @@
+- title "Brackets"
+
+%table
+  %tr
+    %th Ordering
+    %th Closed
+    %th Tournament
+  - for bracket in @brackets
+    %tr
+      %td= bracket.ordering
+      %td= bracket.closed
+      %td= bracket.tournament
+      %td= link_to 'Show', bracket
+      %td= link_to 'Edit', edit_bracket_path(bracket)
+      %td= link_to 'Destroy', bracket, :confirm => 'Are you sure?', :method => :delete
+
+%p= link_to "New Bracket", new_bracket_path

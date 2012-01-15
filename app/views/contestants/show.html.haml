@@ -1,0 +1,18 @@
+- title "Contestant"
+
+%p
+  %strong Name:
+  = @contestant.name
+%p
+  %strong Description:
+  = @contestant.description
+%p
+  %strong Bracket:
+  = @contestant.bracket
+
+%p
+  = link_to "Edit", edit_contestant_path(@contestant)
+  |
+  = link_to "Destroy", @contestant, :confirm => 'Are you sure?', :method => :delete
+  |
+  = link_to "View All", contestants_path
