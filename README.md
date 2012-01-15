@@ -62,3 +62,14 @@ More:
 * MAKE THE “SUBMIT” BUTTON AS WIDE AS THE TEXT FIELDS -- The log-in button isn’t just for taking action: it also lets users know what action they’re about to take. A small log-in button has weak affordance and can make users feel uncertain about logging in. A wide button gives users more confidence and is hard to miss. The button’s label also becomes more visible, so that users are clearer about the action they’re taking.
 
 
+```
+  before_filter :memorize_user
+  def memorize_user
+    return unless current_user
+    past_users = cookies["brak.users_seen"].to_s.split
+    user_id    = current_user && current_user.id
+    new_val = [past_users, user_id.to_s].flatten.uniq.compact.join(' ')
+    Rails.dump(past_users, user_id, cookies, new_val)
+    cookies.permanent["brak.users_seen"] = new_val
+  end
+```
