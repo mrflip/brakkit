@@ -1,4 +1,5 @@
 #flash
   - flash.each do |key, value|
-    %div{ :title => key.to_s.humanize, :class => key }
+    %div{ :title => key.to_s.humanize, :class => "#{key} fade in alert-message" }
+      <a class='close' href='#'>&times;</a>
       %p= value

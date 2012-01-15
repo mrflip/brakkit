@@ -459,8 +459,9 @@ footer
   &.error:hover,
   &.success,
   &.success:hover,
-  &.info,
-  &.info:hover
+  &.notice, &.notice:hover,  
+  &.info,          
+  &.info:hover     
     color: $white
   // Sets the close button to the middle of message
   .close
@@ -474,7 +475,7 @@ footer
   &.success
     +gradientBar(#62c462, #57a957)
   // Info appears as a neutral blue
-  &.info
+  &.info, &.notice
     +gradientBar(#5bc0de, #339bb9)
 
 // Base .btn styles
@@ -593,7 +594,7 @@ input[type=submit].btn
   &.danger p a,
   &.error p a,
   &.success p a,
-  &.info p a
+  &.info p a, &.notice p a
     color: $white
   // Remove extra margin from content
   h5
@@ -624,7 +625,7 @@ input[type=submit].btn
       margin-top: 5px
     &.error,
     &.success,
-    &.info
+    &.info, &.notice
       color: $grayDark
       text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5)
     &.error
@@ -633,14 +634,14 @@ input[type=submit].btn
     &.success
       background-color: lighten(#62c462, 30%)
       border-color: lighten(#62c462, 25%)
-    &.info
+    &.info, &.notice
       background-color: lighten(#6bd0ee, 25%)
       border-color: lighten(#6bd0ee, 20%)
     // Change link color back
     &.danger p a,
     &.error p a,
     &.success p a,
-    &.info p a
+    &.info p a, &.notice p a
       color: $grayDark
 
 // PAGINATION
@@ -892,13 +893,13 @@ input[type=submit].btn
 // ------
 
 .label
-  padding: 1px 3px 2px
-  font-size: $basefont * 0.75
-  font-weight: bold
-  color: $white
-  text-transform: uppercase
-  white-space: nowrap
-  background-color: $grayLight
+  padding:              1px 3px 2px
+  font-size:            $basefont * 0.75
+  font-weight:          bold
+  color:                $white
+  text-transform:       uppercase
+  white-space:          nowrap
+  background-color:     $grayLight
   +border-radius(3px)
   &.important
     background-color: #c43c35

@@ -1,7 +1,8 @@
 class MiscController < ApplicationController
   def homepage
-    # flash.now[:warning] = 'WTF'
     # flash.now[:success] = 'OMG'
+    # flash.now[:alert] = 'WTF'
+    # flash.now[:notice] = 'WTF'
     # flash.now[:info]    = 'ORLY'
     # flash.now[:error]   = 'FML'
   end

@@ -13,3 +13,15 @@
 //= require jquery_ujs
 //= require_tree .
 
+$(document).ready(function(){
+  $("[rel='twipsy']").each(function (){ $(this).twipsy({}) });
+
+  $("span[rel='popover']").each(function (){
+    $(this).popover({
+      'offset': 10, 'placement': 'below', 
+      'content' : function(){ return $(this).children('.text').text() } })
+  }).append('&#8253;').addClass('label').children('.text').hide();
+
+  $(".alert-message").alert();
+  $("#flash > div"  ).alert();
+})

@@ -15,6 +15,9 @@
       
   = javascript_include_tag('application')
   = javascript_include_tag('hashgrid') if Rails.env.development?
+  = javascript_include_tag('bootstrap/bootstrap-alerts')
+  = javascript_include_tag('bootstrap/bootstrap-twipsy')
+  = javascript_include_tag('bootstrap/bootstrap-popover')
   = yield :javascripts
   
   - if Settings.google_analytics_id.present?

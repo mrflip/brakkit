@@ -13,30 +13,37 @@
     %li= link_to 'Show users',        user_path
 
 .hero-unit
-  = form_tag(auth_redirector_form_path(:provider => 'twitter'), :method => :get) do |f|
+  - foo_url = auth_redirector_form_path(:provider => 'twitter')
+  - foo_url = '/'
+  = form_tag(foo_url, :method => :get) do |f|
     %fieldset
       %legend= @title
       = text_field_tag              :login,    'mrflip',  :required => 'true', :autofocus => "autofocus"
+      = honeypot_tag
+      
       .actions
         = submit_tag "twitter", :class => 'login-button'
         = submit_tag "facebook", :class => 'login-button'
 
+        
   %br/
 
   %p
     Sign up easily with Twitter, Facebook or your GMail account.
     We won't ever post anything unless you tell us to.
+    = learn_more_tag("Instant Signup", "Using one of them FaceSerGoogle accounts creates your profile instantly — you can share your brackets and see the ones by your friends.  It's for your fun and convenience, though: we'll never bug you to post anything.")
 
   %p.reveal
     
-    Using a FaceSterGle account creates your profile instantly &mdash; you can
-    share your brackets and see the ones by your friends.  It's for your fun and
-    convenience: we'll never bug you to post anything.
+    
 
 .hero-unit
   %p Here are your app config settings
   %pre
     = Settings
+
+  %pre
+    = flash.to_hash
 
 .row
   .span8
