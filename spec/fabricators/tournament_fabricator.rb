@@ -14,9 +14,14 @@ Fabricator(:full_tournament, :from => :tournament) do
 end
 
 Fabricator(:bracket) do
-  # tournament{ Fabricate(:full_tournament) }
+  tournament{ Fabricate(:full_tournament) }
 end
 
 Fabricator(:wing) do
   bracket
+end
+
+Fabricator(:pool) do
+  bracket
+  seed_idxs       (17 .. 32).to_a
 end

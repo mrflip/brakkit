@@ -1,11 +1,18 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
 describe Bracket do
-  it "should be valid" do
-    Bracket.new.should be_valid
+  let(:bracket){  Fabricate(:bracket) }
+  subject{ bracket }
+  it{      should be_valid }
+
+  it 'sets handle with tournament\'s id' do
+    bracket.tournament.stub(:id).and_return('444')
+    bracket.handle.should == "bracket_444"
   end
 
-  it 'sets handle with tournament\'s id'
+  # it "has pools" do
+  #   bracket.pools.length.should == ??
+  # end
 
 end
 # == Schema Information

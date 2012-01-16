@@ -1,20 +1,14 @@
 - title "Bracket"
 
-%p
-  %strong Ordering:
-  = @bracket.ordering
-%p
-  %strong Closed:
-  = @bracket.closed
-%p
-  %strong Tournament:
-  = @bracket.tournament
-%p
-  %strong Handle:
-  = @bracket.handle
-%p
-  %strong Settings:
-  = @bracket.settings
+%h2 Info
+
+%pre
+  == size: #{@bracket.size}
+
+%h2 pools
+
+
+= render @bracket.pools
 
 %p
   = link_to "Edit", edit_bracket_path(@bracket)

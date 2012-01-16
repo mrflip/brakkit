@@ -6,8 +6,12 @@ class Bracket < ActiveRecord::Base
   # key-value store for ad-hoc attributes
   store           :settings
 
+  # sets the size for wings, pools, etc
+  CONTESTANT_GROUP_SIZE     = 16
   # placeholder for the zeroth element in the ordering
   DUMMY_ZEROTH = -99
+
+
 
   # ids for contestants in seed order
   serialize       :ordering, Array
@@ -38,6 +42,30 @@ class Bracket < ActiveRecord::Base
     bracket.tournament = Tournament.first
     bracket.seeding
     bracket.trounds
+  end
+
+  #
+  # Containers
+  #
+
+  def size
+    tournament.size
+  end
+
+  def contestant_group_size
+    CONTESTANT_GROUP_SIZE
+  end
+
+  def n_wings() [(     size/contestant_group_size ),1].min.to_i ; end
+  def n_pools() [( 2 * size/contestant_group_size ),1].min.to_i ; end
+
+  def pools
+    return @pools if @pools
+    @pools = (0 .. n_pools).map do |i|
+      bubble = (i * contestant_group_size >= tournament.size)
+      seed_idxs = ( ((i*contestant_group_size) + 1) .. ((i+1)*contestant_group_size + 1) ).to_a
+      Pool.new(:pool_idx => i+1, :bubble => bubble, :bracket => self, :seed_idxs => seed_idxs)
+    end
   end
 
   #
