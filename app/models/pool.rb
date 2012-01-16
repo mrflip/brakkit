@@ -17,8 +17,8 @@ class Pool < ContestantContainer
   end
 
   def handle
-    "#{bracket.handle}_#{pool_idx}"
+    "pool_#{id}"
   end
-  def id() handle ; end
+  def id() "#{tournament.id}_#{pool_idx}" ; end
 
 end

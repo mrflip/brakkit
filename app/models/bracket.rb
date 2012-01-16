@@ -55,7 +55,7 @@ class Bracket < ActiveRecord::Base
   end
 
   def wings
-    @pools ||= (1 .. n_wings+1).map{|wing_idx| Wing.new(:bracket => self, :wing_idx => wing_idx) }
+    @wings ||= (1 .. n_wings+1).map{|wing_idx| Wing.new(:bracket => self, :wing_idx => wing_idx) }
   end
 
   def trounds

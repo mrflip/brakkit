@@ -7,8 +7,11 @@
 
 %h2 pools
 
+.pools
+  = render @bracket.pools
 
-= render @bracket.pools
+.wings
+  = render @bracket.wings
 
 %p
   = link_to "Edit", edit_bracket_path(@bracket)

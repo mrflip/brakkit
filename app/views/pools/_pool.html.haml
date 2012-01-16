@@ -1,3 +1,5 @@
 
-.pool
-  = pool.handle
+%h3= pool.handle
+%ol.pool[pool]{ :class => (pool.bubble? ? 'bubble' : 'ranked' ) }
+  - pool.rank_idxs.each do |rank_idx|
+    = slot_tag(:seed => rank_idx, :as => :li, :id => "slot_#{pool.tournament.id}_#{rank_idx}")

@@ -8,4 +8,17 @@ class Wing < ContestantContainer
   def rank_idxs
     bracket.rank_idxs.select{|idx| ((idx - 1) % bracket.n_wings) == (wing_idx - 1) }
   end
+
+  def size
+    rank_idxs.size
+  end
+
+  def trounds
+    [ Tround.new(:wing => self, :rd_idx => 1) ]
+  end
+
+  def handle
+    "wing_#{id}"
+  end
+  def id() "#{tournament.id}_#{wing_idx}" ; end
 end

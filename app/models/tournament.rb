@@ -14,6 +14,15 @@ class Tournament < ActiveRecord::Base
   validates_presence_of :name, :handle, :size, :user
   validates :size, :inclusion => { :in => [8, 16, 32, 64] }
 
+
+  after_initialize :add_bracket
+
+protected
+
+  def add_bracket
+    self.build_bracket if not bracket.present?
+  end
+
 end
 # == Schema Information
 #
