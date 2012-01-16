@@ -21,13 +21,12 @@ describe TournamentsController do
   end
 
   it "create action should render new template when model is invalid" do
-    Tournament.any_instance.stub(:valid?).and_return(false)
+    Tournament.any_instance.stub(:valid?).and_return(false) # careful - handles won't be generated
     post :create, :tournament => Fabricate.attributes_for(:tournament)
     response.should render_template(:new)
   end
 
   it "create action should redirect when model is valid" do
-    Tournament.any_instance.stub(:valid?).and_return(true)
     post :create, :tournament => Fabricate.attributes_for(:tournament)
     response.should redirect_to(tournament_url(assigns[:tournament]))
   end

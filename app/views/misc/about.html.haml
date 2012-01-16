@@ -17,17 +17,17 @@
         overseas.
 
       %p
-        
+
         brakk.at is free.  If you like it, show your appreciation by donating to
         <a href="http://www.fisherhouse.org/about/">Fisher House</a> &mdash;
         there's a widget at the right.  Fisher House takes care of Military
         families whose loved ones are hospitalized. They're rated five stars by
         <a href="http://www.charitynavigator.org/index.cfm?bay=search.summary&orgid=7585">charity navigator</a>
         (so you can be confident your donation will be used well).
-        
+
 
   .span2.offset1
-    <object id='application' classid='clsid:D27CDB6E-AE6D-11cf-96B8-444553540000'  codebase='http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,0,0' codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,0,0" data="http://www.networkforgood.org/PCA/Badge.swf?BadgeId=115361" width="160" height="475" id="myCharityBadge"><param name="allowScriptAccess" value="all" /><param name="movie" value="http://www.networkforgood.org/PCA/Badge.swf?BadgeId=115361" /> <embed src="http://www.networkforgood.org/PCA/Badge.swf?BadgeId=115361" quality="high" width="159" height="475" name="myMovie" Align="" vspace="0" hspace="0" type="application/x-shockwave-flash"></embed> </object>    
+    <object id='application' classid='clsid:D27CDB6E-AE6D-11cf-96B8-444553540000'  codebase='http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,0,0' codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,0,0" data="http://www.networkforgood.org/PCA/Badge.swf?BadgeId=115361" width="160" height="475" id="myCharityBadge"><param name="allowScriptAccess" value="all" /><param name="movie" value="http://www.networkforgood.org/PCA/Badge.swf?BadgeId=115361" /> <embed src="http://www.networkforgood.org/PCA/Badge.swf?BadgeId=115361" quality="high" width="159" height="475" name="myMovie" Align="" vspace="0" hspace="0" type="application/x-shockwave-flash"></embed> </object>
 
 %section
   %h2 Brakk.at.ology
@@ -36,7 +36,7 @@
     %ul
       %li What makes a good bracket?
       %li Why can I vote on my own brackets?
-      %li What's the difference between a public and a semi-protected bracket?    
+      %li What's the difference between a public and a semi-protected bracket?
 
 %section
   %h2 Colophon
@@ -44,7 +44,7 @@
 
     %p
       brakk.at was built using Emacs, Ruby on Rails, and Love. Those, and the following (partial) list of key plugins make weekend apps like these so much fun:
-    
+
     %ul
       - def github_colophon(gh, desc=nil) ; gh_user, gh_repo = gh.split('/',2) ; haml_tag(:li){ haml_concat( [link_to(gh_repo, "http://github.com/#{gh_user}/#{gh_repo}"), " by #{gh_user}"].join(" ")) ; if desc then haml_tag(:span, "&mdash; ".html_safe+html_escape(desc)) ; end } end
       %li
@@ -59,7 +59,7 @@
             Getting iPad-style touch events to work with jQuery was a yak-shaving deathmarch &mdash;
             thanks to <a href="http://bugs.jqueryui.com/ticket/5740">this snippet on the jQuery tracker</a> by woodpile and
             this <a href="http://stackoverflow.com/questions/6745098/jquery-ui-sortable-doesnt-work-on-touch-devices-based-on-android-or-ios">StackOverflow response by Bill Hardy</a>
-            for providing components of something workable 
+            for providing components of something workable
       %li
         Styling
         %ul
@@ -86,5 +86,5 @@
         %ul
           %li Deployed to <a href="http://heroku.com">Heroku</a>
           %li maintained on <a href="http://github.com/mrflip">GitHub</a>
-  
-%hr/    
+
+%hr/

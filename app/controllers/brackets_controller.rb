@@ -19,7 +19,7 @@ class BracketsController < ApplicationController
     if @bracket.save
       redirect_to @bracket, :success => "Successfully created bracket."
     else
-      render :action => 'new'
+      render :new
     end
   end
 
@@ -30,7 +30,7 @@ class BracketsController < ApplicationController
     if @bracket.update_attributes(params[:bracket])
       redirect_to @bracket, :success => "Successfully updated bracket."
     else
-      render :action => 'edit'
+      render :edit
     end
   end
 

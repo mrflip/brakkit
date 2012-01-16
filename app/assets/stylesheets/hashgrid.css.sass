@@ -6,29 +6,29 @@
 $gridColumns:           12              !default
 $gridColumnWidth:       60px            !default
 $gridGutterWidth:       20px            !default
-  
+
 $gridAlignment:         centered        !default
 $gridExtent:            $siteWidth      !default
 $lineHeight:            $baseline       !default
-  
+
 #grid
-  
+
   /* Dimensions - same width as your grid with gutters
   width:                $gridExtent + ( 2 * $gridGutterWidth)
 
-  @if $gridAlignment == centered  
+  @if $gridAlignment == centered
     /* Grid (centered)
     position:           absolute
     top:                0
     left:               50%
     margin-left:        -( $siteWidth / 2 + $gridGutterWidth )
-    
-  @else   
+
+  @else
     /* Grid (left-aligned)
     position:           absolute
     top:                0
     left:               -$gridGutterWidth
-    
+
   div
     /**
      * Vertical grid lines
@@ -46,7 +46,7 @@ $lineHeight:            $baseline       !default
           margin-left:    $gridGutterWidth - 1
         @else
           margin-left:    - $gridGutterWidth
-        
+
     /**
      * Horizontal grid lines, defined by your base line height
      *
@@ -61,7 +61,7 @@ $lineHeight:            $baseline       !default
   /**
    * Classes for multiple grids
    *
-   * When using more than one grid, remember to set the numberOfGrids 
+   * When using more than one grid, remember to set the numberOfGrids
    * option in the hashgrid.js file.
   &.grid-1 div.vert
     /* Vertical grid line colour for grid 1

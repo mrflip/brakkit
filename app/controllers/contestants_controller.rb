@@ -1,10 +1,11 @@
 class ContestantsController < ApplicationController
+  before_filter :find_many_from_params, :only => [:index]
+  before_filter :find_from_params,      :only => [:show, :edit, :update, :destroy]
+
   def index
-    @contestants = Contestant.all
   end
 
   def show
-    @contestant = Contestant.find(params[:id])
   end
 
   def new
@@ -16,26 +17,34 @@ class ContestantsController < ApplicationController
     if @contestant.save
       redirect_to @contestant, :notice => "Successfully created contestant."
     else
-      render :action => 'new'
+      render :new
     end
   end
 
   def edit
-    @contestant = Contestant.find(params[:id])
   end
 
   def update
-    @contestant = Contestant.find(params[:id])
     if @contestant.update_attributes(params[:contestant])
       redirect_to @contestant, :notice  => "Successfully updated contestant."
     else
-      render :action => 'edit'
+      render :edit
     end
   end
 
   def destroy
-    @contestant = Contestant.find(params[:id])
     @contestant.destroy
     redirect_to contestants_url, :notice => "Successfully destroyed contestant."
   end
+
+private
+
+  def find_many_from_params
+    @contestants = Contestant.all
+  end
+
+  def find_from_params
+    @contestant = Contestant.find_by_id(params[:id])
+  end
+
 end

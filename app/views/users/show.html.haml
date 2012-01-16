@@ -9,7 +9,7 @@
       %br/
       %span.muted
         Set your image: <a href="http://gravatar.com/">gravatar.com</a>
-        
+
   %tr
     %th.span3         username
     %td.span9=        @user.username
@@ -28,14 +28,14 @@
   %tr
     %th         twitter
     %td=        @user.twitter_name
-    
+
   %tr
     %th         bio
     %td
       =         @user.description
       &nbsp;
 
-- Rails.dump(@user, @user.identities)      
+- Rails.dump(@user, @user.identities)
 = render :partial => '/identities/index', :locals => { :identities => @user.identities }
 
 - if @user == current_user

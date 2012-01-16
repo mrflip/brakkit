@@ -6,15 +6,17 @@ end
 
 Fabricator(:tournament) do
   name            'Greatest Pop Musician'
-  handle          'tournament_1'
   size            64
 end
 
-# Fabricator(:full_tournament, :from => :tournament) do
-#   user!         { Fabricate(:user) }
-#   name            'Greatest Pop Musician'
-#   size            64
-#   duration        7
-#   visibility      0
-#   state           'development'
-# end
+Fabricator(:full_tournament, :from => :tournament) do
+  user!
+end
+
+Fabricator(:bracket) do
+  # tournament{ Fabricate(:full_tournament) }
+end
+
+Fabricator(:wing) do
+  bracket
+end

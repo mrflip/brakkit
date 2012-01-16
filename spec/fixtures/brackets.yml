@@ -1,15 +1,11 @@
 one:
   ordering:             MyText
   closed:               false
-  tournament: 
-  handle:               bracket_1
   settings:             "--- \n{}\n"
 
 two:
   ordering:             MyText
   closed:               false
-  tournament: 
-  handle:               MyString
   settings:             "--- \n{}\n"
   
 # == Schema Information

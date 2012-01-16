@@ -1,10 +1,11 @@
 class TournamentsController < ApplicationController
+  before_filter :find_many_from_params, :only => [:index]
+  before_filter :find_from_params,      :only => [:show, :edit, :update, :destroy]
+
   def index
-    @tournaments = Tournament.all
   end
 
   def show
-    @tournament = Tournament.find(params[:id])
   end
 
   def new
@@ -17,26 +18,34 @@ class TournamentsController < ApplicationController
     if @tournament.save
       redirect_to @tournament, :notice => "Successfully created tournament."
     else
-      render :action => 'new'
+      render :new
     end
   end
 
   def edit
-    @tournament = Tournament.find(params[:id])
   end
 
   def update
-    @tournament = Tournament.find(params[:id])
     if @tournament.update_attributes(params[:tournament])
       redirect_to @tournament, :notice  => "Successfully updated tournament."
     else
-      render :action => 'edit'
+      render :edit
     end
   end
 
   def destroy
-    @tournament = Tournament.find(params[:id])
     @tournament.destroy
     redirect_to tournaments_url, :notice => "Successfully destroyed tournament."
   end
+
+private
+
+  def find_many_from_params
+    @tournaments = Tournament.all
+  end
+
+  def find_from_params
+    @tournament = Tournament.find(params[:id])
+  end
+
 end

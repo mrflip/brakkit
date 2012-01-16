@@ -14,10 +14,9 @@
 ActiveRecord::Schema.define(:version => 8) do
 
   create_table "brackets", :force => true do |t|
+    t.integer  "tournament_id"
     t.text     "ordering"
     t.boolean  "closed"
-    t.integer  "tournament_id"
-    t.string   "handle"
     t.text     "settings"
     t.datetime "created_at",    :null => false
     t.datetime "updated_at",    :null => false
@@ -27,16 +26,17 @@ ActiveRecord::Schema.define(:version => 8) do
 
   create_table "contestants", :force => true do |t|
     t.string   "name"
+    t.string   "handle"
     t.text     "description"
     t.integer  "bracket_id"
     t.integer  "seed"
-    t.string   "handle"
     t.text     "settings"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
   end
 
   add_index "contestants", ["bracket_id"], :name => "index_contestants_on_bracket_id"
+  add_index "contestants", ["handle"], :name => "index_contestants_on_handle", :unique => true
 
   create_table "friendly_id_slugs", :force => true do |t|
     t.string   "slug",                         :null => false
@@ -50,13 +50,16 @@ ActiveRecord::Schema.define(:version => 8) do
   add_index "friendly_id_slugs", ["sluggable_type"], :name => "index_friendly_id_slugs_on_sluggable_type"
 
   create_table "identities", :force => true do |t|
+    t.string   "handle"
     t.integer  "user_id"
     t.string   "provider"
-    t.string   "handle"
     t.text     "data"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
+
+  add_index "identities", ["handle", "provider"], :name => "index_identities_on_handle_and_provider"
+  add_index "identities", ["user_id", "provider"], :name => "index_identities_on_user_id_and_provider"
 
   create_table "sessions", :force => true do |t|
     t.string   "session_id", :null => false
@@ -69,28 +72,29 @@ ActiveRecord::Schema.define(:version => 8) do
   add_index "sessions", ["updated_at"], :name => "index_sessions_on_updated_at"
 
   create_table "tournaments", :force => true do |t|
-    t.integer  "user_id",                                :null => false
     t.string   "name",                                   :null => false
+    t.string   "handle",                                 :null => false
     t.text     "description", :default => "",            :null => false
+    t.integer  "user_id",                                :null => false
     t.integer  "size",        :default => 64,            :null => false
     t.integer  "duration",    :default => 7,             :null => false
     t.integer  "visibility",  :default => 0,             :null => false
     t.string   "state",       :default => "development", :null => false
-    t.string   "handle",                                 :null => false
     t.text     "settings"
     t.datetime "created_at",                             :null => false
     t.datetime "updated_at",                             :null => false
   end
 
+  add_index "tournaments", ["handle"], :name => "index_tournaments_on_handle", :unique => true
   add_index "tournaments", ["user_id"], :name => "index_tournaments_on_user_id"
 
   create_table "users", :force => true do |t|
+    t.string   "fullname",               :limit => 160
     t.string   "username",               :limit => 20
+    t.text     "description",            :limit => 160
     t.string   "twitter_name",           :limit => 20
     t.string   "facebook_url",           :limit => 160
     t.integer  "facebook_id"
-    t.string   "fullname",               :limit => 160
-    t.text     "description",            :limit => 160
     t.string   "url",                    :limit => 160
     t.boolean  "dummy_password"
     t.string   "shibboleth"

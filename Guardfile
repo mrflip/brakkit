@@ -22,16 +22,17 @@ guard 'spork', :cucumber_env => { 'RAILS_ENV' => 'test' }, :rspec_env => { 'RAIL
   watch(%r{^config/initializers/.+\.rb$})
   watch('Gemfile')
   watch('Gemfile.lock')
-  watch('spec/spec_helper.rb') { :rspec }
-  watch('test/test_helper.rb') { :test_unit }
-  watch(%r{features/support/}) { :cucumber }
+  watch(%r{^spec/fabricators/.+\.rb$}){ :rspec }
+  watch('spec/spec_helper.rb'){         :rspec }
+  watch('test/test_helper.rb'){         :test_unit }
+  watch(%r{features/support/}){         :cucumber }
 end
 
 #
 # watch the app and test files, run spec if they change
 #
 guard('rspec', :version => 2,
-  :cli => "--color --format nested --fail-fast --drb",
+  :cli => "--color --format nested --drb",
   :all_on_start => false, :all_after_pass => false,     ) do
 
   watch(%r{^spec/.+_spec\.rb$})

@@ -5,11 +5,11 @@ User.class_eval do
   #
   # https://github.com/plataformatec/devise/wiki/How-To:-Allow-users-to-sign_in-using-their-username-or-email-address
   #
-  
+
   # virtual accessor for username-or-email login
   attr_accessor   :login
   attr_accessible :login
-  
+
   def self.find_for_database_authentication(conditions)
     conditions = conditions.dup
     login = conditions.delete(:login)

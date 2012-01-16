@@ -1,15 +1,17 @@
 class Tournament < ActiveRecord::Base
-  attr_accessible :name, :description
+  attr_accessible :name, :description, :size, :duration, :visibility
+  # generate handle from name
+  extend FriendlyId
+  friendly_id   :name, :use => :slugged, :slug_column => :handle
   # key-value store for ad-hoc attributes
   store           :settings
 
+
   belongs_to    :user
   has_one       :bracket
-  # has_many      :ballots
+  # has_many    :ballots
 
-  # FIXME: !!REMOVE!!
-  attr_accessible :user_id, :size, :duration, :visibility, :state, :handle
-
+  validates_presence_of :name, :handle, :size, :user
   validates :size, :inclusion => { :in => [8, 16, 32, 64] }
 
 end

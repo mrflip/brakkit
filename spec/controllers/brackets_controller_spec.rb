@@ -1,5 +1,4 @@
 require File.dirname(__FILE__) + '/../spec_helper'
-p ['specs', __FILE__, __LINE__]
 
 describe BracketsController do
   fixtures :all
@@ -21,13 +20,12 @@ describe BracketsController do
   end
 
   it "create action should render new template when model is invalid" do
-    Bracket.any_instance.stub(:valid?).and_return(false)
+    Bracket.any_instance.stub(:valid?).and_return(false) # careful - handles won't be generated
     post :create
     response.should render_template(:new)
   end
 
   it "create action should redirect when model is valid" do
-    Bracket.any_instance.stub(:valid?).and_return(true)
     post :create
     response.should redirect_to(bracket_url(assigns[:bracket]))
   end

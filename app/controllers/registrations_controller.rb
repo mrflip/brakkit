@@ -46,7 +46,7 @@ class RegistrationsController < Devise::RegistrationsController
       # they have a password, check it before updating
       result = resource.update_with_password(params[resource_name])
     end
-    respond_to_user_update(result, :action => 'edit_password', :err_location => user_registration_password_path)
+    respond_to_user_update(result, :edit_password, :err_location => user_registration_password_path)
   end
 
   def destroy_step_1

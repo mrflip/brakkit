@@ -1,9 +1,22 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
 describe Tournament do
-  it "should be valid" do
-    Tournament.new.should be_valid
+  let(:tournament){ Fabricate(:tournament, :name => 'Brownie Recipe', :user => Fabricate(:user)) }
+  subject{ tournament }
+  it{      should be_valid }
+
+  it 'have an auto-vivified handle' do
+    tournament.handle.should be_a(String)
+    tournament.handle.should =~ /\Abrownie-recipe/
   end
+
+  it 'validates size is on the approved list' do
+    good_sizes = [ 8, 16, 32, 64 ]
+    bad_sizes  = (0..69).to_a - good_sizes
+    good_sizes.each{|size| tournament.size = size ; tournament.should     be_valid }
+    bad_sizes.each{|size|  tournament.size = size ; tournament.should_not be_valid }
+  end
+
 end
 # == Schema Information
 #
@@ -22,4 +35,3 @@ end
 #  created_at  :datetime        not null
 #  updated_at  :datetime        not null
 #
-

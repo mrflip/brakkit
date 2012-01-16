@@ -1,7 +1,12 @@
 class Contestant < ActiveRecord::Base
   attr_accessible :name, :description, :bracket, :seed, :handle, :settings
+  # generate handle from name
+  extend FriendlyId
+  friendly_id   :name, :use => :slugged, :slug_column => :handle
 
   belongs_to :bracket
+
+
 end
 # == Schema Information
 #
@@ -17,4 +22,3 @@ end
 #  created_at  :datetime        not null
 #  updated_at  :datetime        not null
 #
-

@@ -4,6 +4,9 @@ describe Bracket do
   it "should be valid" do
     Bracket.new.should be_valid
   end
+
+  it 'sets handle with tournament\'s id'
+
 end
 # == Schema Information
 #
@@ -18,4 +21,3 @@ end
 #  created_at    :datetime        not null
 #  updated_at    :datetime        not null
 #
-

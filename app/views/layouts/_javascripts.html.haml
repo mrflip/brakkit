@@ -12,14 +12,14 @@
   :javascript
     !window.jQuery && document.write(unescape('%3Cscript src="/assets/jquery.min.js"%3E%3C/script%3E'))
     !window.jQuery && document.write(unescape('%3Cscript src="/assets/jquery-ui.min.js"%3E%3C/script%3E'))
-      
+
   = javascript_include_tag('application')
   = javascript_include_tag('hashgrid') if Rails.env.development?
   = javascript_include_tag('bootstrap/bootstrap-alerts')
   = javascript_include_tag('bootstrap/bootstrap-twipsy')
   = javascript_include_tag('bootstrap/bootstrap-popover')
   = yield :javascripts
-  
+
   - if Settings.google_analytics_id.present?
     :javascript
       var _gaq = [['_setAccount', '#{Settings.google_analytics_id}'], ['_trackPageview']];
@@ -30,4 +30,4 @@
         g.src = ('https:' == location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
         s.parentNode.insertBefore(g, s);
       })(document, 'script');
-  
+

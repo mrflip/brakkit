@@ -5,7 +5,7 @@
     %legend= @title
     = f.text_field     :username,    :required => true
     = f.text_field     :email,       :advice => 'We won\'t spam you, promise'
-    
+
     %hr/
     = f.password_field :password
     = f.password_field :password_confirmation, :required => true
@@ -13,10 +13,10 @@
     %hr/
     = f.text_field     :fullname,    :advice => 'Hi, bob'
     = f.text_field     :url,         :advice => 'Your homepage, facebook or blog', :maxlength => 160
-    = f.text_area      :description, :help_right  => 'all about you', :maxlength => 160, :rows => 4, :cols => 40 
+    = f.text_area      :description, :help_right  => 'all about you', :maxlength => 160, :rows => 4, :cols => 40
 
 
-  
+
     .actions
       = f.submit "Sign up"
       %span.secondary-action

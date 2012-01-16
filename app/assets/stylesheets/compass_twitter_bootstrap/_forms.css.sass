@@ -12,7 +12,7 @@
   float:        none
   width:        $gridColumnWidth * $columnSpan + $gridGutterWidth * ($columnSpan - 1) - 10
   margin-left:  0
-  
+
 form
   margin-bottom: $baseline
 
@@ -46,7 +46,7 @@ textarea
   +sans-serif(normal, $basefont, normal)
 
 // Float labels left
-.form-spacer,  
+.form-spacer,
 label
   padding-top: 6px
   font-size: $basefont
@@ -72,7 +72,7 @@ input,
 textarea,
 select,
 .uneditable-input,
-.display-field  
+.display-field
   display:      inline-block
   height:       $baseline
   padding:      4px
@@ -84,13 +84,13 @@ select,
 
 input,
 .uneditable-input,
-.display-field  
+.display-field
   +formColumns(5)
 textarea
   +formColumns(9)
 select
   width:        (5 * $gridColumnWidth) + (4 * $gridGutterWidth)
-    
+
 // remove padding from select
 select
   padding:      initial
@@ -150,8 +150,8 @@ textarea
   cursor: not-allowed
 .display-field
   border:               0px none #fff
-  padding-top:          6px  
-  
+  padding-top:          6px
+
 // Placeholder text gets special styles; can't be bundled together though for some reason
 \:-moz-placeholder
   color: $grayLight
@@ -319,9 +319,9 @@ textarea[readonly]
   +border-radius(0 0 3px 3px)
   .secondary-action
     float: right
-    span, a  
+    span, a
       display:          inline-block
-      line-height:      30px  
+      line-height:      30px
     a
       &:hover
         text-decoration: underline
@@ -329,9 +329,9 @@ textarea[readonly]
 // Help Text
 // TODO: Do we need to set basefont and baseline here?
 
-// form .error > .input > .help-inline:last-child,  
+// form .error > .input > .help-inline:last-child,
 .help-inline,
-.help-advice,  
+.help-advice,
 .help-block
   font-size: $basefont
   line-height: $baseline
@@ -405,7 +405,7 @@ textarea[readonly]
     display: block
     padding: 0
     width: 100%
-  .form-spacer,  
+  .form-spacer,
   label
     display: block
     float: none
@@ -441,7 +441,7 @@ textarea[readonly]
     padding-top: $baseline / 2
   legend
     padding-left: 0
-  .form-spacer,  
+  .form-spacer,
   label
     display: block
     float: none
@@ -458,7 +458,7 @@ textarea[readonly]
     margin-bottom: 0
     li
       padding-top: 0
-      .form-spacer,  
+      .form-spacer,
       label
         font-weight: normal
         padding-top: 0
@@ -475,5 +475,5 @@ textarea[readonly]
 .block-message
   .form-spacer
     width:              $formLabelOffset - 2*$gridGutterWidth - 1px
-    margin-right:       $gridGutterWidth    
-    padding-top:        12px  
+    margin-right:       $gridGutterWidth
+    padding-top:        12px

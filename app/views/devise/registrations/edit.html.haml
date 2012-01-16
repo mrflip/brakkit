@@ -3,20 +3,20 @@
 = form_for(resource, :as => resource_name, :url => update_user_registration_path, :html => { :method => :put, :class => 'edit user' }, :autocomplete => 'on') do |f|
   %fieldset
     %legend= @title
-    = f.display_field  :username    
+    = f.display_field  :username
     = f.text_field     :email,       :help_inline => 'We won\'t spam you, promise'
 
 
 
 
-  
+
     = f.text_field     :fullname,    :help_inline => 'Hi, bob'
     = f.text_field     :url,         :help_inline => 'Your homepage, facebook or blog', :maxlength => 160
-    = f.text_area      :description,   :help_right  => 'all about you', :maxlength => 160, :rows => 4, :cols => 40 
+    = f.text_area      :description,   :help_right  => 'all about you', :maxlength => 160, :rows => 4, :cols => 40
 
     = f.display_field  :twitter_name
     = f.display_field  :facebook_url
-    
+
     .actions
       = f.submit "Update"
       %span.secondary-action

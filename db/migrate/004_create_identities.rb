@@ -1,16 +1,15 @@
 class CreateIdentities < ActiveRecord::Migration
-  def self.up
+  def change
     create_table :identities do |t|
+      t.string  :handle
+      #
       t.integer :user_id
       t.string  :provider
-      t.string  :handle
       t.text    :data
-
+      #
       t.timestamps
     end
-  end
-
-  def self.down
-    drop_table :identities
+    add_index :identities, [:user_id, :provider]
+    add_index :identities, [:handle,  :provider]
   end
 end

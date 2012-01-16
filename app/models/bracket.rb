@@ -29,6 +29,10 @@ class Bracket < ActiveRecord::Base
   # Methods
   #
 
+  def handle
+    @handle ||= "#{self.class.model_name.underscore}_#{self.tournament.id}"
+  end
+
   after_initialize do |bracket|
     bracket.ordering ||= [DUMMY_ZEROTH]
     bracket.tournament = Tournament.first
@@ -84,9 +88,7 @@ end
 #  ordering      :text
 #  closed        :boolean
 #  tournament_id :integer
-#  handle        :string(255)
 #  settings      :text
 #  created_at    :datetime        not null
 #  updated_at    :datetime        not null
 #
-
