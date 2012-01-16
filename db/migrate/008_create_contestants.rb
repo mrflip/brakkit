@@ -7,7 +7,7 @@ class CreateContestants < ActiveRecord::Migration
       #
       t.belongs_to :bracket
       #
-      t.integer    :seed
+      t.integer    :rank
       #
       t.text       :settings
       t.timestamps

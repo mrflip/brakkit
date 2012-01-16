@@ -10,6 +10,16 @@ describe Bracket do
     bracket.handle.should == "bracket_444"
   end
 
+  context 'contestants' do
+    it "it has em" do
+      bracket.contestants.length.should == bracket.size
+      bracket.contestants.all?{|cont| cont.is_a?(Contestant)  }.should be_true
+    end
+    it "know who their daddy is" do
+      bracket.contestants.all?{|cont| cont.bracket == bracket }.should be_true
+    end
+  end
+
   # it "has pools" do
   #   bracket.pools.length.should == ??
   # end

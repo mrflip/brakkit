@@ -29,7 +29,7 @@ ActiveRecord::Schema.define(:version => 8) do
     t.string   "handle"
     t.text     "description"
     t.integer  "bracket_id"
-    t.integer  "seed"
+    t.integer  "rank"
     t.text     "settings"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false

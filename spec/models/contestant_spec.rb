@@ -13,10 +13,9 @@ end
 #  name        :string(255)
 #  description :text
 #  bracket_id  :integer
-#  seed        :integer
+#  rank        :integer
 #  handle      :string(255)
 #  settings    :text
 #  created_at  :datetime        not null
 #  updated_at  :datetime        not null
 #
-

@@ -10,19 +10,6 @@ class BracketsController < ApplicationController
     # @bracket    = Bracket.new({ :tournament => @tournament })
   end
 
-  def new
-    @bracket = Bracket.new(params[:bracket])
-  end
-
-  def create
-    @bracket = Bracket.new(params[:bracket])
-    if @bracket.save
-      redirect_to @bracket, :success => "Successfully created bracket."
-    else
-      render :new
-    end
-  end
-
   def edit
   end
 

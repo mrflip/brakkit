@@ -1,18 +1,24 @@
 class Pool < ContestantContainer
   require_dependency File.expand_path('contestant_container', File.dirname(__FILE__))
 
+  # This is the pool_idx''th pool in the parent bracket
   has_attribute :pool_idx
-  # Which seeds does this pool take care of?
-  has_attribute :seed_idxs
+
+  # Which ranks does this pool take care of?
+  def rank_idxs
+    return @rank_idxs if @rank_idxs
+    first_rank = 1 + ((pool_idx - 1) * bracket.group_size)
+    @rank_idxs = ( first_rank .. (first_rank+bracket.group_size-1) ).to_a
+  end
+
   # Is this a bubble pool, or an in-play pool
-  has_attribute :bubble
+  def bubble?()
+    @bubble ||= ((pool_idx - 1) * bracket.group_size) >= tournament.size
+  end
 
   def handle
     "#{bracket.handle}_#{pool_idx}"
   end
   def id() handle ; end
 
-  def bubble?
-    !! bubble
-  end
 end

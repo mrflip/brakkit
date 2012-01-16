@@ -1,5 +1,5 @@
 class Contestant < ActiveRecord::Base
-  attr_accessible :name, :description, :bracket, :seed, :handle, :settings
+  attr_accessible :name, :description, :bracket, :rank, :handle, :settings
   # generate handle from name
   extend FriendlyId
   friendly_id   :name, :use => :slugged, :slug_column => :handle
@@ -16,7 +16,7 @@ end
 #  name        :string(255)
 #  description :text
 #  bracket_id  :integer
-#  seed        :integer
+#  rank        :integer
 #  handle      :string(255)
 #  settings    :text
 #  created_at  :datetime        not null

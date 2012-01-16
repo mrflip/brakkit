@@ -5,12 +5,12 @@ describe Wing do
   subject{ wing }
   it{      should be_valid }
 
-  it "chooses multiples every n'th seed" do
+  it "chooses multiples every n'th rank" do
     wing.bracket.stub(:n_wings).and_return(4)
-    wing.seed_idxs.should == [3, 7, 11, 15]
+    wing.rank_idxs.should == [3, 7, 11, 15, 19, 23, 27, 31, 35, 39, 43, 47, 51, 55, 59, 63]
     wing.wing_idx = 2
-    wing.bracket.stub(:n_wings).and_return(2)
-    wing.seed_idxs.should == [2, 4, 6, 8, 10, 12, 14, 16]
+    wing.bracket.stub(:n_wings).and_return(8)
+    wing.rank_idxs.should == [2, 10, 18, 26, 34, 42, 50, 58]
   end
 
 end

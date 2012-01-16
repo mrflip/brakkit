@@ -4,6 +4,10 @@ class ContestantContainer < SimpleModel
   has_attribute :bracket
 
   def contestants
-    bracket.seeding.values_at( *seed_idxs )
+    bracket.ranking.values_at( *rank_idxs )
+  end
+
+  def tournament
+    bracket.tournament
   end
 end

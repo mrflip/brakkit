@@ -2,14 +2,15 @@ module DeviseControllerMacros
   def login_admin
     before(:each) do
       @request.env["devise.mapping"] = Devise.mappings[:admin]
-      sign_in Factory.create(:admin) # Using factory girl as an example
+      sign_in Fabricate(:user)
     end
   end
 
   def login_user
+    fixtures :users
     before(:each) do
       @request.env["devise.mapping"] = Devise.mappings[:user]
-      user = User.first # Factory.create(:user)
+      user = User.first
       sign_in user
     end
   end
