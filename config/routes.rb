@@ -39,6 +39,7 @@ Brak::Application.routes.draw do
   match 'about'               => 'misc#about'
   match 'misc/demo'           => 'misc#demo'
   match 'misc/bootstrap_demo' => 'misc#bootstrap_demo'
+  match 'misc/brak_coffee'    => 'misc#brak_coffee'
 
 end
 #== Route Map

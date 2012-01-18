@@ -47,15 +47,15 @@ class Bracket < ActiveRecord::Base
   # Containers
   #
 
-  def n_wings() [(     size/group_size ),1].min.to_i ; end
-  def n_pools() [( 2 * size/group_size ),1].min.to_i ; end
+  def n_wings() [(     size/group_size ),1].max.to_i ; end
+  def n_pools() [( 2 * size/group_size ),1].max.to_i ; end
 
   def pools
-    @pools ||= (1 .. n_pools+1).map{|pool_idx| Pool.new(:bracket => self, :pool_idx => pool_idx) }
+    @pools ||= (1 .. n_pools).map{|pool_idx| Pool.new(:bracket => self, :pool_idx => pool_idx) }
   end
 
   def wings
-    @wings ||= (1 .. n_wings+1).map{|wing_idx| Wing.new(:bracket => self, :wing_idx => wing_idx) }
+    @wings ||= (1 .. n_wings).map{|wing_idx| Wing.new(:bracket => self, :wing_idx => wing_idx) }
   end
 
   def trounds

@@ -5,11 +5,11 @@ module ApplicationHelper
     @title = text
   end
 
-  def skip_sidebar()        @skip_sidebar = true ; end
-  def show_sidebar?()   not @skip_sidebar    ;  end
+  def skip_sidebar(val=true)     @skip_sidebar = val ; end
+  def show_sidebar?()        not @skip_sidebar    ;  end
 
-  def centered_layout()     @centered_layout = true ; end
-  def centered_layout?() !! @centered_layout ; end
+  def centered_layout(val=true)  @centered_layout = val  ; end
+  def centered_layout?()      !! @centered_layout ; end
 
   def app_name()            Settings.app_name ; end
 

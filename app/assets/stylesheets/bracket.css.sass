@@ -1,0 +1,214 @@
+
+/* .tournament             { background-color: #fff0f0; }
+/* .wing                   { background-color: #ffffff; }
+/* .tround > .tmatch       { background-color: #fff; }
+/* .wing > .bubble > .slot { background-color: #ddd; }
+
+.tround
+  background-color:     #fdf3f3
+.pool.ranked
+  background-color:     #f3fdf3
+.pool.bubble
+  background-color:     #f3f3fd
+.contestant
+  background-color:     #FeFbf7
+.contestant.winner
+  background-color:     #ddffee
+.slot.drophover
+  background-color:     #ddd
+
+.tournament
+  padding:                10px
+  float:                left
+  width:                1800px
+.wing
+  float:                left
+  margin-left:          40px
+  width:                1000px
+
+/*
+ * Contestants and slots
+
+.contestant
+  width:                150px
+  height:               30px
+  line-height:          2.133
+  padding:              0px 4px 0px 6px
+  color:                black
+  display:              inline-block
+  white-space:          nowrap
+  border:               1px solid #FCEEC1
+  border-radius:        4px
+
+.result > .contestant
+  background-color:     #fdf3f3
+  border:               1px dotted #fdf3f3
+  border-radius:        0px
+
+.slot, .result
+  width:                166px
+  height:               32px
+  line-height:          2.133
+
+.pool .slot
+  margin-bottom:        9px
+
+.ui-draggable
+  cursor:               pointer
+  cursor:               hand
+
+.contestant
+  .drag_handle
+    padding:            8px 2px 8px 2px
+  &.ui-sortable-helper .drag_handle
+    cursor:             inherit
+
+   
+/*
+ * Bracket
+
+.wing   
+  >
+    .tround
+      vertical-align:   top
+      float:            left
+      .tmatch
+        border:         1px solid black
+        border-left:    0px none  
+        padding-left:   1.0em
+    .bubble
+      opacity:          0.8
+      margin-top:       2em
+      float:            left
+      > .slot
+        float:          left
+    .tround
+      .tmatch.winner
+        border-width:   1px 0 0 0
+      .result.winner
+        margin:         -16px 0 -17px 1px
+
+/* make the bracket lines
+
+/* Boring bubble (it's mostly for diagnostic purposes and placeholder)
+
+/* Winner needs to be pulled up so it lines halfway
+
+/*
+ * bracket lines up purty
+
+.tround_1
+  > .tmatch
+    margin-top:           20px
+    margin-bottom:        20px
+    > .part_a
+      margin-bottom:      14px
+  > .tmatch.first
+    margin-top:           10px
+  > .tmatch.last
+    margin-bottom:        10px
+
+.tround_2 > .tmatch
+  margin-top:           100px
+  margin-bottom:        100px
+.tround_3 > .tmatch
+  margin-top:           200px
+  margin-bottom:        200px
+.tround_4 > .tmatch
+  margin-top:           400px
+  margin-bottom:        400px
+.tround_5 > .tmatch
+  margin-top:           800px
+  margin-bottom:        800px
+.tround_6 > .tmatch
+  margin-top:           1600px
+  margin-bottom:        1600px
+
+.tround_2 > .tmatch.first
+  margin-top: 50px
+.tround_3 > .tmatch.first
+  margin-top: 100px
+.tround_4 > .tmatch.first
+  margin-top: 200px
+.tround_5 > .tmatch.first
+  margin-top: 400px
+.tround_6 > .tmatch.first
+  margin-top: 800px
+
+.tround_2 > .tmatch.last
+  margin-bottom: 50px
+.tround_3 > .tmatch.last
+  margin-bottom: 100px
+.tround_4 > .tmatch.last
+  margin-bottom: 200px
+.tround_5 > .tmatch.last
+  margin-bottom: 400px
+.tround_6 > .tmatch.last
+  margin-bottom: 800px
+
+.tround_2 > .tmatch > .part_a
+  margin-bottom: 34px
+.tround_3 > .tmatch > .part_a
+  margin-bottom: 134px
+.tround_4 > .tmatch > .part_a
+  margin-bottom: 334px
+.tround_5 > .tmatch > .part_a
+  margin-bottom: 734px
+
+.slot .seed
+  display: inline-block
+  width: 16px
+  padding-right: 6px
+  margin-left: -22px
+  margin-top: 0.5em
+  /* size to make up for font-size
+  font-size: 0.75em
+  font-variant: small-caps
+  text-align: right
+  /* background-color:     #ccc;
+
+.bubble .slot .seed
+  display: none
+
+/* .slot { background-color: #dcc }
+
+/*
+ * Ranking box
+ *
+
+.pools
+  ol, ul
+    list-style-type: none
+    padding: 0
+  ol, ul
+    margin: 0 1em 0 1em
+    float: left
+
+/* fixes for dragging on iOS
+/* * {
+/*   -webkit-touch-callout:        none;           /\* prevent callout to copy image, etc when tap to hold *\/
+/* -webkit-text-size-adjust:     none;           /\* prevent webkit from resizing text to fit *\/
+/* -webkit-tap-highlight-color:  rgba(0,0,0,0);  /\* make transparent link selection, adjust last value opacity 0 to 1.0 *\/
+/* -webkit-user-select:          none;           /\* prevent copy paste, to allow, change 'none' to 'text' *\/
+/* }
+
+/* hashgrid.js template
+
+#grid
+  width: 1200px
+  position: absolute
+  top: 0
+  left: 0%
+  margin-left: 0px
+  div
+    &.vert
+      width: 23px
+      border: solid darkturquoise
+      border-width: 0 1px
+      margin-left: 5px
+      margin-right: 5px
+    &.horiz
+      height: 25px
+      border-bottom: 1px dotted #aaaaaa
+      margin: 0
+      padding: 0

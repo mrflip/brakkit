@@ -1,18 +1,23 @@
 - title "Bracket"
+- centered_layout true
+- skip_sidebar    true
 
 %h2 Info
 
 %pre
   == size: #{@bracket.size}
 
-%h2 pools
-
-.pools
-  = render @bracket.pools
+  
+.pools{ :id => 'pools_1' }
+  %h2 pools
+  - @bracket.pools.each do |pool|
+    = render pool
 
 .wings
-  = render @bracket.wings
+  - @bracket.wings[0..0].each do |wing|
+    = render wing
 
+%hr.clear/
 %p
   = link_to "Edit", edit_bracket_path(@bracket)
   |

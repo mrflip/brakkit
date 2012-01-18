@@ -1,0 +1,4 @@
+- tround = winner_tround
+.tround[tround]{ :class => "tround_#{tround.rd_idx}" }
+  - tround.tmatches.each do |tmatch|
+    = render tmatch

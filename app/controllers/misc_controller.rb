@@ -9,4 +9,7 @@ class MiscController < ApplicationController
 
   def bootstrap_demo
   end
+
+  def brak_coffee
+  end
 end

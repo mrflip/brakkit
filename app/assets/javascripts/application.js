@@ -11,7 +11,10 @@
 // GO AFTER THE REQUIRES BELOW.
 //
 //= require jquery_ujs
-//= require_tree .
+//= require underscore
+//= require helpers
+//= require brak_you
+//
 
 $(document).ready(function(){
   $("[rel='twipsy']").each(function (){ $(this).twipsy({}) });

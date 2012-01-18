@@ -46,6 +46,7 @@ group 'test' do
   #
   gem 'spork',               "> 0.9.0.rc"
   gem 'rb-fsevent'
+  gem 'guard'
   gem 'guard-spork'
   gem 'guard-rspec'
   gem 'guard-livereload'

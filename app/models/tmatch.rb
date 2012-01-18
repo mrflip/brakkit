@@ -7,6 +7,9 @@ class Tmatch < ContestantContainer
   # The round this match is within
   has_attribute :tround
 
+  # KLUDGE: is this the final round
+  has_attribute :winner
+
   def handle
     "tmatch_#{id}"
   end
