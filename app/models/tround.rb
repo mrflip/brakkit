@@ -11,14 +11,16 @@ class Tround < ContestantContainer
   def size
     wing.size / (2 ** rd_idx)
   end
+  def winner?() !! winner ; end
 
   def tmatches
-    if winner
-      @tmatches ||= [ Tmatch.new(:tround => self, :tmatch_idx => 1, :winner => true)  ]
+    if winner?
+      @tmatches ||= [ Tmatch.new(:tround => self, :bracket => self.bracket, :tmatch_idx => 1, :winner => true)  ]
     else
-      @tmatches ||= (1 .. size).map{|tmatch_idx| Tmatch.new(:tround => self, :tmatch_idx => tmatch_idx) }
+      @tmatches ||= (1 .. size).map{|tmatch_idx| Tmatch.new(:tround => self, :bracket => self.bracket, :tmatch_idx => tmatch_idx) }
     end
   end
+
 
   def handle
     "tround_#{id}"

@@ -15,4 +15,8 @@ class Tmatch < ContestantContainer
   end
   def id() "#{tround.id}_#{tmatch_idx}" ; end
 
+  def seed_for_part(part)
+    slot_idx = 2*tmatch_idx + (part=='a' ? -1 : 0)
+    seed     = Tournament::SEED_FOR_SLOT[bracket.tournament.size][slot_idx]
+  end
 end

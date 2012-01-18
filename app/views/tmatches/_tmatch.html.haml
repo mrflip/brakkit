@@ -1,7 +1,3 @@
 .tmatch[tmatch]{ :class => [((tmatch.tmatch_idx == 1) && 'first'), (tmatch.tmatch_idx == tmatch.tround.size && 'last')].select{|x|x} }
-  - if tmatch.tround.rd_idx > 1 
-    = slot_tag(:as => :div, :id => "tmslot_#{tmatch.tround.id}_#{2*tmatch.tmatch_idx-1}", :class => 'result part_a', :contestant => true)
-    = slot_tag(:as => :div, :id => "tmslot_#{tmatch.tround.id}_#{2*tmatch.tmatch_idx}",   :class => 'result part_b', :contestant => true)
-  - else         
-    = slot_tag(:as => :div, :id => "tmslot_#{tmatch.tround.id}_#{2*tmatch.tmatch_idx-1}", :class => 'slot part_a', :contestant => false, :seed => 2*tmatch.tmatch_idx-1 )
-    = slot_tag(:as => :div, :id => "tmslot_#{tmatch.tround.id}_#{2*tmatch.tmatch_idx}",   :class => 'slot part_b', :contestant => false, :seed => 2*tmatch.tmatch_idx   )
+  = slot_for_match(tmatch, 'a')
+  = slot_for_match(tmatch, 'b')

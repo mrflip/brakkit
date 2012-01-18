@@ -10,8 +10,9 @@ class window.Brak
 #
 class window.Tournament extends Brak
   title: ""
-  constructor: (@size = 16, contestant_names = []) ->
+  constructor: (contestant_names = []) ->
     super('tournament', null, 1)
+    @size        = @visual.data('tournament_size')
     @$wing       = @visual.find('.wing')
     @pool        = new Pool(this, 1)
     @contestants = (new Contestant(this, name, i+1) for name, i in contestant_names)
@@ -23,7 +24,9 @@ class window.Tournament extends Brak
   $initial_match_for: (seed) ->
     return null if seed > @size
     match_idx = MATCH_FOR_SEED[@size][seed]
-    $("#tmatch_#{@id_parts[0]}_1_1_#{match_idx}")
+    res = $("#tmatch_#{@id_parts[0]}_1_1_#{match_idx}")
+    console.log(this.size, seed, MATCH_FOR_SEED[@size][seed], res, MATCH_FOR_SEED[@size])
+    res
 
   $initial_slot_for: (seed) ->
     $("#tmslot_#{@id_parts[0]}_1_1_#{seed}")
@@ -108,6 +111,9 @@ class window.TMatch extends Brak
   constructor: (@tround, @match_idx) ->
     super('tmatch', @tround, @match_idx)
     @dependent = @tround.rd_idx > 1
+    if not @dependent
+      @contestant_a = @$slot_a().children('.contestant').data('model')
+      @contestant_b = @$slot_b().children('.contestant').data('model')
 
   next_match:   -> @tround.next_round()?.tmatch( Math.ceil(@match_idx / 2.0) )
   prev_match_a: -> @tround.prev_round()?.tmatch( @match_idx * 2 - 1 )
@@ -125,7 +131,6 @@ class window.TMatch extends Brak
       $contestant.effect('highlight') if contestant
 
   update: ->
-    console.log( this, @dependent, @prev_match_a() )
     if @dependent
       @contestant_a = @prev_match_a()?.winner() ? null
       @contestant_b = @prev_match_b()?.winner() ? null
@@ -134,6 +139,12 @@ class window.TMatch extends Brak
     else
       @contestant_a = @$slot_a().children('.contestant').data('model')
       @contestant_b = @$slot_b().children('.contestant').data('model')
+    console.log("tmatch %-14s has cont. %-3s %-3s pulls from %-20s (%2s vs %2s) and %-20s (%2s vs %2s) notifies %-15s".sprintf(
+      @id, @contestant_a?.seed||'', @contestant_b?.seed||'',
+      @prev_match_a()?.id||'', @prev_match_a()?.contestant_a?.seed||'', @prev_match_a()?.contestant_b?.seed||'',
+      @prev_match_b()?.id||'', @prev_match_b()?.contestant_a?.seed||'', @prev_match_b()?.contestant_b?.seed||'',
+      @next_match()?.id
+      ) )
     @next_match()?.update()
 
 class window.WinnerMatch extends TMatch
@@ -194,7 +205,9 @@ class window.Contestant extends Brak
 
   initial_tmatch: ->
     return null if @on_bubble()
-    @tournament.$initial_match_for(@seed)?.data('model')
+    res = @tournament.$initial_match_for(@seed)?.data('model')
+    console.log(@id, res)
+    res
 
   on_bubble: -> (@seed > @tournament.size)
 
@@ -209,7 +222,7 @@ class window.Contestant extends Brak
       @$pool_entry.effect('highlight') ; @$trnd_entry.effect('highlight')
       orig_tmatch?.update()
 
-window.tournament = new Tournament(8, [
+window.tournament = new Tournament([
   "Beatles", "Rolling Stones", "Elvis", "U2",
   "Stevie Wonder",  "Prince", "Frank Sinatra", "Police",
   "The Clash", "The Beastie Boys", "Velvet Underground", "Led Zeppelin",

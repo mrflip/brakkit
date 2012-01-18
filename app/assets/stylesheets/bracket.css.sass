@@ -1,4 +1,7 @@
 
+@import compass_twitter_bootstrap/variables
+@import compass_twitter_bootstrap/mixins
+
 /* .tournament             { background-color: #fff0f0; }
 /* .wing                   { background-color: #ffffff; }
 /* .tround > .tmatch       { background-color: #fff; }
@@ -12,8 +15,6 @@
   background-color:     #f3f3fd
 .contestant
   background-color:     #FeFbf7
-.contestant.winner
-  background-color:     #ddffee
 .slot.drophover
   background-color:     #ddd
 
@@ -30,7 +31,7 @@
  * Contestants and slots
 
 .contestant
-  width:                150px
+  width:                ($basefont * 10)
   height:               30px
   line-height:          2.133
   padding:              0px 4px 0px 6px
@@ -44,9 +45,11 @@
   background-color:     #fdf3f3
   border:               1px dotted #fdf3f3
   border-radius:        0px
+.result.winner > .contestant
+  background-color:     #ddffee
 
 .slot, .result
-  width:                166px
+  width:                ($basefont * 10) + 12px
   height:               32px
   line-height:          2.133
 

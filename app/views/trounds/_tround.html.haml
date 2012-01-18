@@ -6,6 +6,6 @@
   .tround[tround]{ :class => "winner tround_#{tround.rd_idx}" }
     - tround.tmatches.each do |tmatch|
       .tmatch[tmatch]{ :class => 'first last winner' }
-        = slot_tag(:as => :div, :class => 'result part_a winner', :id => "tmslot_#{tmatch.tround.id}_#{2*tmatch.tmatch_idx-1}", :contestant => true)
+        = slot_for_match(tround.tmatches.first, 'a')
 
   

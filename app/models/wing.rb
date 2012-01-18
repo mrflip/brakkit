@@ -14,8 +14,8 @@ class Wing < ContestantContainer
   end
 
   def trounds
-    (1..4).map{|rd_idx| Tround.new(:wing => self, :rd_idx => rd_idx) } +
-      [Tround.new(:wing => self, :rd_idx => 5, :winner => true)]
+    (1..4).map{|rd_idx| Tround.new(:wing => self, :bracket => bracket, :rd_idx => rd_idx) } +
+      [Tround.new(:wing => self, :bracket => bracket, :rd_idx => 5, :winner => true)]
       # + [WinnerTround.new(:wing => self, :rd_idx => 5)]
   end
 

@@ -4,18 +4,18 @@
 
 %h2 Info
 
-%pre
-  == size: #{@bracket.size}
-
+.tournament[@tournament]{ 'data-tournament_size' => @tournament.size }
+  %pre
+    == size: #{@bracket.size}
   
-.pools{ :id => 'pools_1' }
-  %h2 pools
-  - @bracket.pools.each do |pool|
-    = render pool
+  .pools{ :id => 'pools_1' }
+    %h2 pools
+    - @bracket.pools.each do |pool|
+      = render pool
 
-.wings
-  - @bracket.wings[0..0].each do |wing|
-    = render wing
+  .wings
+    - @bracket.wings[0..0].each do |wing|
+      = render wing
 
 %hr.clear/
 %p
