@@ -1,4 +1,3 @@
-
 %ol.pool[pool]{ :class => (pool.bubble? ? 'bubble' : 'ranked' ) }
   - pool.rank_idxs.each do |rank_idx|
     = slot_for_pool( pool, rank_idx )

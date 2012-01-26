@@ -2,6 +2,8 @@
 @import compass_twitter_bootstrap/variables
 @import compass_twitter_bootstrap/mixins
 
+$bracket_font: $basefont
+
 /* .tournament             { background-color: #fff0f0; }
 /* .wing                   { background-color: #ffffff; }
 /* .tround > .tmatch       { background-color: #fff; }
@@ -17,11 +19,16 @@
   background-color:     #FeFbf7
 .slot.drophover
   background-color:     #ddd
+.slot
+  background-color:     #fdfdf3
 
 .tournament
   padding:                10px
   float:                left
   width:                1800px
+.pools
+  width:                340px
+  float:                left  
 .wing
   float:                left
   margin-left:          40px
@@ -31,7 +38,7 @@
  * Contestants and slots
 
 .contestant
-  width:                ($basefont * 10)
+  width:                ($bracket_font * 10)
   height:               30px
   line-height:          2.133
   padding:              0px 4px 0px 6px
@@ -49,7 +56,7 @@
   background-color:     #ddffee
 
 .slot, .result
-  width:                ($basefont * 10) + 12px
+  width:                ($bracket_font * 10) + 12px
   height:               32px
   line-height:          2.133
 
@@ -70,84 +77,74 @@
 /*
  * Bracket
 
-.wing   
-  >
-    .tround
-      vertical-align:   top
-      float:            left
-      .tmatch
-        border:         1px solid black
-        border-left:    0px none  
-        padding-left:   1.0em
-    .bubble
-      opacity:          0.8
-      margin-top:       2em
-      float:            left
-      > .slot
-        float:          left
-    .tround
-      .tmatch.winner
-        border-width:   1px 0 0 0
-      .result.winner
-        margin:         -16px 0 -17px 1px
+.wing > .tround
+  vertical-align:   top
+  float:            left
+  .tmatch
+    border:         1px solid black
+    border-left:    0px none  
+    padding-left:   1.0em
+.wing > .tround
+  /* Winner needs to be pulled up so it lines halfway
+  .tmatch.winner
+    border-width:   1px 0 0 0
+  .result.winner
+    margin:         (-$bracket_font - 1px) 0 (-$bracket_font - 2px) 1px
 
 /* make the bracket lines
 
 /* Boring bubble (it's mostly for diagnostic purposes and placeholder)
 
-/* Winner needs to be pulled up so it lines halfway
 
 /*
  * bracket lines up purty
 
+$rd1_match_height: 5 * $bracket_font + 1px
+   
 .tround_1
   > .tmatch
-    margin-top:           20px
-    margin-bottom:        20px
+    margin-top:           15px
+    margin-bottom:        15px
     > .part_a
-      margin-bottom:      14px
+      margin-bottom:       9px
   > .tmatch.first
-    margin-top:           10px
+    margin-top:            8px
   > .tmatch.last
-    margin-bottom:        10px
+    margin-bottom:         7px
 
+/*
+ * basefont:    15
+ *  
+ * tmatch             73+1+1+15 = 90
+ *   slot:        32
+ *     --          9
+ *   slot:        32
+ *                     
+   
+      
+=match_geometry($multiplier)
+  $match_height:        $rd1_match_height * $multiplier
+  margin-top:           $match_height
+  margin-bottom:        $match_height
+  &.first
+    margin-top:         $match_height / 2 
+  &.last
+    margin-bottom:      $match_height / 2
+    &.winner
+      margin-bottom:    ($match_height / 2) + (2*$bracket_font + 3)
+  > .part_a
+    margin-bottom:      $match_height - 60px
+  
 .tround_2 > .tmatch
-  margin-top:           100px
-  margin-bottom:        100px
+  +match_geometry(1)
 .tround_3 > .tmatch
-  margin-top:           200px
-  margin-bottom:        200px
+  +match_geometry(2)
 .tround_4 > .tmatch
-  margin-top:           400px
-  margin-bottom:        400px
+  +match_geometry(4)
 .tround_5 > .tmatch
-  margin-top:           800px
-  margin-bottom:        800px
+  +match_geometry(8)
 .tround_6 > .tmatch
-  margin-top:           1600px
-  margin-bottom:        1600px
-
-.tround_2 > .tmatch.first
-  margin-top: 50px
-.tround_3 > .tmatch.first
-  margin-top: 100px
-.tround_4 > .tmatch.first
-  margin-top: 200px
-.tround_5 > .tmatch.first
-  margin-top: 400px
-.tround_6 > .tmatch.first
-  margin-top: 800px
-
-.tround_2 > .tmatch.last
-  margin-bottom: 50px
-.tround_3 > .tmatch.last
-  margin-bottom: 100px
-.tround_4 > .tmatch.last
-  margin-bottom: 200px
-.tround_5 > .tmatch.last
-  margin-bottom: 400px
-.tround_6 > .tmatch.last
-  margin-bottom: 800px
+  +match_geometry(16)
 
 .tround_2 > .tmatch > .part_a
   margin-bottom: 34px
@@ -180,12 +177,24 @@
  *
 
 .pools
-  ol, ul
+  > ol.pool, > ul.pool
     list-style-type: none
-    padding: 0
-  ol, ul
-    margin: 0 1em 0 1em
-    float: left
+  > .pool
+    padding:            0
+    margin:             0 1em 0 1em
+    float:              left
+  > .pool.bubble
+    width:              344px
+.pool.bubble, wing > .bubble
+  opacity:              0.8
+  margin-top:           2em
+  float:                left
+  > .slot
+    float:              left
+    display:            block
+    margin-right:       5px  
+    margin-left:        5px  
+      
 
 /* fixes for dragging on iOS
 /* * {
