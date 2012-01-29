@@ -157,6 +157,7 @@ GEM
     omniauth-twitter (0.0.7)
       omniauth-oauth (~> 1.0)
     orm_adapter (0.0.6)
+    pg (0.12.2)
     polyglot (0.3.3)
     pry (0.9.8)
       coderay (~> 1.0.5)
@@ -286,6 +287,7 @@ DEPENDENCIES
   omniauth-oauth!
   omniauth-oauth2!
   omniauth-twitter
+  pg
   pry
   pry-rails
   rails (~> 3.2.1)

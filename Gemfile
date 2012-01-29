@@ -8,7 +8,9 @@ gem   'configliere',         "~> 0.4"
 
 # Database
 # gem 'mysql2'
-gem 'sqlite3', :group => ['development', 'test']
+gem   'sqlite3',             :group => [:development, :test]
+gem   'pg',                  :group => :production
+
 
 # Content generation
 gem   'haml',                "~> 3.1"
