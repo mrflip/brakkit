@@ -40,6 +40,8 @@ gem   'friendly_id',         "~> 4.0"      # Human readable URLs
 gem   'validates_existence', "~> 0.7"      # Validation of associations
 gem   'will_paginate',       "~> 3.0"      # Pagination of long lists
 
+gem    'dalli'                             # memcached view caching
+
 group 'test' do
   gem 'rspec',               "~> 2.8.0"
   gem 'rspec-rails',         "~> 2.8.0"

@@ -81,6 +81,7 @@ GEM
     configliere (0.4.8)
       json
     daemons (1.1.6)
+    dalli (1.1.4)
     devise (1.5.3)
       bcrypt-ruby (~> 3.0)
       orm_adapter (~> 0.0.3)
@@ -265,6 +266,7 @@ DEPENDENCIES
   coffee-rails (~> 3.2)
   compass (~> 0.11)
   configliere (~> 0.4)
+  dalli
   devise (~> 1.5)
   fabrication
   foreman
