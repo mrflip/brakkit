@@ -1,13 +1,14 @@
 source 'https://rubygems.org'
 
-gem   'rails',               "~> 3.2.0.rc1"
+gem   'rails',               "~> 3.2.1"
 gem   'thin'
+gem   'foreman'
 
 gem   'configliere',         "~> 0.4"
 
 # Database
 # gem 'mysql2'
-gem 'sqlite3'
+gem 'sqlite3', :group => ['development', 'test']
 
 # Content generation
 gem   'haml',                "~> 3.1"
