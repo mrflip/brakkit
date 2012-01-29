@@ -15,16 +15,16 @@ gem   'haml-rails',          "~> 0.3"
 gem   'jquery-rails',        "~> 2.0"
 gem   'jbuilder'
 
-group :assets do                           # only for assets; not required in production environments by default.
-  gem 'sass-rails',          "~> 3.2"
-  gem 'coffee-rails',        "~> 3.2"
-  gem 'uglifier',            ">= 1.0"
+# group :assets do                           # only for assets; not required in production environments by default.
+gem 'sass-rails',          "~> 3.2"
+gem 'coffee-rails',        "~> 3.2"
+gem 'uglifier',            ">= 1.0"
 
-  gem 'compass',             "~> 0.11"
-  # gem 'compass_twitter_bootstrap'
+gem 'compass',             "~> 0.11"
+# gem 'compass_twitter_bootstrap'
 
-  #see also https://github.com/mjbellantoni/formtastic-bootstrap
-end
+#see also https://github.com/mjbellantoni/formtastic-bootstrap
+# end
 
 gem   'devise',              "~> 1.5"      # User management
 gem   'omniauth'

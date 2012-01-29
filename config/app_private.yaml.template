@@ -1,0 +1,24 @@
+# ruby -rYAML -e 'cmd = "heroku config add " + YAML.load(File.read("config/app_private.yaml")).map{|k,v| "#{k.to_s.upcase}=\"#{v}\"" }.join(" ") ; puts cmd ; `#{cmd}`'
+
+# :signup_shibboleth:           yo_chimpy
+
+# :google_api_key:              ADD_YOURS_HERE
+# :google_analytics_id:         ADD_YOURS_HERE
+
+# twitter
+twitter_consumer_key:           UPPERandloweralphanum
+twitter_consumer_secret:        UPPERandloweralphanumbutsecretthistime1111
+twitter_access_token:           1234567-youruseridandthenUPPERandloweralphanum111
+twitter_access_secret:          getallthisstufffromdevdottwitterdotcom1111
+twitter_callback_url:           "http://brakk.at/signup/cb"
+#
+twitter_request_token_url:      "https://api.twitter.com/oauth/request_token"
+twitter_authorize_url:          "https://api.twitter.com/oauth/authorize"
+twitter_access_token_url:       "https://api.twitter.com/oauth/access_token"
+
+
+# facebook
+facebook_consumer_key:          123456789012345
+facebook_consumer_secret:       1234lettersandnumbers12345678901
+
+callback_url:                   "http://brakk.at"
