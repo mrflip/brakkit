@@ -13,7 +13,7 @@
 //= require jquery_ujs
 //= require underscore
 //= require helpers
-//= require brak_you
+//= require brakkit
 //
 
 $(document).ready(function(){

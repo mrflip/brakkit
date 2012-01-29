@@ -1,4 +1,4 @@
-class window.Brak
+class window.Brakkit
   constructor: (@class_name, @parent, my_id_parts) ->
     @id_parts = _.compact(_.flatten([@parent?.id_parts, my_id_parts]))
     @id = "#{@class_name}_#{@id_parts.join('_')}"
@@ -8,7 +8,7 @@ class window.Brak
 #
 # collection of Contestants and Rounds that define a bracket-style showdown.
 #
-class window.Tournament extends Brak
+class window.Tournament extends Brakkit
   title: ""
   constructor: (contestant_names = []) ->
     super('tournament', null, 1)
@@ -44,7 +44,7 @@ class window.Tournament extends Brak
 #
 # The sorting pool
 #
-class window.Pool extends Brak
+class window.Pool extends Brakkit
   constructor: (@tournament) ->
     super('pools', @tournament, null)
     @_make_droppable(@visual.find('.slot'))
@@ -79,7 +79,7 @@ class window.Pool extends Brak
 #
 # set of matches in a tournament
 #
-class window.Tround extends Brak
+class window.Tround extends Brakkit
   constructor: (@tournament, @rd_idx, @size) ->
     super('tround', @tournament, [1, @rd_idx])
     @_initialize_matches()
@@ -107,7 +107,7 @@ class window.WinnerRound extends Tround
 #
 # Tournament match
 #
-class window.TMatch extends Brak
+class window.TMatch extends Brakkit
   constructor: (@tround, @match_idx) ->
     super('tmatch', @tround, @match_idx)
     @dependent = @tround.rd_idx > 1
@@ -159,7 +159,7 @@ class window.WinnerMatch extends TMatch
 # drag/drop and other things just record *where* those should go; the contestant
 # has sole responsibility to idempotently update them to their new slots.
 #
-class window.Contestant extends Brak
+class window.Contestant extends Brakkit
   constructor: (@tournament, @name, @seed) ->
     @handle = "_#{@name.underscore()}"
     super('contestant', @tournament, @handle)

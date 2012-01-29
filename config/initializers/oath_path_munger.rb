@@ -1,4 +1,4 @@
-module Brak
+module Brakkit
   #
   # look for oauth request made using form submission --
   # rewrite path to the one omniauth expects
@@ -39,8 +39,8 @@ module Brak
   end
 end
 
-Brak::Application.configure do
-  config.middleware.insert_before Warden::Manager, Brak::OAuthPathMunger
+Brakkit::Application.configure do
+  config.middleware.insert_before Warden::Manager, Brakkit::OAuthPathMunger
 end
 
 # use ActionDispatch::Static
@@ -69,7 +69,7 @@ end
 # use Sass::Plugin::Rack
 # use OmniAuth::Strategies::Facebook
 # use OmniAuth::Strategies::Twitter
-# run Brak::Application.routes
+# run Brakkit::Application.routes
 
 # def process_post_body(env)
 #   post_body = env['rack.input'].string

@@ -151,10 +151,10 @@ More:
   before_filter :memorize_user
   def memorize_user
     return unless current_user
-    past_users = cookies["brak.users_seen"].to_s.split
+    past_users = cookies["brakkit.users_seen"].to_s.split
     user_id    = current_user && current_user.id
     new_val = [past_users, user_id.to_s].flatten.uniq.compact.join(' ')
     Rails.dump(past_users, user_id, cookies, new_val)
-    cookies.permanent["brak.users_seen"] = new_val
+    cookies.permanent["brakkit.users_seen"] = new_val
   end
 ```

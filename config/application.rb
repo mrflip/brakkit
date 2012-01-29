@@ -9,7 +9,7 @@ if defined?(Bundler)
   # Bundler.require(:default, :assets, Rails.env)
 end
 
-module Brak
+module Brakkit
   class Application < Rails::Application
       config.generators do |g|
       g.test_framework   :rspec, :fixture => true, :views => false

@@ -1,4 +1,4 @@
-Brak::Application.routes.draw do
+Brakkit::Application.routes.draw do
   resources :contestants
 
   resources :brackets

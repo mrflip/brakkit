@@ -5,4 +5,4 @@
 require File.expand_path('../config/application', __FILE__)
 require 'annotate/tasks'
 
-Brak::Application.load_tasks
+Brakkit::Application.load_tasks

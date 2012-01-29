@@ -41,7 +41,7 @@ Rails.instance_eval do
       end
     end
 
-    Brak::Application.configure do
+    Brakkit::Application.configure do
       config.middleware.swap Rails::Rack::Logger, LoggerWithSilence, :silenced => [%r{/assets}]
     end
 
