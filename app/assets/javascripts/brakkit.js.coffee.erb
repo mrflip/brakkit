@@ -63,10 +63,12 @@ class window.Pool extends Brakkit
       => @$first_empty_bubble_slot() )
 
   $first_empty_bubble_slot: ->
+    slots = @visual.find('.bubble .slot')
     _.first_present(
-      @visual.find('.bubble .slot').not(':has(.contestant)'),
+      slots.not(':has(.contestant)'),
+      slots.filter(':has(.contestant:text[value=""])')
       =>
-        idx = 1 + @visual.find('.bubble .slot').length + @tournament.size
+        idx = 1 + slots.length + @tournament.size
         @visual.find('.bubble').append("<li id='slot_1_#{idx}' class='slot'><span class='seed'>#{idx}</span></li>")
         @_make_droppable( @visual.find('.bubble .slot').not(':has(.contestant)') ).first() )
 
@@ -139,12 +141,12 @@ class window.TMatch extends Brakkit
     else
       @contestant_a = @$slot_a().children('.contestant').data('model')
       @contestant_b = @$slot_b().children('.contestant').data('model')
-    console.log("tmatch %-14s has cont. %-3s %-3s pulls from %-20s (%2s vs %2s) and %-20s (%2s vs %2s) notifies %-15s".sprintf(
-      @id, @contestant_a?.seed||'', @contestant_b?.seed||'',
-      @prev_match_a()?.id||'', @prev_match_a()?.contestant_a?.seed||'', @prev_match_a()?.contestant_b?.seed||'',
-      @prev_match_b()?.id||'', @prev_match_b()?.contestant_a?.seed||'', @prev_match_b()?.contestant_b?.seed||'',
-      @next_match()?.id
-      ) )
+    # console.log("tmatch %-14s has cont. %-3s %-3s pulls from %-20s (%2s vs %2s) and %-20s (%2s vs %2s) notifies %-15s".sprintf(
+    #   @id, @contestant_a?.seed||'', @contestant_b?.seed||'',
+    #   @prev_match_a()?.id||'', @prev_match_a()?.contestant_a?.seed||'', @prev_match_a()?.contestant_b?.seed||'',
+    #   @prev_match_b()?.id||'', @prev_match_b()?.contestant_a?.seed||'', @prev_match_b()?.contestant_b?.seed||'',
+    #   @next_match()?.id
+    #   ) )
     @next_match()?.update()
 
 class window.WinnerMatch extends TMatch
@@ -163,20 +165,20 @@ class window.Contestant extends Brakkit
   constructor: (@tournament, @name, @seed) ->
     @handle = "_#{@name.underscore()}"
     super('contestant', @tournament, @handle)
-    @$pool_entry = @_make_visual(@$pool_slot(), 'pcont')
-    @$trnd_entry = @_make_visual(@$trnd_slot(), 'tcont')
-    @$pool_entry.bind('dblclick touchhold.start', (event, ui) => @_beg_editing())
+    @$trnd_entry = @_make_visual(@$trnd_slot(), @_normal_element('tcont'))
+    @$pool_entry = @_get_visual(@$pool_slot())
+    # @$pool_entry.bind('dblclick touchhold.start', (event, ui) => @_beg_editing())
     @update_seed(@seed)
 
   $pool_slot: ->
     @tournament.pool.$slot_for(@seed)
   $trnd_slot: ->
     @tournament.$initial_slot_for(@seed)
-  _make_visual: ($target, type) ->
+  _make_visual: ($target, $el) ->
     if $target.children('.contestant').length > 0
-      $target.children('.contestant').replaceWith(@_normal_element(type))
+      $target.children('.contestant').replaceWith($el)
     else
-      $target.append(@_normal_element(type))
+      $target.append($el)
     $visual = $target.children('.contestant')
     $visual.data('model', this)
     $visual.draggable({
@@ -184,21 +186,26 @@ class window.Contestant extends Brakkit
     }).disableSelection()
     $visual
 
+  _get_visual: ($target) ->
+    $visual = $target.children('.contestant')
+    $visual.data('model', this)
+    $visual
+
   _normal_element:   (type) -> "<span  id='#{type}_#{@id}' class='contestant #{@id}'>#{@name}</span>"
   _editable_element: (type) -> "<input id='#{type}_#{@id}' class='contestant #{@id}' type='text' value='#{@name}'></input>"
-  _beg_editing:    ->
-    @$pool_entry.replaceWith(@_editable_element('pcont'))
-    @$pool_entry = @$pool_slot().children('.contestant').first()
-    @$pool_entry.data('model', this)
-    @$pool_entry.bind('change blur submit', (event, ui) => @_end_editing())
-  _end_editing:    ->
-    @$pool_entry.unbind('change blur submit')
-    if @$pool_entry.val()
-      @name = @$pool_entry.val()
-      $('.'+@id).html(@name)
-    @$pool_entry = @_make_visual(@$pool_slot(), 'pcont')
-    @$pool_entry.bind('dblclick touchhold.start', (event, ui) => @_beg_editing())
-    @initial_tmatch?.update()
+  # _beg_editing:    ->
+  #   @$pool_entry.replaceWith(@_editable_element('pcont'))
+  #   @$pool_entry = @$pool_slot().children('.contestant').first()
+  #   @$pool_entry.data('model', this)
+  #   @$pool_entry.bind('change blur submit', (event, ui) => @_end_editing())
+  # _end_editing:    ->
+  #   @$pool_entry.unbind('change blur submit')
+  #   if @$pool_entry.val()
+  #     @name = @$pool_entry.val()
+  #     $('.'+@id).html(@name)
+  #   @$pool_entry = @_make_visual(@$pool_slot(), 'pcont')
+  #   @$pool_entry.bind('dblclick touchhold.start', (event, ui) => @_beg_editing())
+  #   @initial_tmatch?.update()
 
   boot: ->
     @update_seed( @tournament.pool.$first_empty_bubble_slot().data('seed') )
@@ -206,7 +213,7 @@ class window.Contestant extends Brakkit
   initial_tmatch: ->
     return null if @on_bubble()
     res = @tournament.$initial_match_for(@seed)?.data('model')
-    console.log(@id, res)
+    # console.log(@id, res)
     res
 
   on_bubble: -> (@seed > @tournament.size)
@@ -215,11 +222,15 @@ class window.Contestant extends Brakkit
     orig_tmatch = @initial_tmatch()
     orig_seed   = @seed
     @seed       = seed
-    @$pool_entry.appendTo(@$pool_slot()).css({top: '', left: '', opacity: 1})
+    # @$pool_entry.appendTo(@$pool_slot()).css({top: '', left: '', opacity: 1})
     @$trnd_entry.appendTo(@$trnd_slot()).css({top: '', left: '', opacity: 1})
     @initial_tmatch()?.update()
+    @$pool_entry.val('') if (@seed != orig_seed)
+    @$pool_entry = @_get_visual(@$pool_slot())
+    @$pool_entry.val(@name)
     if (@seed != orig_seed)
-      @$pool_entry.effect('highlight') ; @$trnd_entry.effect('highlight')
+      @$pool_entry.effect('highlight')
+      @$trnd_entry.effect('highlight')
       orig_tmatch?.update()
 
 window.tournament = new Tournament([

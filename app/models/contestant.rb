@@ -6,6 +6,7 @@ class Contestant < ActiveRecord::Base
 
   belongs_to :bracket
 
+  validates :name, :presence => true
 
 end
 # == Schema Information

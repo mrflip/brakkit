@@ -8,11 +8,11 @@
   %pre
     == size: #{@bracket.size}
   
-  .pools{ :id => 'pools_1' }
+  = form_for(@bracket, :html => { :class => 'pools', :id => "pools_#{@bracket.id}" }) do |f| 
     %h2 pools
     - @bracket.pools.each do |pool|
-      = render pool
-
+      = render pool, :bracket => @bracket, :f => f
+    = f.submit
   .wings
     - @bracket.wings[0..0].each do |wing|
       = render wing

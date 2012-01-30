@@ -18,7 +18,7 @@ class Bracket < ActiveRecord::Base
 
   belongs_to      :tournament
   has_one         :user,      :through => :tournament
-  has_many        :contestants
+  has_many        :contestants,  :autosave => true
 
   #
   # Validations
@@ -67,7 +67,7 @@ class Bracket < ActiveRecord::Base
   #
 
   # contestant with the given rank
-  def ranked(rank_idx)
+  def contestant(rank_idx)
     ranking[rank_idx]
   end
 
@@ -81,8 +81,7 @@ class Bracket < ActiveRecord::Base
     rank_arr = [DUMMY_ZEROTH]
     contestants.each{|contestant| rank_arr[contestant.rank] = contestant }
     rank_idxs.each do |rank_idx|
-      cont = contestants.build( :name => "cont_#{rank_idx}", :rank => rank_idx )
-      rank_arr[rank_idx] ||= cont
+      rank_arr[rank_idx] ||= contestants.build( :name => "cont_#{rank_idx}", :rank => rank_idx )
     end
     @ranking = rank_arr
   end

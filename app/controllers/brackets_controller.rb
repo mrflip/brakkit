@@ -13,7 +13,17 @@ class BracketsController < ApplicationController
   end
 
   def update
-    if @bracket.update_attributes(params[:bracket])
+    @bracket.ranking
+    contestant_infos = (params[:bracket] || {}).delete(:contestants) || {}
+    contestant_infos.each do |rank_idx, contestant_info|
+      next if contestant_info[:name].blank?
+      contestant = @bracket.contestant(rank_idx.to_i)
+      next if contestant.blank?
+      contestant.attributes = contestant_info
+    end
+    @bracket.attributes = params[:bracket]
+
+    if @bracket.save
       redirect_to @bracket, :success => "Successfully updated bracket."
     else
       render :edit
@@ -32,7 +42,7 @@ private
   end
 
   def find_from_params
-    @bracket = Bracket.find_by_id(params[:id])
+    @bracket = Bracket.find_by_id(params[:id], :include => [:contestants])
   end
 
 end

@@ -1,3 +1,10 @@
 %ol.pool[pool]{ :class => (pool.bubble? ? 'bubble' : 'ranked' ) }
   - pool.rank_idxs.each do |rank_idx|
-    = slot_for_pool( pool, rank_idx )
+    - id_slug = "#{pool.tournament.id}_#{rank_idx}"
+    %li.slot{ :id => "slot_#{id_slug}" }
+      %label.seed{ :for => "pcont_#{id_slug}" }= rank_idx
+      - contestant = bracket.contestant(rank_idx)
+      %input.contestant{ :value => contestant && contestant.name, :id => "pcont_#{id_slug}", :type => 'text', :size => 20, :name => "bracket[contestants][#{rank_idx}][name]" }
+
+%pre
+  = bracket.inspect
