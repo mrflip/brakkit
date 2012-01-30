@@ -8,11 +8,12 @@ class CreateContestants < ActiveRecord::Migration
       t.belongs_to :bracket
       #
       t.integer    :rank
+      t.string     :uniqer, :length => 2, :null => false
       #
       t.text       :settings
       t.timestamps
     end
-    add_index :contestants, :bracket_id
-    add_index :contestants, :handle, :unique => true
+    add_index :contestants, [:bracket_id, :uniqer]
+    add_index :contestants, :handle,      :unique => true
   end
 end

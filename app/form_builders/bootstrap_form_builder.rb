@@ -177,7 +177,7 @@ private
   end
 
   def set_required
-    @options[:required] = object.class.validators_on(@name).any?{|v| v.kind_of? ActiveModel::Validations::PresenceValidator } if @options[:required].nil?
+    @options[:required] = object && object.class.validators_on(@name).any?{|v| v.kind_of? ActiveModel::Validations::PresenceValidator } if @options[:required].nil?
   end
 
   def label_field(&block)

@@ -6,15 +6,10 @@ class Bracket < ActiveRecord::Base
   # key-value store for ad-hoc attributes
   store           :settings
 
-  attr_accessible :ordering
-
   # sets the size for wings, pools, etc
   CONTESTANT_GROUP_SIZE     = 16
   # placeholder for the zeroth element in the ordering
   DUMMY_ZEROTH = -99
-
-  # ids for contestants in rank order
-  serialize       :ordering, Array
 
   belongs_to      :tournament
   has_one         :user,      :through => :tournament
@@ -25,7 +20,9 @@ class Bracket < ActiveRecord::Base
   #
 
   validates :tournament, :presence => true
-  validate  :reasonable_ordering
+  # validate  :reasonable_ordering
+
+  before_create :ranking
 
   #
   # Methods
@@ -75,21 +72,25 @@ class Bracket < ActiveRecord::Base
     (1 .. tournament.size).to_a
   end
 
+  UNIQERS = ('aa'..'zz').to_a.freeze
+
   # array of contestants in rank order; fills in dummy contestants where blank.
   def ranking()
     return @ranking if @ranking
     rank_arr = [DUMMY_ZEROTH]
-    contestants.each{|contestant| rank_arr[contestant.rank] = contestant }
+    uniqers = UNIQERS.dup
+    contestants.each{|contestant| rank_arr[contestant.rank] = contestant; uniqers.delete(contestant.uniqer) }
     rank_idxs.each do |rank_idx|
-      rank_arr[rank_idx] ||= contestants.build( :name => "cont_#{rank_idx}", :rank => rank_idx )
+      rank_arr[rank_idx] ||= contestants.build( :rank => rank_idx, :uniqer => uniqers.shift, :bracket => self)
+      rank_arr[rank_idx].valid?
     end
     @ranking = rank_arr
   end
 
   def reasonable_ordering
-    unless ranking.is_a?(Array)                  then errors.add(:ordering, 'must be an array') ; return ; end
-    unless ranking[0] == DUMMY_ZEROTH            then errors.add(:ordering, 'must have a dummy zeroth element') ; end
-    unless ranking.length <= 2 * tournament.size then errors.add(:ordering, 'cannot have more than twice as many teams as tournament slots') ; end
+    unless ranking.is_a?(Array)                  then errors.add(:contestants, 'must be an array') ; return ; end
+    unless ranking[0] == DUMMY_ZEROTH            then errors.add(:contestants, 'must have a dummy zeroth element') ; end
+    unless ranking.length <= 2 * tournament.size then errors.add(:contestants, 'cannot have more than twice as many teams as tournament slots') ; end
   end
 
 end

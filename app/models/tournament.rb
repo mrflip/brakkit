@@ -1,5 +1,6 @@
 class Tournament < ActiveRecord::Base
   attr_accessible :name, :description, :size, :duration, :visibility
+  attr_readonly   :size
   # generate handle from name
   extend FriendlyId
   friendly_id   :name, :use => :slugged, :slug_column => :handle
@@ -46,7 +47,7 @@ class Tournament < ActiveRecord::Base
 protected
 
   def add_bracket
-    self.build_bracket if not bracket.present?
+    self.build_bracket({:tournament => self}, :without_protection => true)  if bracket.blank?
   end
 
 end

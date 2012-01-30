@@ -1,12 +1,16 @@
 class Contestant < ActiveRecord::Base
-  attr_accessible :name, :description, :bracket, :rank, :handle, :settings
+  attr_accessible :name, :description, :bracket, :rank, :handle, :settings, :uniqer
+  attr_readonly   :uniqer, :bracket
   # generate handle from name
   extend FriendlyId
-  friendly_id   :name, :use => :slugged, :slug_column => :handle
+  friendly_id   :name_or_uniqer, :use => :slugged, :slug_column => :handle
 
   belongs_to :bracket
 
-  validates :name, :presence => true
+  def name_or_uniqer
+    name? ? name : "#{bracket.handle}-#{uniqer}"
+  end
+  # validates :name, :presence => true
 
 end
 # == Schema Information

@@ -4,7 +4,6 @@ class CreateBrackets < ActiveRecord::Migration
       #
       t.belongs_to :tournament
       #
-      t.text       :ordering
       t.boolean    :closed
       #
       t.text       :settings

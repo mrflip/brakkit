@@ -27,4 +27,10 @@ $(document).ready(function(){
 
   $(".alert-message").alert();
   $("#flash > div"  ).alert();
+
+  $('form.pools').live('submit', function(e) {
+    $.rails.handleRemote( $(this) );
+    e.preventDefault();
+  });
+
 })

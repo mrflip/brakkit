@@ -2,9 +2,8 @@
   - pool.rank_idxs.each do |rank_idx|
     - id_slug = "#{pool.tournament.id}_#{rank_idx}"
     %li.slot{ :id => "slot_#{id_slug}" }
-      %label.seed{ :for => "pcont_#{id_slug}" }= rank_idx
-      - contestant = bracket.contestant(rank_idx)
-      %input.contestant{ :value => contestant && contestant.name, :id => "pcont_#{id_slug}", :type => 'text', :size => 20, :name => "bracket[contestants][#{rank_idx}][name]" }
-
-%pre
-  = bracket.inspect
+      - if contestant = bracket.contestant(rank_idx)
+        = fields_for "contestants[#{contestant.uniqer}]", contestant, :hidden_field_id => true  do |cf|
+          = cf.label(:name, contestant.rank.to_s, :class => 'seed')
+          = cf.text_field(:name, :class => 'contestant', 'data-uniqer' => contestant.uniqer, 'data-seed' => rank_idx)
+          = cf.hidden_field(:rank)

@@ -15,7 +15,11 @@ class window.Tournament extends Brakkit
     @size        = @visual.data('tournament_size')
     @$wing       = @visual.find('.wing')
     @pool        = new Pool(this, 1)
-    @contestants = (new Contestant(this, name, i+1) for name, i in contestant_names)
+    # @contestants = (new Contestant(this, name, i+1) for name, i in contestant_names)
+    @contestants = @pool.visual.find('.contestant').map (x, $contestant) =>
+      console.log(x, $contestant)
+      $($contestant).val(contestant_names[x]) if ($($contestant).val() == '') && contestant_names[x]?
+      new Contestant(this, $($contestant))
     @_initialize_rounds()
     console.log this
 
@@ -162,13 +166,20 @@ class window.WinnerMatch extends TMatch
 # has sole responsibility to idempotently update them to their new slots.
 #
 class window.Contestant extends Brakkit
-  constructor: (@tournament, @name, @seed) ->
-    @handle = "_#{@name.underscore()}"
-    super('contestant', @tournament, @handle)
+  # constructor: (@tournament, @name, @seed) ->
+  #   @handle = "_#{@name.underscore()}"
+  #   super('contestant', @tournament, @handle)
+  #   @$trnd_entry = @_make_visual(@$trnd_slot(), @_normal_element('tcont'))
+  #   @$pool_entry = @_get_visual(@$pool_slot())
+  #   # @$pool_entry.bind('dblclick touchhold.start', (event, ui) => @_beg_editing())
+  #   @update_seed(@seed)
+
+  constructor: (@tournament, @$pool_entry) ->
+    @uniqer = @$pool_entry.data('uniqer')
+    @name = @$pool_entry.val()
+    @seed = @$pool_entry.data('seed')
+    super('contestant', @tournament, @uniqer)
     @$trnd_entry = @_make_visual(@$trnd_slot(), @_normal_element('tcont'))
-    @$pool_entry = @_get_visual(@$pool_slot())
-    # @$pool_entry.bind('dblclick touchhold.start', (event, ui) => @_beg_editing())
-    @update_seed(@seed)
 
   $pool_slot: ->
     @tournament.pool.$slot_for(@seed)
@@ -222,12 +233,10 @@ class window.Contestant extends Brakkit
     orig_tmatch = @initial_tmatch()
     orig_seed   = @seed
     @seed       = seed
-    # @$pool_entry.appendTo(@$pool_slot()).css({top: '', left: '', opacity: 1})
+    @$pool_entry.appendTo(@$pool_slot()).css({top: '', left: '', opacity: 1})
     @$trnd_entry.appendTo(@$trnd_slot()).css({top: '', left: '', opacity: 1})
-    @initial_tmatch()?.update()
-    @$pool_entry.val('') if (@seed != orig_seed)
-    @$pool_entry = @_get_visual(@$pool_slot())
     @$pool_entry.val(@name)
+    @initial_tmatch()?.update()
     if (@seed != orig_seed)
       @$pool_entry.effect('highlight')
       @$trnd_entry.effect('highlight')
@@ -237,6 +246,6 @@ window.tournament = new Tournament([
   "Beatles", "Rolling Stones", "Elvis", "U2",
   "Stevie Wonder",  "Prince", "Frank Sinatra", "Police",
   "The Clash", "The Beastie Boys", "Velvet Underground", "Led Zeppelin",
-  # "Bob Dylan", "The Beach Boys", "Blondie", "New Order",
+  "Bob Dylan", "The Beach Boys", "Blondie", "New Order",
   ])
 window.tournament.title = 'Test Tournament'

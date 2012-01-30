@@ -15,7 +15,6 @@ ActiveRecord::Schema.define(:version => 8) do
 
   create_table "brackets", :force => true do |t|
     t.integer  "tournament_id"
-    t.text     "ordering"
     t.boolean  "closed"
     t.text     "settings"
     t.datetime "created_at",    :null => false
@@ -30,12 +29,13 @@ ActiveRecord::Schema.define(:version => 8) do
     t.text     "description"
     t.integer  "bracket_id"
     t.integer  "rank"
+    t.string   "uniqer",      :null => false
     t.text     "settings"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
   end
 
-  add_index "contestants", ["bracket_id"], :name => "index_contestants_on_bracket_id"
+  add_index "contestants", ["bracket_id", "uniqer"], :name => "index_contestants_on_bracket_id_and_uniqer"
   add_index "contestants", ["handle"], :name => "index_contestants_on_handle", :unique => true
 
   create_table "friendly_id_slugs", :force => true do |t|
@@ -91,7 +91,7 @@ ActiveRecord::Schema.define(:version => 8) do
   create_table "users", :force => true do |t|
     t.string   "fullname",               :limit => 160
     t.string   "username",               :limit => 20
-    t.text     "description",            :limit => 160
+    t.text     "description"
     t.string   "twitter_name",           :limit => 20
     t.string   "facebook_url",           :limit => 160
     t.integer  "facebook_id"
