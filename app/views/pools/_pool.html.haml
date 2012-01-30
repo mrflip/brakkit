@@ -3,7 +3,7 @@
     - id_slug = "#{pool.tournament.id}_#{rank_idx}"
     %li.slot{ :id => "slot_#{id_slug}" }
       - if contestant = bracket.contestant(rank_idx)
+        %span.seed= contestant.rank
         = fields_for "contestants[#{contestant.uniqer}]", contestant, :hidden_field_id => true  do |cf|
-          = cf.label(:name, contestant.rank.to_s, :class => 'seed')
-          = cf.text_field(:name, :class => 'contestant', 'data-uniqer' => contestant.uniqer, 'data-seed' => rank_idx)
+          = cf.text_field(:name, :size => 20, :class => 'contestant', 'data-uniqer' => contestant.uniqer, 'data-seed' => rank_idx)
           = cf.hidden_field(:rank)

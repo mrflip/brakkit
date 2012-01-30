@@ -9,7 +9,7 @@ class Tournament < ActiveRecord::Base
 
 
   belongs_to    :user
-  has_one       :bracket
+  has_one       :bracket, :dependent => :destroy
   # has_many    :ballots
 
   validates_presence_of :name, :handle, :size, :user

@@ -8,7 +8,7 @@
   %pre
     == size: #{@bracket.size}
   
-  = form_for_with_bootstrap(@bracket, :html => { :class => 'pools', :id => "pools_#{@bracket.id}" }) do |f| 
+  = form_for_with_bootstrap(@bracket, :html => { :class => 'pools', :id => "pools_#{@tournament.id}" }) do |f| 
     %h2 pools
     - @bracket.pools.each do |pool|
       = render pool, :bracket => @bracket, :f => f

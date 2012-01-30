@@ -10,14 +10,13 @@ class window.Brakkit
 #
 class window.Tournament extends Brakkit
   title: ""
-  constructor: (contestant_names = []) ->
-    super('tournament', null, 1)
+  constructor: (tournament_id, contestant_names = []) ->
+    tournament_id = Number(tournament_id)
+    super('tournament', null, tournament_id)
     @size        = @visual.data('tournament_size')
     @$wing       = @visual.find('.wing')
-    @pool        = new Pool(this, 1)
-    # @contestants = (new Contestant(this, name, i+1) for name, i in contestant_names)
+    @pool        = new Pool(this)
     @contestants = @pool.visual.find('.contestant').map (x, $contestant) =>
-      console.log(x, $contestant)
       $($contestant).val(contestant_names[x]) if ($($contestant).val() == '') && contestant_names[x]?
       new Contestant(this, $($contestant))
     @_initialize_rounds()
@@ -29,7 +28,6 @@ class window.Tournament extends Brakkit
     return null if seed > @size
     match_idx = MATCH_FOR_SEED[@size][seed]
     res = $("#tmatch_#{@id_parts[0]}_1_1_#{match_idx}")
-    # console.log(this.size, seed, MATCH_FOR_SEED[@size][seed], res, MATCH_FOR_SEED[@size])
     res
 
   $initial_slot_for: (seed) ->
@@ -70,10 +68,9 @@ class window.Pool extends Brakkit
     slots = @visual.find('.bubble .slot')
     _.first_present(
       slots.not(':has(.contestant)'),
-      slots.filter(':has(.contestant:text[value=""])')
       =>
         idx = 1 + slots.length + @tournament.size
-        @visual.find('.bubble').append("<li id='slot_1_#{idx}' class='slot'><span class='seed'>#{idx}</span></li>")
+        @visual.find('.bubble').append("<li id='slot_#{@tournament.id_parts.join("_")}_#{idx}' class='slot'><span class='seed'>#{idx}</span></li>")
         @_make_droppable( @visual.find('.bubble .slot').not(':has(.contestant)') ).first() )
 
   # Set up the slots to be droppable. Also mixed into Tround. chains.
@@ -132,8 +129,8 @@ class window.TMatch extends Brakkit
 
   _update_slot: ($slot, contestant) ->
     $contestant = $slot.children('.contestant')
+    $contestant.text(contestant?.name ? "").attr('class', "contestant #{contestant?.id}").data('model', contestant)
     if $contestant.data('model') != contestant
-      $contestant.html(contestant?.name ? "").attr('class', "contestant #{contestant?.id}").data('model', contestant)
       $contestant.effect('highlight') if contestant
 
   update: ->
@@ -166,31 +163,29 @@ class window.WinnerMatch extends TMatch
 # has sole responsibility to idempotently update them to their new slots.
 #
 class window.Contestant extends Brakkit
-  # constructor: (@tournament, @name, @seed) ->
-  #   @handle = "_#{@name.underscore()}"
-  #   super('contestant', @tournament, @handle)
-  #   @$trnd_entry = @_make_visual(@$trnd_slot(), @_normal_element('tcont'))
-  #   @$pool_entry = @_get_visual(@$pool_slot())
-  #   # @$pool_entry.bind('dblclick touchhold.start', (event, ui) => @_beg_editing())
-  #   @update_seed(@seed)
-
   constructor: (@tournament, @$pool_entry) ->
     @uniqer = @$pool_entry.data('uniqer')
     @name = @$pool_entry.val()
     @seed = @$pool_entry.data('seed')
     super('contestant', @tournament, @uniqer)
-    @$trnd_entry = @_make_visual(@$trnd_slot(), @_normal_element('tcont'))
+    @$pool_entry.data('model', this)
+    @$pool_entry.bind('change unblur submit', (event, ui) => @update_info() )
+    @$trnd_entry = @_make_tcont(@$trnd_slot())
+    @update_seed(@seed)
+    @update_info()
 
   $pool_slot: ->
     @tournament.pool.$slot_for(@seed)
   $trnd_slot: ->
     @tournament.$initial_slot_for(@seed)
-  _make_visual: ($target, $el) ->
+  $rank_field: ->
+    $("#contestants_#{@uniqer}_rank")
+  _make_tcont: ($target) ->
+    $visual = $("<span  id='tcont_#{@id}' class='contestant #{@id}'></span>")
     if $target.children('.contestant').length > 0
-      $target.children('.contestant').replaceWith($el)
+      $target.children('.contestant').replaceWith($visual)
     else
-      $target.append($el)
-    $visual = $target.children('.contestant')
+      $target.append($visual)
     $visual.data('model', this)
     $visual.draggable({
       snap: '.slot', snapMode: 'inner', scope: @tournament.id, revert: 'invalid', opacity: 0.8, zIndex: 2700, containment: @tournament.visual
@@ -199,24 +194,13 @@ class window.Contestant extends Brakkit
 
   _get_visual: ($target) ->
     $visual = $target.children('.contestant')
-    $visual.data('model', this)
     $visual
 
-  _normal_element:   (type) -> "<span  id='#{type}_#{@id}' class='contestant #{@id}'>#{@name}</span>"
-  _editable_element: (type) -> "<input id='#{type}_#{@id}' class='contestant #{@id}' type='text' value='#{@name}'></input>"
-  # _beg_editing:    ->
-  #   @$pool_entry.replaceWith(@_editable_element('pcont'))
-  #   @$pool_entry = @$pool_slot().children('.contestant').first()
-  #   @$pool_entry.data('model', this)
-  #   @$pool_entry.bind('change blur submit', (event, ui) => @_end_editing())
-  # _end_editing:    ->
-  #   @$pool_entry.unbind('change blur submit')
-  #   if @$pool_entry.val()
-  #     @name = @$pool_entry.val()
-  #     $('.'+@id).html(@name)
-  #   @$pool_entry = @_make_visual(@$pool_slot(), 'pcont')
-  #   @$pool_entry.bind('dblclick touchhold.start', (event, ui) => @_beg_editing())
-  #   @initial_tmatch?.update()
+  update_info: ->
+    if @$pool_entry.val()
+      @name = @$pool_entry.val()
+      @$trnd_entry.text(@name)
+    @initial_tmatch()?.update()
 
   boot: ->
     @update_seed( @tournament.pool.$first_empty_bubble_slot().data('seed') )
@@ -240,9 +224,12 @@ class window.Contestant extends Brakkit
     if (@seed != orig_seed)
       @$pool_entry.effect('highlight')
       @$trnd_entry.effect('highlight')
+      @$rank_field().val(@seed)
       orig_tmatch?.update()
 
-window.tournament = new Tournament([
+$tournament   = $('.tournament').first()
+tournament_id = $tournament.attr('id').replace(/tournament_(\d+)$/g, "$1")
+window.tournament = new Tournament(tournament_id, [
   "Beatles", "Rolling Stones", "Elvis", "U2",
   "Stevie Wonder",  "Prince", "Frank Sinatra", "Police",
   "The Clash", "The Beastie Boys", "Velvet Underground", "Led Zeppelin",
