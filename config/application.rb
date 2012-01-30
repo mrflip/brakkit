@@ -64,6 +64,7 @@ module Brakkit
 
     # Compass integration
     config.sass.load_paths << Compass::Frameworks['compass'].stylesheets_directory
+    config.sass.load_paths << "#{Rails.root}/app/assets/stylesheets"
 
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
