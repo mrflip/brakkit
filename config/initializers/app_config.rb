@@ -31,5 +31,3 @@ Devise.setup do |config|
     })
   config.omniauth :twitter,  Settings.twitter_consumer_key,  Settings.twitter_consumer_secret
 end
-
-Rails.logger.info(Settings.inspect)
