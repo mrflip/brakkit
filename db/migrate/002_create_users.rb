@@ -3,7 +3,7 @@ class CreateUsers < ActiveRecord::Migration
     create_table :users do |t|
       t.string          :fullname,        :limit => 160
       t.string          :username,        :limit => 20,  :unique => true
-      t.text            :description,     :limit => 160
+      t.text            :description
       #
       t.string          :twitter_name,    :limit => 20,  :unique => true
       t.string          :facebook_url,    :limit => 160
