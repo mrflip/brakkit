@@ -58,12 +58,12 @@ class window.Pool extends Brakkit
     ui.draggable.data('model').update_seed($(this).data('seed'))
 
   $slot_for: (seed) ->
-    _.first_nonblank(
+    _.first_present(
       $("#slot_#{@id_parts[0]}_#{seed}"),
       => @$first_empty_bubble_slot() )
 
   $first_empty_bubble_slot: ->
-    _.first_nonblank(
+    _.first_present(
       @visual.find('.bubble .slot').not(':has(.contestant)'),
       =>
         idx = 1 + @visual.find('.bubble .slot').length + @tournament.size
@@ -222,14 +222,13 @@ class window.Contestant extends Brakkit
       @$pool_entry.effect('highlight') ; @$trnd_entry.effect('highlight')
       orig_tmatch?.update()
 
-window.tournament = new Tournament([
-  "Beatles", "Rolling Stones", "Elvis", "U2",
-  "Stevie Wonder",  "Prince", "Frank Sinatra", "Police",
-  "The Clash", "The Beastie Boys", "Velvet Underground", "Led Zeppelin",
-  # "Bob Dylan", "The Beach Boys", "Blondie", "New Order",
-  ])
-window.tournament.title = 'Test Tournament'
-
+# window.tournament = new Tournament([
+#   "Beatles", "Rolling Stones", "Elvis", "U2",
+#   "Stevie Wonder",  "Prince", "Frank Sinatra", "Police",
+#   "The Clash", "The Beastie Boys", "Velvet Underground", "Led Zeppelin",
+#   # "Bob Dylan", "The Beach Boys", "Blondie", "New Order",
+#   ])
+# window.tournament.title = 'Test Tournament'
 
 # "<div class='contestant'>",
 # "  <span class='text'>#{@name}</span>",

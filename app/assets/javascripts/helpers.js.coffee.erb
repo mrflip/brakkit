@@ -1,3 +1,5 @@
+<% require_dependency(File.join(Rails.root,'app/models/tournament')) %>
+
 String::sprintf  = (args...) -> vsprintf(this, args)
 String::vsprintf = (args)    -> vsprintf(this, args)
 
@@ -24,38 +26,16 @@ _.present = (obj) ->
   return (obj.length > 0) if obj.length?   # not present if object with obj.length 0
   return true for own key of obj           # an object with keys is present
   false                                    # otherwise, not present
-
-# _.present_orig = _.present
-# _.present = (obj) ->
-#   res = _.present_orig(obj)
-#   window.fiddle = obj
-#   console.log( {
-#     _me: obj, _res: res, bool: (not obj), type: $.type(obj),
-#     len_0_a:    (obj.length is 0 if obj and obj.hasOwnProperty('length')),
-#     is_obj:     ($.type(obj) == 'object'),
-#     obj_w_len:  (($.type(obj) == 'object') and ('length' in obj)),
-#     obj_w_len2: ('selector' in obj),
-#     a: obj['selector'],
-#     b: obj['length'],
-#     len: obj.length,
-#     len_0_b:    (obj.length is 0 if (($.type(obj) == 'object') and ('length' in obj))),
-#     obj_own_prop: (prop for own prop of obj)
-#     obj_all_prop: (prop for prop of obj)
-#     }) if obj
-#   res
-
 _.blank = (val) -> not _.present(val)
 
-#
-# Return the first non-emp
-_.first_nonblank = (args...) ->
+# Return the first argument with a preset (non-blank) result (if a function) or value (otherwise).
+# Short-circuits: a function will not be evaluated if a prior argument was present
+_.first_present = (args...) ->
   result = null
   _.each args, (fn, index, list) ->
     val = if _.isFunction(fn) then do(fn) else fn
     if _.present(val) then (result = val ; _.breakLoop())
   result
-
-<%# - require_dependency('app/models/tournament') ; 1 %>
 
 window.MATCH_FOR_SEED = <%= Tournament::MATCH_FOR_SEED.to_json %>
 window.SEED_FOR_SLOT  = <%= Tournament::SEED_FOR_SLOT.to_json %>
