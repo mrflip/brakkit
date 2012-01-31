@@ -5,20 +5,5 @@
   
   
   .bubble
-    <div id="tmslot_1_1_1_17" class="slot"></div>
-    <div id="tmslot_1_1_1_18" class="slot"></div>
-    <div id="tmslot_1_1_1_19" class="slot"></div>
-    <div id="tmslot_1_1_1_20" class="slot"></div>
-    <div id="tmslot_1_1_1_21" class="slot"></div>
-    <div id="tmslot_1_1_1_22" class="slot"></div>
-    <div id="tmslot_1_1_1_23" class="slot"></div>
-    <div id="tmslot_1_1_1_24" class="slot"></div>
-    <div id="tmslot_1_1_1_25" class="slot"></div>
-    <div id="tmslot_1_1_1_26" class="slot"></div>
-    <div id="tmslot_1_1_1_27" class="slot"></div>
-    <div id="tmslot_1_1_1_28" class="slot"></div>
-    <div id="tmslot_1_1_1_29" class="slot"></div>
-    <div id="tmslot_1_1_1_30" class="slot"></div>
-    <div id="tmslot_1_1_1_31" class="slot"></div>
-    <div id="tmslot_1_1_1_32" class="slot"></div>
-
+    - (17 .. 32).each do |slot_idx|
+      == <div id="tmslot_#{@tournament.id}_1_1_#{slot_idx}" class="slot"></div>

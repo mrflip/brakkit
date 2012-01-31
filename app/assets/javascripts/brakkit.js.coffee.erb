@@ -17,7 +17,7 @@ class window.Tournament extends Brakkit
     @$wing       = @visual.find('.wing')
     @pool        = new Pool(this)
     @contestants = @pool.visual.find('.contestant').map (x, $contestant) =>
-      $($contestant).val(contestant_names[x]) if ($($contestant).val() == '') && contestant_names[x]?
+      #$($contestant).val(contestant_names[x]) if ($($contestant).val() == '') && contestant_names[x]?
       new Contestant(this, $($contestant))
     @_initialize_rounds()
     console.log this
@@ -67,11 +67,13 @@ class window.Pool extends Brakkit
   $first_empty_bubble_slot: ->
     slots = @visual.find('.bubble .slot')
     _.first_present(
-      slots.not(':has(.contestant)'),
+      $(slots.not(':has(.contestant)').first()),
       =>
         idx = 1 + slots.length + @tournament.size
-        @visual.find('.bubble').append("<li id='slot_#{@tournament.id_parts.join("_")}_#{idx}' class='slot'><span class='seed'>#{idx}</span></li>")
-        @_make_droppable( @visual.find('.bubble .slot').not(':has(.contestant)') ).first() )
+        $el = $("<li id='slot_#{@tournament.id_parts.join("_")}_#{idx}' class='slot'><span class='seed'>#{idx}</span></li>")
+        @visual.find('.bubble').append($el)
+        @_make_droppable($el)
+        $el)
 
   # Set up the slots to be droppable. Also mixed into Tround. chains.
   _make_droppable: (elts) ->
@@ -129,7 +131,7 @@ class window.TMatch extends Brakkit
 
   _update_slot: ($slot, contestant) ->
     $contestant = $slot.children('.contestant')
-    $contestant.text(contestant?.name ? "").attr('class', "contestant #{contestant?.id}").data('model', contestant)
+    $contestant.text(contestant?.name ? "-").attr('class', "contestant #{contestant?.id}").data('model', contestant)
     if $contestant.data('model') != contestant
       $contestant.effect('highlight') if contestant
 
@@ -197,9 +199,8 @@ class window.Contestant extends Brakkit
     $visual
 
   update_info: ->
-    if @$pool_entry.val()
-      @name = @$pool_entry.val()
-      @$trnd_entry.text(@name)
+    @name = @$pool_entry.val()
+    @$trnd_entry.text( if @name then @name else '.'  )
     @initial_tmatch()?.update()
 
   boot: ->
@@ -208,7 +209,6 @@ class window.Contestant extends Brakkit
   initial_tmatch: ->
     return null if @on_bubble()
     res = @tournament.$initial_match_for(@seed)?.data('model')
-    # console.log(@id, res)
     res
 
   on_bubble: -> (@seed > @tournament.size)

@@ -1,3 +1,3 @@
 
-web:        bundle exec rails server thin -p $PORT
+web:        rails server thin -p $PORT
 memcached:  memcached

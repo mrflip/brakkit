@@ -2,18 +2,14 @@
 
 %table
   %tr
-    %th Ordering
     %th Closed
     %th Tournament
     %th Handle
-    %th Settings
   - for bracket in @brackets
     %tr
-      %td= bracket.ordering
       %td= bracket.closed
-      %td= bracket.tournament
+      %td= bracket.tournament.name
       %td= bracket.handle
-      %td= bracket.settings
       %td= link_to 'Show', bracket
       %td= link_to 'Edit', edit_bracket_path(bracket)
       %td= link_to 'Destroy', bracket, :confirm => 'Are you sure?', :method => :delete
