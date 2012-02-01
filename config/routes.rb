@@ -1,11 +1,10 @@
 Brakkit::Application.routes.draw do
-  resources :contestants
-
-  resources :brackets
-
-  resources :tournaments
 
   root :to => "misc#homepage", :as => :root
+
+  resources :tournaments
+  resources :brackets,      :only => [:show, :edit, :update]
+  resources :contestants
 
   resources :users,  :only   => [:index, :show]
   devise_for(:users,
@@ -34,7 +33,6 @@ Brakkit::Application.routes.draw do
     # match "auth/:provider/callback" => 'identities#update_or_create'
   end
   match "me/auth/form" => "registrations#failed", :as => :auth_redirector_form
-
 
   match 'about'               => 'misc#about'
   match 'misc/demo'           => 'misc#demo'

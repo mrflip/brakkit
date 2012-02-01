@@ -15,8 +15,20 @@ class Tournament < ActiveRecord::Base
   validates_presence_of :name, :handle, :size, :user
   validates :size, :inclusion => { :in => [8, 16, 32, 64] }
 
-
   after_initialize :add_bracket
+
+
+  #
+  # Methods
+  #
+
+  def titleize
+    name
+  end
+
+  #
+  # Geometry of brackets
+  #
 
   unless defined?(SEED_FOR_SLOT_ARR)
     SEED_FOR_SLOT_ARR = {

@@ -2,6 +2,7 @@
   .tround[tround]{ :class => "tround_#{tround.rd_idx}" }
     - tround.tmatches.each do |tmatch|
       = render tmatch
+
 - else
   .tround[tround]{ :class => "winner tround_#{tround.rd_idx}" }
     - tround.tmatches.each do |tmatch|

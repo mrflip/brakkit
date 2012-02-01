@@ -12,7 +12,7 @@
     %li= link_to 'Edit your account', edit_user_registration_path
     %li= link_to 'Show users',        user_path
     %li  &nbsp;
-    %li= link_to 'Show brackets',     brackets_path
+    %li= link_to 'Show tournaments',  tournaments_path
 
 .hero-unit
   - foo_url = auth_redirector_form_path(:provider => 'twitter')
@@ -49,6 +49,3 @@
   .span8
     %h2 Bootstrap system Docs
     %p <a class='btn' href='/admin/bootstrap_demo'>Reference guide</a>
-
-
-%hr/

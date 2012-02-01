@@ -1,12 +1,7 @@
 class BracketsController < ApplicationController
-  before_filter :find_many_from_params, :only => [:index]
-  before_filter :find_from_params,      :only => [:show, :edit, :update, :destroy]
-
-  def index
-  end
+  before_filter :find_from_params,      :only => [:show, :edit, :update]
 
   def show
-    @tournament = @bracket.tournament
   end
 
   def edit
@@ -28,19 +23,11 @@ class BracketsController < ApplicationController
     end
   end
 
-  def destroy
-    @bracket.destroy
-    redirect_to brackets_url, :notice => "Successfully destroyed bracket."
-  end
-
 private
-
-  def find_many_from_params
-    @brackets = Bracket.all
-  end
 
   def find_from_params
     @bracket = Bracket.find_by_id(params[:id], :include => [:contestants])
+    @tournament = @bracket.tournament
   end
 
 end

@@ -16,11 +16,3 @@
   .wings
     - @bracket.wings[0..0].each do |wing|
       = render wing
-
-%hr.clear/
-%p
-  = link_to "Edit", edit_bracket_path(@bracket)
-  |
-  = link_to "Destroy", @bracket, :confirm => 'Are you sure?', :method => :delete
-  |
-  = link_to "View All", brackets_path
