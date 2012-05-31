@@ -33,6 +33,8 @@ $bracket_font: $basefont
   float:                left
   margin-left:          40px
   width:                1000px
+  padding:              15px 0 15px 0
+
 
 /*
  * Contestants and slots
@@ -49,7 +51,7 @@ $bracket_font: $basefont
   border-radius:        4px
 
 .result > .contestant
-  background-color:     #fdf3f3
+  background-color:     #f3f3fd
   border:               1px dotted #fdf3f3
   border-radius:        0px
 .result.winner > .contestant
@@ -99,18 +101,6 @@ $bracket_font: $basefont
 /*
  * bracket lines up purty
 
-$rd1_match_height: 5 * $bracket_font + 1px
-   
-.tround_1
-  > .tmatch
-    margin-top:           15px
-    margin-bottom:        15px
-    > .part_a
-      margin-bottom:       9px
-  > .tmatch.first
-    margin-top:            8px
-  > .tmatch.last
-    margin-bottom:         7px
 
 /*
  * basefont:    15
@@ -121,20 +111,37 @@ $rd1_match_height: 5 * $bracket_font + 1px
  *   slot:        32
  *                     
    
-      
+$slot_height:    32px
+$slot_spacing:    4px
+$match_spacing:   8px
+$match_height:   (2 * $slot_height) + (2 * $slot_spacing) + 2px 
+    
 =match_geometry($multiplier)
-  $match_height:        $rd1_match_height * $multiplier
-  margin-top:           $match_height
-  margin-bottom:        $match_height
-  &.first
-    margin-top:         $match_height / 2 
-  &.last
-    margin-bottom:      $match_height / 2
-    &.winner
-      margin-bottom:    ($match_height / 2) + (2*$bracket_font + 3)
+  $size: $match_height * $multiplier
+  /* margin-top:              $size / 2
+  margin-bottom:           $size     + (2 * $match_spacing) - 3px
   > .part_a
-    margin-bottom:      $match_height - 60px
-  
+    margin-bottom:         $size     + (2 * $match_spacing) - (2 * $slot_height)
+  &.first
+    margin-top:            $size / 2 + (    $match_spacing)
+  /* &.last
+  /*   margin-bottom:      $match_spacing + $size / 2
+  /*   &.winner
+  /*     margin-bottom:    ($match_height / 2) + (2*$bracket_font + 3)
+
+.tround_1
+  > .tmatch
+    margin-top:           16px
+    margin-bottom:        16px
+    > .part_a
+      margin-bottom:       8px
+  > .tmatch.first
+    margin-top:            8px
+  > .tmatch.last
+    margin-bottom:         8px
+   
+/* .tround_1 > .tmatch
+/*   +match_geometry(0)     
 .tround_2 > .tmatch
   +match_geometry(1)
 .tround_3 > .tmatch
@@ -146,14 +153,23 @@ $rd1_match_height: 5 * $bracket_font + 1px
 .tround_6 > .tmatch
   +match_geometry(16)
 
-.tround_2 > .tmatch > .part_a
-  margin-bottom: 34px
-.tround_3 > .tmatch > .part_a
-  margin-bottom: 134px
-.tround_4 > .tmatch > .part_a
-  margin-bottom: 334px
-.tround_5 > .tmatch > .part_a
-  margin-bottom: 734px
+/*     margin-top:           15px
+/*     margin-bottom:        15px
+/*     > .part_a
+/*       margin-bottom:       9px
+/*   > .tmatch.first
+/*     margin-top:            8px
+/*   > .tmatch.last
+/*     margin-bottom:         7px
+/*     
+/* .tround_2 > .tmatch > .part_a
+/*   margin-bottom: 34px
+/* .tround_3 > .tmatch > .part_a
+/*   margin-bottom: 134px
+/* .tround_4 > .tmatch > .part_a
+/*   margin-bottom: 334px
+/* .tround_5 > .tmatch > .part_a
+/*   margin-bottom: 734px
 
 .slot .seed
   display:              inline-block

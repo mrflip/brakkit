@@ -1,3 +1,7 @@
+
+* http://bradfrostweb.com/blog/mobile/better-numerical-inputs-for-mobile-forms
+  - input fields take pattern="[0-9]*" input
+
 ### Tournament
 
 This is the main organizing object for a `bracket` (the ordered contestants folks will vote on) and its `ballot`s (the secondary orderings that people submit).
