@@ -1,0 +1,118 @@
+<div class="item-images">
+  <img ng-src="{{img}}"
+       class="item"
+       ng-repeat="img in item.images"
+       ng-class="{active: mainImageUrl==img}">
+</div>
+
+<h1>{{item.name}}</h1>
+
+<p>{{item.description}}</p>
+
+<ul class="item-thumbs">
+  <li ng-repeat="img in item.images">
+    <img ng-src="{{img}}" ng-click="setImage(img)">
+  </li>
+</ul>
+
+<ul class="specs">
+  <li>
+    <span>Availability and Networks</span>
+    <dl>
+      <dt>Availability</dt>
+      <dd ng-repeat="availability in item.availability">{{availability}}</dd>
+    </dl>
+  </li>
+  <li>
+    <span>Battery</span>
+    <dl>
+      <dt>Type</dt>
+      <dd>{{item.battery.type}}</dd>
+      <dt>Talk Time</dt>
+      <dd>{{item.battery.talkTime}}</dd>
+      <dt>Standby time (max)</dt>
+      <dd>{{item.battery.standbyTime}}</dd>
+    </dl>
+  </li>
+  <li>
+    <span>Storage and Memory</span>
+    <dl>
+      <dt>RAM</dt>
+      <dd>{{item.storage.ram}}</dd>
+      <dt>Internal Storage</dt>
+      <dd>{{item.storage.flash}}</dd>
+    </dl>
+  </li>
+  <li>
+    <span>Connectivity</span>
+    <dl>
+      <dt>Network Support</dt>
+      <dd>{{item.connectivity.cell}}</dd>
+      <dt>WiFi</dt>
+      <dd>{{item.connectivity.wifi}}</dd>
+      <dt>Bluetooth</dt>
+      <dd>{{item.connectivity.bluetooth}}</dd>
+      <dt>Infrared</dt>
+      <dd>{{item.connectivity.infrared | checkmark}}</dd>
+      <dt>GPS</dt>
+      <dd>{{item.connectivity.gps | checkmark}}</dd>
+    </dl>
+  </li>
+  <li>
+    <span>Android</span>
+    <dl>
+      <dt>OS Version</dt>
+      <dd>{{item.android.os}}</dd>
+      <dt>UI</dt>
+      <dd>{{item.android.ui}}</dd>
+    </dl>
+  </li>
+  <li>
+    <span>Size and Weight</span>
+    <dl>
+      <dt>Dimensions</dt>
+      <dd ng-repeat="dim in item.sizeAndWeight.dimensions">{{dim}}</dd>
+      <dt>Weight</dt>
+      <dd>{{item.sizeAndWeight.weight}}</dd>
+    </dl>
+  </li>
+  <li>
+    <span>Display</span>
+    <dl>
+      <dt>Screen size</dt>
+      <dd>{{item.display.screenSize}}</dd>
+      <dt>Screen resolution</dt>
+      <dd>{{item.display.screenResolution}}</dd>
+      <dt>Touch screen</dt>
+      <dd>{{item.display.touchScreen | checkmark}}</dd>
+    </dl>
+  </li>
+  <li>
+    <span>Hardware</span>
+    <dl>
+      <dt>CPU</dt>
+      <dd>{{item.hardware.cpu}}</dd>
+      <dt>USB</dt>
+      <dd>{{item.hardware.usb}}</dd>
+      <dt>Audio / headitem jack</dt>
+      <dd>{{item.hardware.audioJack}}</dd>
+      <dt>FM Radio</dt>
+      <dd>{{item.hardware.fmRadio | checkmark}}</dd>
+      <dt>Accelerometer</dt>
+      <dd>{{item.hardware.accelerometer | checkmark}}</dd>
+    </dl>
+  </li>
+  <li>
+    <span>Camera</span>
+    <dl>
+      <dt>Primary</dt>
+      <dd>{{item.camera.primary}}</dd>
+      <dt>Features</dt>
+      <dd>{{item.camera.features.join(', ')}}</dd>
+    </dl>
+  </li>
+  <li>
+    <span>Additional Features</span>
+    <dd>{{item.additionalFeatures}}</dd>
+  </li>
+</ul>

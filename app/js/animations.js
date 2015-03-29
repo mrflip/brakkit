@@ -1,6 +1,6 @@
-var phonecatAnimations = angular.module('phonecatAnimations', ['ngAnimate']);
+var brakkitAnimations = angular.module('brakkitAnimations', ['ngAnimate']);
 
-phonecatAnimations.animation('.phone', function() {
+brakkitAnimations.animation('.item', function() {
 
   var animateUp = function(element, className, done) {
     if(className != 'active') {

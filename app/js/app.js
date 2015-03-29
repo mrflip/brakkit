@@ -2,27 +2,30 @@
 
 /* App Module */
 
-var phonecatApp = angular.module('phonecatApp', [
+var brakkitApp = angular.module('brakkitApp', [
   'ngRoute',
-  'phonecatAnimations',
+  // 'ngDraggable',
+  'ui.sortable',
+  // 'brakkitAnimations',
 
-  'phonecatControllers',
-  'phonecatFilters',
-  'phonecatServices'
+  'brakkitControllers',
+  'brakkitFilters',
+  'brakkitServices'
 ]);
 
-phonecatApp.config(['$routeProvider',
+brakkitApp.config(['$routeProvider',
   function($routeProvider) {
     $routeProvider.
-      when('/phones', {
-        templateUrl: 'partials/phone-list.html',
-        controller: 'PhoneListCtrl'
+      when('/items', {
+        templateUrl: 'partials/item-list.html',
+        controller: 'ItemListCtrl'
       }).
-      when('/phones/:phoneId', {
-        templateUrl: 'partials/phone-detail.html',
-        controller: 'PhoneDetailCtrl'
+      when('/items/:itemId', {
+        templateUrl: 'partials/item-detail.html',
+        controller: 'ItemDetailCtrl'
       }).
       otherwise({
-        redirectTo: '/phones'
+        redirectTo: '/items'
       });
   }]);
+

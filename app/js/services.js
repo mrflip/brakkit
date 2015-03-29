@@ -2,11 +2,11 @@
 
 /* Services */
 
-var phonecatServices = angular.module('phonecatServices', ['ngResource']);
+var brakkitServices = angular.module('brakkitServices', ['ngResource']);
 
-phonecatServices.factory('Phone', ['$resource',
+brakkitServices.factory('Item', ['$resource',
   function($resource){
-    return $resource('phones/:phoneId.json', {}, {
-      query: {method:'GET', params:{phoneId:'phones'}, isArray:true}
+    return $resource('items/:itemId.json', {}, {
+      query: {method:'GET', params:{itemId:'items'}, isArray:true}
     });
   }]);

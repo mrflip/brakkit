@@ -2,7 +2,7 @@
 
 /* Filters */
 
-angular.module('phonecatFilters', []).filter('checkmark', function() {
+angular.module('brakkitFilters', []).filter('checkmark', function() {
   return function(input) {
     return input ? '\u2713' : '\u2718';
   };

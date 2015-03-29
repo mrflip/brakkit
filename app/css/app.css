@@ -5,7 +5,7 @@ body {
 }
 
 
-.phone-images {
+.item-images {
   background-color: white;
   width: 450px;
   height: 450px;
@@ -14,26 +14,42 @@ body {
   float: left;
 }
 
-.phones {
+.items {
   list-style: none;
 }
 
-.thumb {
-  float: left;
-  margin: -0.5em 1em 1.5em 0;
-  padding-bottom: 1em;
-  height: 100px;
-  width: 100px;
+.items li {
+  display: block;
+  clear: both;
+  height: 28px;
+  padding: 2px;
+  border:  1px solid #ddd;
+  border-radius: 4px;
+  margin-bottom: 2px;
+  /* line-height:   1.42857143; */
 }
 
-.phones li {
-  clear: both;
-  height: 115px;
-  padding-top: 15px;
+
+.item-handle {
+  float: left;
+  width: 4em;
+  overflow: hidden;
+  background-color: #f0f0ff;
+  cursor: -webkit-grab;
+}
+
+.item-name {
+  width: 25em;
+  float: left;
+}
+           
+
+.item-handle2 {
+  background-color: #fff0f0;
 }
 
 /** Detail View **/
-img.phone {
+img.item {
   float: left;
   margin-right: 3em;
   margin-bottom: 2em;
@@ -44,30 +60,30 @@ img.phone {
   display: none;
 }
 
-img.phone:first-child {
+img.item:first-child {
   display: block;
 }
 
 
-ul.phone-thumbs {
+ul.item-thumbs {
   margin: 0;
   list-style: none;
 }
 
-ul.phone-thumbs li {
+ul.item-thumbs li {
   border: 1px solid black;
   display: inline-block;
   margin: 1em;
   background-color: white;
 }
 
-ul.phone-thumbs img {
+ul.item-thumbs img {
   height: 100px;
   width: 100px;
   padding: 1em;
 }
 
-ul.phone-thumbs img:hover {
+ul.item-thumbs img:hover {
   cursor: pointer;
 }
 
